@@ -1068,6 +1068,8 @@ namespace GBC_USFM_Preprocessor
                                     while (matchResults.Success)
                                     {
                                         oChap.AddVerse(ParseHeaderTags(matchResults.Value));
+                                        oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("<br/>");
                                         matchResults = matchResults.NextMatch();
                                     }
                                 }
@@ -1076,7 +1078,62 @@ namespace GBC_USFM_Preprocessor
                                     Console.WriteLine("ERROR: " + ex.Message);
                                     throw;
                                 }
+                                try
+                                {
+                                    //check for toc of each bible chapter //io1 and nested in it //io2
+                                    //todo replace <ol> and <li> in the code below with actual numbering
+                                    //Regex regexObj = new Regex(@"^.*(\\io1 ).*$\r?\n?", RegexOptions.Multiline);
+                                    Regex regexObj = new Regex(@"^.*((\\io1 ).*$\r?\n?)|((\\io2 ).*$\r?\n?)", RegexOptions.Multiline);
+                                    Match matchResults = regexObj.Match(sSection);
+                                    oChap.AddVerse("<ol>");
+                                    bool needUL = true;
+                                    while (matchResults.Success)
+                                    {
 
+                                        if (matchResults.Value.Substring(0, 4) == @"\io1")
+                                        {
+
+                                            oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io1 ", "<li>", RegexOptions.None));
+                                            matchResults = matchResults.NextMatch();
+                                            needUL = true;
+                                        }
+                                        else
+                                        {
+                                            if (needUL)
+                                            {
+                                                oChap.AddVerse("<ol>");
+                                            }
+
+                                            oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io2 ", "<li>", RegexOptions.None));
+                                            matchResults = matchResults.NextMatch();
+                                            if (matchResults.Length > 4)
+                                            {
+                                                if (matchResults.Value.Substring(0, 4) == @"\io1")
+                                                {
+                                                    oChap.AddVerse("</ol>");
+                                                    needUL = true;
+                                                }
+                                                else
+                                                {
+                                                    needUL = false;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                oChap.AddVerse("</ol>");
+                                            }
+
+                                        }
+
+                                    }
+                                    oChap.AddVerse("</ol>");
+                                }
+                                catch (ArgumentException ex)
+                                {
+                                    Console.WriteLine("ERROR: " + ex.Message);
+                                    throw;
+                                }
+                                
                                 //if anything was added then add this to the overall book
                                 if (oChap.VerseCount > 0)
                                 {
@@ -1084,7 +1141,7 @@ namespace GBC_USFM_Preprocessor
                                     oBook.AddChapter(oChap);
                                 }
                             }
-
+                            
                         }
                         else
                         {
@@ -1093,11 +1150,64 @@ namespace GBC_USFM_Preprocessor
                             //grab all the \ip lines of text
                             try
                             {
-                                Regex regexObj = new Regex(@"^.*(\\v ).*$\r?\n?", RegexOptions.Multiline);
+                                //todo add in the \s tag processing
+                                //Regex regexObj = new Regex(@"^.*((\\v ).*$\r?\n?)|((\\s).*$\r?\n?)|((\\q1).*$\r?\n?)|((\\q2).*$\r?\n?)", RegexOptions.Multiline);
+                                Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
                                 Match matchResults = regexObj.Match(sSection);
                                 while (matchResults.Success)
                                 {
-                                    oChap.AddVerse(ParseVerseTags(matchResults.Value));
+                                    //if it's a heading
+                                    if (matchResults.Value.Substring(0,2) == @"\s")
+                                    {
+                                    
+                                        //if it's an \s tag
+                                        string sTemp = matchResults.Value;
+                                        sTemp = sTemp.Replace(@"\s", "").Trim();
+                                        //put in extra breaks
+                                        oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("! <br/><b>" + sTemp + "</b>");
+                                        oChap.AddVerse("<br/>");
+
+                                    }
+                                    else if (matchResults.Value.Substring(0,3) == @"\ms")
+                                    {
+                                        //poetry \ms tags
+                                        string sTemp = matchResults.Value;
+                                        sTemp = sTemp.Replace(@"\ms", "").Trim();
+                                        //put in extra breaks
+                                        oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("! <br/><b>" + sTemp + "</b>");
+                                        oChap.AddVerse("<br/>");
+
+                                    }
+                                    
+                                    //if it's a regular verse
+                                    else if (matchResults.Value.Substring(0,2) == @"\v")
+                                    {
+                                        string s = ParseVerseTags(matchResults.Value);
+                                        if (s != String.Empty)
+                                        {
+                                            oChap.AddVerse(s);
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        //if it's everything else
+                                        string s = ParseVerseTags(matchResults.Value);
+                                        if (s != String.Empty)
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse(s);
+                                        }
+                                        else
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                        }
+                                        
+                                    }
+                                    
+
                                     matchResults = matchResults.NextMatch();
                                 }
                             }
@@ -1151,6 +1261,12 @@ namespace GBC_USFM_Preprocessor
             //reset the cursor
             this.Cursor = Cursors.Default;
             MessageBox.Show("Completed Conversion");
+        }
+
+        private string ParseFootnote(string sFtnt)
+        {
+            sFtnt = cUSFM_Utilities.ProcessOtherTags(sFtnt);
+            return sFtnt;
         }
 
         /// <summary>
@@ -1218,7 +1334,7 @@ namespace GBC_USFM_Preprocessor
                 sb.AppendLine("ChapterZero = N");
             }
             sb.AppendLine("BookQty = " + oIniFile.Count.ToString());
-            sb.AppendLine("NoForcedLineBreaks = N");
+            sb.AppendLine("NoForcedLineBreaks = Y");
             sb.AppendLine("");
 
             foreach (cBQ_IniStructure oIni in oIniFile)
@@ -1266,37 +1382,96 @@ namespace GBC_USFM_Preprocessor
             //process the chapters and verses
             foreach (cBQ_Chapter c in oChapters)
             {
+                int iCount = 0;
                 //chapter number header
                 sb.AppendLine(sChapTagStart + oBook.sBookName + " " + c.sChapterNumber + sChapTagEnd);
 
                 //append each verse
                 ArrayList oVerse = c.Verses;
+                
                 for (int i = 0; i < oVerse.Count; i++)
                 {
                     if (c.sChapterNumber == "0")
                     {
                         //chapter information section
-                        sb.AppendLine(sVerseStart + i.ToString() + sVerseEnd + oVerse[i].ToString() + "<br>");
+                        sb.AppendLine(sVerseStart + sVerseEnd + oVerse[i].ToString());
                     }
                     else
                     {
+                        
                         //regular bible chapter
                         string sTmp = oVerse[i].ToString().Trim();
                         //pull out the verse number from the front of the verse
+                        if (sTmp != String.Empty)
+                        {
+                            if (sTmp.Substring(0, 1) == "!")
+                            {
+                                //this is a section header \s
+                                sb.AppendLine(sTmp.Substring(2));
+                                iCount = 0;
+                            }
+                            else if (sTmp == "<br/>")
+                            {
+                                //keep track of the <br/> tags, and don't let there be more than 2
+                                iCount++;
+                                if (iCount<3)
+                                {
+                                    sb.AppendLine("<br/>");
+                                }
+                                
+                            }
+                            else
+                            {
+                                //when it's a normal verse
+                                try
+                                {
+                                    //will error out if missing any verse text, if there is just a tag without text following it
+                                    string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
+                                    sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length));
+                                    iCount = 0;
+                                }
+                                catch (Exception ex)
+                                {
+                                    //sb.AppendLine("<br/>");
+                                    Console.WriteLine("ERROR: " + ex.Message);
+                                    //throw;
+                                }
+                            }
+                        }
+                        
+                        
+                    }
+                }
+                ////add a couple of empty lines
+                //sb.AppendLine("<sup></sup>");
+                //sb.AppendLine("<sup></sup>");
+                //insert footnotes at the end of each chapter
+                ArrayList oFtnote = c.Footnotes;
+                for (int i = 0; i < oFtnote.Count; i++)
+                {
+                    
+                    string sFTmp = oFtnote[i].ToString().Trim();
+                    //pull out the verse number from the front of the verse
+                    if (sFTmp != String.Empty)
+                    {
+
                         try
                         {
-                            //will error out if missing any verse text
-                            string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
-                            sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length) + "<br>");
+                            //will error out if missing any verse text, if there is just a tag without text following it
+                            string sVerseNum = sFTmp.Substring(9);
+                            sVerseNum = sVerseNum.Substring(0,sVerseNum.IndexOf(@"\"));
+                            sb.AppendLine(sVerseStart + sVerseEnd + "<b>" + sVerseNum + "</b>" + sFTmp.Substring(sFTmp.IndexOf("*") + 1) + "<br/>");
                         }
                         catch (Exception ex)
                         {
-                            sb.AppendLine("..");
+                            sb.AppendLine("");
                             Console.WriteLine("ERROR: " + ex.Message);
                             //throw;
                         }
+
                     }
                 }
+
             }
 
             //closing tags
@@ -1333,6 +1508,7 @@ namespace GBC_USFM_Preprocessor
             sVerse = cUSFM_Utilities.RemoveDoubleMarkerTagsFull(sVerse);
             sVerse = cUSFM_Utilities.RemoveSingularMarkerTags(sVerse);
             sVerse = cUSFM_Utilities.RemoveVerseNumbering(sVerse);
+            sVerse = cUSFM_Utilities.ProcessOtherTags(sVerse);
             return sVerse;
         }
 
@@ -1352,6 +1528,7 @@ namespace GBC_USFM_Preprocessor
                 Console.WriteLine("ERROR: " + ex.Message);
                 throw;
             }
+            
             return sVerse;
         }
 

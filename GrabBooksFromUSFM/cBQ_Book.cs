@@ -68,6 +68,13 @@ namespace GBC_USFM_Preprocessor
     {
         private ArrayList _verses = new ArrayList();
         private string _sChapterNumber = "";
+        private ArrayList _footnotes = new ArrayList();
+
+        public ArrayList Footnotes
+        {
+            get { return _footnotes; }
+            set { _footnotes = value; }
+        }
 
         //class initilizer
         public cBQ_Chapter(int iChapterNum)
@@ -108,6 +115,14 @@ namespace GBC_USFM_Preprocessor
         public void AddVerse (string s)
         {
             _verses.Add(s);
+        }
+        /// <summary>
+        /// Add in a new footnote
+        /// </summary>
+        /// <param name="s"></param>
+        public void AddFootnote(string s)
+        {
+            _footnotes.Add(s);
         }
     }
 

@@ -7,3 +7,12 @@ E:\Projects\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preproces
 E:\Projects\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.csproj.GenerateResource.Cache
 E:\Projects\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.exe
 E:\Projects\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.pdb
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.exe
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.pdb
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\bin\Debug\GBC_USFM_Preprocessor.exe
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\bin\Debug\GBC_USFM_Preprocessor.pdb
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\ResolveAssemblyReference.cache
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.frmAbout.resources
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.frmMain.resources
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.Properties.Resources.resources
+c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.csproj.GenerateResource.Cache

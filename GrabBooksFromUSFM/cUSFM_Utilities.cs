@@ -181,7 +181,7 @@ namespace GBC_USFM_Preprocessor
         //before \f
         string [] sMarker = {"\\ca", "\\va", "\\vp", "\\fe", "\\bk", 
         "\\xdc", "\\fdc", "\\fm", "\\fig", "\\ndx", "\\pro", 
-        "\\wg", "\\wh", "\\f", "\\w", "\\x"};
+        "\\wg", "\\wh", "\\w", "\\x" };
         //loop through the markers removing them all from the text
         for (int i = 0; i < sMarker.Length; i++)
         {
@@ -232,7 +232,14 @@ namespace GBC_USFM_Preprocessor
                 //there is no space after the verse number which happens when
                 //there are multiline verses and somebody is putting in blank
                 //verse lines
-                sVerse = "..";
+                sVerse = "";
+            }
+            //plop in sup if first tag is not \\v
+            //so that the first word doesn't look funny
+            else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart - 1) == "\\q" || sVerse.Substring(0, iStart - 1) == "\\li")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sup>" + sVerse.Substring(iStart);
             }
             else
             {
@@ -241,5 +248,24 @@ namespace GBC_USFM_Preprocessor
             return sVerse;
         }
 
+
+        public static string ProcessOtherTags(string sTmp)
+        {
+            //deal with footnote tags
+            sTmp = sTmp.Replace("\\f*", "</n>");
+            sTmp = sTmp.Replace("\\f ", "<n>");
+            sTmp = sTmp.Replace("\\fr*", "</b>");
+            sTmp = sTmp.Replace("+ \\fr", "<b>");
+            //deal with transliterations
+            sTmp = sTmp.Replace("\\tl*", "</i>");
+            sTmp = sTmp.Replace("\\tl", "<i>");
+            //deal with Selah's that are located only in Psalms
+            sTmp = sTmp.Replace("\\qs*", "</i>");
+            sTmp = sTmp.Replace("\\qs", "&nbsp;&nbsp;&nbsp;&nbsp;<i>");
+            
+            return sTmp;
+        }
+
+        
     }
 }
