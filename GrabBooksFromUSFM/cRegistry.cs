@@ -50,6 +50,30 @@ namespace GBC_USFM_Preprocessor
             return defaultValue;
         }
 
+        // Method for retrieving any Registry Value.
+        public static string GetStringRegistryValue(string Software_Key, string Company_Name, string Application_Name, string key, string defaultValue)
+        {
+            RegistryKey rkCompany;
+            RegistryKey rkApplication;
+
+            rkCompany = Registry.CurrentUser.OpenSubKey(Software_Key, false).OpenSubKey(Company_Name, false);
+            if (rkCompany != null)
+            {
+                rkApplication = rkCompany.OpenSubKey(Application_Name, true);
+                if (rkApplication != null)
+                {
+                    foreach (string sKey in rkApplication.GetValueNames())
+                    {
+                        if (sKey == key)
+                        {
+                            return (string)rkApplication.GetValue(sKey);
+                        }
+                    }
+                }
+            }
+            return defaultValue;
+        }
+
         // Method for storing a Registry Value.
         public static void SetStringRegistryValue(string key, string stringValue)
         {

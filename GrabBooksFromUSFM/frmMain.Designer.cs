@@ -122,6 +122,7 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
+            this.lblExportTo = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -602,11 +603,12 @@
             // panel7
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel7.Controls.Add(this.lblExportTo);
             this.panel7.Controls.Add(this.progressBar1);
             this.panel7.Controls.Add(this.cmdGenerateBQExport);
-            this.panel7.Location = new System.Drawing.Point(6, 375);
+            this.panel7.Location = new System.Drawing.Point(6, 358);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(675, 53);
+            this.panel7.Size = new System.Drawing.Size(675, 70);
             this.panel7.TabIndex = 22;
             // 
             // progressBar1
@@ -1099,6 +1101,15 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
+            // lblExportTo
+            // 
+            this.lblExportTo.AutoSize = true;
+            this.lblExportTo.Location = new System.Drawing.Point(6, 47);
+            this.lblExportTo.Name = "lblExportTo";
+            this.lblExportTo.Size = new System.Drawing.Size(70, 13);
+            this.lblExportTo.TabIndex = 33;
+            this.lblExportTo.Text = "Exporting To:";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1136,6 +1147,7 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -1250,6 +1262,7 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button cmdVersificationFind;
         private System.Windows.Forms.Button cmdAbout;
+        private System.Windows.Forms.Label lblExportTo;
     }
 }
 

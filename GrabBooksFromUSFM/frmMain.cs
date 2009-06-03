@@ -27,6 +27,7 @@ namespace GBC_USFM_Preprocessor
     {
         ArrayList sFullClipboardText = new ArrayList();
         List<cTagCount> oTags = new List<cTagCount>();
+        string _sDigiStudyPath = "";
 
         public frmMain()
         {
@@ -94,6 +95,14 @@ namespace GBC_USFM_Preprocessor
             cboBQFontCharSet.Items.Add("222 -- THAI_CHARSET  (Thai)");
             cboBQFontCharSet.Items.Add("238 -- EASTEUROPE_CHARSET  (Includes)");
             cboBQFontCharSet.Items.Add("255 -- OEM_CHARSET  (Depends)");
+
+            //find out if DigiStudy has been installed on this computer and get its path from
+            //the registry
+            _sDigiStudyPath = cRegistry.GetStringRegistryValue("SOFTWARE", "Mission Aviation Fellowship", "DigiStudy", "Path", "");
+            if (_sDigiStudyPath != string.Empty)
+            {
+                lblExportTo.Text = "Exporting To: " + _sDigiStudyPath;
+            }
         }
 
 
@@ -987,8 +996,46 @@ namespace GBC_USFM_Preprocessor
                 return;
             }
 
+            //show the export path to the user
+            string sExportPath = "";
+            if (_sDigiStudyPath == "")
+            {
+                //doesn't have DigiStudy installed on their machine
+                //so put in the source directory
+                sExportPath = txtDir.Text;
+            }
+            else
+            {
+                //has DigiStudy installed - check for directory existance
+                //and place the results into that directory
+
+                //pull off last directory from source path
+                string sDir = txtDir.Text.Substring(txtDir.Text.LastIndexOf('\\'),txtDir.Text.Length - txtDir.Text.LastIndexOf('\\'));
+                if (sDir.StartsWith(@"\"))
+                {
+                    sDir = sDir.Substring(1);
+                }
+                if (!_sDigiStudyPath.EndsWith(@"\"))
+                {
+                    _sDigiStudyPath += @"\";
+                }
+                sExportPath = _sDigiStudyPath + sDir;
+            }
+            //add on trailing \ character
+            if (!sExportPath.EndsWith(@"\"))
+            {
+                sExportPath += @"\";
+            }
+            lblExportTo.Text = "Exporting To: " + sExportPath;
+
+            //create directory if it doesn't exist
+            if (!Directory.Exists(sExportPath))
+            {
+                Directory.CreateDirectory(sExportPath);
+            }
+
             //give the user a chance to abort.
-            if (MessageBox.Show("Use of this function will overwrite all .htm files in your selected directory", "Continue?", MessageBoxButtons.YesNo) == DialogResult.No)
+            if (MessageBox.Show("Use of this function will overwrite all .htm files in your export directory", "Continue?", MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 return;
             }
@@ -1019,7 +1066,7 @@ namespace GBC_USFM_Preprocessor
                 FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
                 FileInfo fi = new FileInfo(file.Name);
                 string sFilename = fi.Name;
-                string sFileOutName = fi.FullName.Substring(0, fi.FullName.LastIndexOf(".")) + ".htm";
+                string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
 
                 //Set Codepage
                 StreamReader sr;
@@ -1206,8 +1253,6 @@ namespace GBC_USFM_Preprocessor
                                         }
                                         
                                     }
-                                    
-
                                     matchResults = matchResults.NextMatch();
                                 }
                             }
@@ -1256,11 +1301,23 @@ namespace GBC_USFM_Preprocessor
                 this.Refresh();
             }
             //dump out the setup.ini file to a computer
-            ExportBQiniFile(oIniFile, bChapterZero);
+            ExportBQiniFile(oIniFile, bChapterZero, sExportPath);
             
             //reset the cursor
             this.Cursor = Cursors.Default;
-            MessageBox.Show("Completed Conversion");
+            
+            //check for DigiStudy's existance
+            if (File.Exists(_sDigiStudyPath + "digistudy.exe"))
+            {
+                if (MessageBox.Show("Completed Conversion - Do you wish to start DigiStudy?", "Completed", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(_sDigiStudyPath + "digistudy.exe");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Completed Conversion");
+            }
         }
 
         private string ParseFootnote(string sFtnt)
@@ -1273,7 +1330,7 @@ namespace GBC_USFM_Preprocessor
         /// Export the Bible Quotes ini file
         /// </summary>
         /// <param name="oIniFile"></param>
-        private void ExportBQiniFile(List<cBQ_IniStructure> oIniFile, bool bChapZero)
+        private void ExportBQiniFile(List<cBQ_IniStructure> oIniFile, bool bChapZero, string sFilePath)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("CodePage = " + cboBQCodePage.SelectedValue.ToString());
@@ -1347,7 +1404,7 @@ namespace GBC_USFM_Preprocessor
             }
 
             //write out the ini to a UTF8 file
-            using (StreamWriter sw = new StreamWriter(txtDir.Text + @"\setup.ini", false, Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(sFilePath + @"setup.ini", false, Encoding.UTF8))
             {
                 sw.Write(sb);
                 sw.Flush();
