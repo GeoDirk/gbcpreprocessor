@@ -241,6 +241,10 @@ namespace GBC_USFM_Preprocessor
                 //this will also indent any dialogs, paragraph beginnings or lists
                 sVerse = "<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sup>" + sVerse.Substring(iStart);
             }
+            else if (sVerse.Substring(0, iStart) == "\\f")
+            {
+                //do nothing if the line starts with a footnote
+            }
             else
             {
                 sVerse = sVerse.Substring(iStart + 1);
@@ -258,7 +262,7 @@ namespace GBC_USFM_Preprocessor
             sTmp = sTmp.Replace("+ \\fr", "<b>");
             //deal with transliterations
             sTmp = sTmp.Replace("\\tl*", "</i>");
-            sTmp = sTmp.Replace("\\tl", "<i>");
+            sTmp = sTmp.Replace("\\tl ", "<i>");
             //deal with Selah's that are located only in Psalms
             sTmp = sTmp.Replace("\\qs*", "</i>");
             sTmp = sTmp.Replace("\\qs", "&nbsp;&nbsp;&nbsp;&nbsp;<i>");

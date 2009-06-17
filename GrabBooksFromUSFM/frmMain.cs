@@ -1068,6 +1068,11 @@ namespace GBC_USFM_Preprocessor
                 string sFilename = fi.Name;
                 string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
 
+                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\44JHNCARS2.htm")
+                {
+                    //do stuff
+                }
+
                 //Set Codepage
                 StreamReader sr;
                 sr = new StreamReader(file, Encoding.UTF8, false);
@@ -1130,48 +1135,37 @@ namespace GBC_USFM_Preprocessor
                                     //check for toc of each bible chapter //io1 and nested in it //io2
                                     //todo replace <ol> and <li> in the code below with actual numbering
                                     //Regex regexObj = new Regex(@"^.*(\\io1 ).*$\r?\n?", RegexOptions.Multiline);
-                                    Regex regexObj = new Regex(@"^.*((\\io1 ).*$\r?\n?)|((\\io2 ).*$\r?\n?)", RegexOptions.Multiline);
+                                    Regex regexObj = new Regex(@"^(\\io[0-9] ).*$\r?\n", RegexOptions.Multiline);
+
                                     Match matchResults = regexObj.Match(sSection);
-                                    oChap.AddVerse("<ol>");
-                                    bool needUL = true;
+                                    //oChap.AddVerse("<ol>");
+                                    //bool needUL = true;
+                                    int iIndentPrev = 0;
                                     while (matchResults.Success)
-                                    {
-
-                                        if (matchResults.Value.Substring(0, 4) == @"\io1")
+                                    { 
+                                        //check this line versus previous
+                                        int iIndent = GetLevelOfIndentation(matchResults.Value);
+                                        if (iIndent > iIndentPrev)
                                         {
-
-                                            oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io1 ", "<li>", RegexOptions.None));
-                                            matchResults = matchResults.NextMatch();
-                                            needUL = true;
+                                            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";                                            
+                                        }
+                                        else if (iIndent < iIndentPrev)
+                                        {
+                                            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
                                         }
                                         else
                                         {
-                                            if (needUL)
-                                            {
-                                                oChap.AddVerse("<ol>");
-                                            }
-
-                                            oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io2 ", "<li>", RegexOptions.None));
-                                            matchResults = matchResults.NextMatch();
-                                            if (matchResults.Length > 4)
-                                            {
-                                                if (matchResults.Value.Substring(0, 4) == @"\io1")
-                                                {
-                                                    oChap.AddVerse("</ol>");
-                                                    needUL = true;
-                                                }
-                                                else
-                                                {
-                                                    needUL = false;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                oChap.AddVerse("</ol>");
-                                            }
-
+                                             
                                         }
 
+                                        //process the level
+                                        oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
+                                        matchResults = matchResults.NextMatch();
+
+                                        //set the variable for current indentation level
+                                        iIndentPrev = iIndent;
+
+                                   
                                     }
                                     oChap.AddVerse("</ol>");
                                 }
@@ -1192,7 +1186,7 @@ namespace GBC_USFM_Preprocessor
                         }
                         else
                         {
-                            //normal bible chapters
+                            #region normal bible chapters
                             cBQ_Chapter oChap = new cBQ_Chapter(i);
                             //grab all the \ip lines of text
                             try
@@ -1212,7 +1206,21 @@ namespace GBC_USFM_Preprocessor
                                         sTemp = sTemp.Replace(@"\s", "").Trim();
                                         //put in extra breaks
                                         oChap.AddVerse("<br/>");
-                                        oChap.AddVerse("! <br/><b>" + sTemp + "</b>");
+                                        oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("! <b>" + sTemp + "</b>");
+                                        oChap.AddVerse("<br/>");
+
+                                    }
+                                    //if it's a parallel ref
+                                    else if (matchResults.Value.Substring(0, 2) == @"\r")
+                                    {
+
+                                        //if it's an \r tag
+                                        string sTemp = matchResults.Value;
+                                        sTemp = sTemp.Replace(@"\r", "").Trim();
+                                        //put in extra breaks
+                                        //oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("! <i>" + sTemp + "</i>");
                                         oChap.AddVerse("<br/>");
 
                                     }
@@ -1223,8 +1231,8 @@ namespace GBC_USFM_Preprocessor
                                         sTemp = sTemp.Replace(@"\ms", "").Trim();
                                         //put in extra breaks
                                         oChap.AddVerse("<br/>");
-                                        oChap.AddVerse("! <br/><b>" + sTemp + "</b>");
-                                        oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("! <h2>" + sTemp + "</h2>");
+                                        //oChap.AddVerse("<br/>");
 
                                     }
                                     
@@ -1261,6 +1269,7 @@ namespace GBC_USFM_Preprocessor
                                 Console.WriteLine("ERROR: " + ex.Message);
                                 throw;
                             }
+#endregion
                             //add in the chapter to the book object
                             oBook.AddChapter(oChap);
                         }
@@ -1319,6 +1328,13 @@ namespace GBC_USFM_Preprocessor
                 MessageBox.Show("Completed Conversion");
             }
         }
+
+        private int GetLevelOfIndentation(string p)
+        {
+            int level = Convert.ToInt16(p.Substring(3, 1));
+
+            return level;
+        } 
 
         private string ParseFootnote(string sFtnt)
         {
@@ -1463,8 +1479,8 @@ namespace GBC_USFM_Preprocessor
                         {
                             if (sTmp.Substring(0, 1) == "!")
                             {
-                                //this is a section header \s
-                                sb.AppendLine(sTmp.Substring(2));
+                                //this is a section header \s or referece \r
+                                sb.AppendLine(sVerseStart + sVerseEnd + sTmp.Substring(2));
                                 iCount = 0;
                             }
                             else if (sTmp == "<br/>")
