@@ -37,12 +37,12 @@ namespace GBC_USFM_Preprocessor
         private void frmMain_Load(object sender, EventArgs e)
         {
             //add in version number
-            lblVersion.Text = "Matches GBC Version: " 
+            lblVersion.Text = "Matches GBC Version: "
                 + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major.ToString()
                 + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor.ToString()
                 + "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString()
                 + "     GBC_USFM_Preprocessor Revision: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Revision.ToString();
-            
+
             //add in the encodings into the dropdown
             EncodingInfo[] codes = Encoding.GetEncodings();
 
@@ -95,6 +95,29 @@ namespace GBC_USFM_Preprocessor
             cboBQFontCharSet.Items.Add("222 -- THAI_CHARSET  (Thai)");
             cboBQFontCharSet.Items.Add("238 -- EASTEUROPE_CHARSET  (Includes)");
             cboBQFontCharSet.Items.Add("255 -- OEM_CHARSET  (Depends)");
+
+            //set the interface to the previous codepage/fontcharset
+            string sPrevCodePage = cRegistry.GetStringRegistryValue("BQCodePage", "");
+            string sPrevFontCharSet = cRegistry.GetStringRegistryValue("BQFontCharSet", "");
+
+            for (int i = 0; i < cboBQCodePage.Items.Count; i++)
+            {
+                cConvertCodePages.CodePage oItem = (cConvertCodePages.CodePage)cboBQCodePage.Items[i];
+                if (sPrevCodePage == (oItem.strName + " - " + oItem.strDisplayName))
+                {
+                    cboBQCodePage.SelectedIndex = i;
+                    break;
+                }
+            }
+            for (int i = 0; i < cboBQFontCharSet.Items.Count; i++)
+            {
+                if (sPrevFontCharSet == cboBQFontCharSet.Items[i].ToString())
+                {
+                    cboBQFontCharSet.SelectedIndex = i;
+                    break;
+                }
+            }
+
 
             //find out if DigiStudy has been installed on this computer and get its path from
             //the registry
@@ -246,6 +269,8 @@ namespace GBC_USFM_Preprocessor
             cRegistry.SetStringRegistryValue("BQChapterSign", txtBQChapterSign.Text);
             cRegistry.SetStringRegistryValue("BQVerseSign", txtBQVerseSign.Text);
             cRegistry.SetStringRegistryValue("BQ_BooknameTag", txtBQ_BooknameTag.Text);
+            cRegistry.SetStringRegistryValue("BQCodePage", cboBQCodePage.Text);
+            cRegistry.SetStringRegistryValue("BQFontCharSet", cboBQFontCharSet.Text);
         }
 
         /// <summary>
@@ -1068,7 +1093,7 @@ namespace GBC_USFM_Preprocessor
                 string sFilename = fi.Name;
                 string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
 
-                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\44JHNCARS2.htm")
+                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\091SACARS2.htm")
                 {
                     //do stuff
                 }
@@ -1115,14 +1140,66 @@ namespace GBC_USFM_Preprocessor
                                 //grab all the \ip lines of text
                                 try
                                 {
-                                    Regex regexObj = new Regex(@"^.*(\\ip ).*$\r?\n?", RegexOptions.Multiline);
+                                    Regex regexObj = new Regex(@"^.*((\\ip ).*$\r?\n?)|((\\io[0-9] ).*$\r?\n?)", RegexOptions.Multiline);
                                     Match matchResults = regexObj.Match(sSection);
                                     while (matchResults.Success)
                                     {
-                                        oChap.AddVerse(ParseHeaderTags(matchResults.Value));
-                                        oChap.AddVerse("<br/>");
-                                        oChap.AddVerse("<br/>");
-                                        matchResults = matchResults.NextMatch();
+                                        if (matchResults.Value.Substring(0,3) == @"\ip")
+                                        {
+                                            oChap.AddVerse(ParseHeaderTags(matchResults.Value));
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("<br/>");
+                                            matchResults = matchResults.NextMatch();
+                                        }
+                                        else if (matchResults.Value.Substring(0,3) == @"\io")
+                                        {
+                                            //oChap.AddVerse("<ol>");
+                                            //bool needUL = true;
+                                            int iIndentPrev = 0;
+                                            while (matchResults.Success)
+                                            {
+                                                //check this line versus previous
+                                                int iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);
+                                                if (iIndent > iIndentPrev)
+                                                {
+                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";
+                                                }
+                                                else if (iIndent < iIndentPrev)
+                                                {
+                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
+                                                }
+                                                else
+                                                {
+
+                                                }
+
+                                                //process the level
+                                                if (matchResults.Value.Substring(0,3) == @"\io")
+                                                {
+                                                    oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
+                                                }
+                                                else
+                                                {
+                                                    if (iIndent > 1)
+                                                    {
+                                                        oChap.AddVerse("</ol>");
+                                                    }
+                                                    
+                                                    oChap.AddVerse("<br/>");
+                                                    oChap.AddVerse(ParseHeaderTags(matchResults.Value));
+                                                    oChap.AddVerse("<br/>");
+                                                }
+                                                
+                                                matchResults = matchResults.NextMatch();
+
+                                                //set the variable for current indentation level
+                                                iIndentPrev = iIndent;
+
+
+                                            }
+                                            oChap.AddVerse("</ol>");  
+                                        }
+                                        
                                     }
                                 }
                                 catch (ArgumentException ex)
@@ -1130,50 +1207,50 @@ namespace GBC_USFM_Preprocessor
                                     Console.WriteLine("ERROR: " + ex.Message);
                                     throw;
                                 }
-                                try
-                                {
-                                    //check for toc of each bible chapter //io1 and nested in it //io2
-                                    //todo replace <ol> and <li> in the code below with actual numbering
-                                    //Regex regexObj = new Regex(@"^.*(\\io1 ).*$\r?\n?", RegexOptions.Multiline);
-                                    Regex regexObj = new Regex(@"^(\\io[0-9] ).*$\r?\n", RegexOptions.Multiline);
+                                //try
+                                //{
+                                //    //check for toc of each bible chapter //io1 and nested in it //io2
+                                //    //todo replace <ol> and <li> in the code below with actual numbering
+                                //    //Regex regexObj = new Regex(@"^.*(\\io1 ).*$\r?\n?", RegexOptions.Multiline);
+                                //    Regex regexObj = new Regex(@"^(\\io[0-9] ).*$\r?\n", RegexOptions.Multiline);
 
-                                    Match matchResults = regexObj.Match(sSection);
-                                    //oChap.AddVerse("<ol>");
-                                    //bool needUL = true;
-                                    int iIndentPrev = 0;
-                                    while (matchResults.Success)
-                                    { 
-                                        //check this line versus previous
-                                        int iIndent = GetLevelOfIndentation(matchResults.Value);
-                                        if (iIndent > iIndentPrev)
-                                        {
-                                            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";                                            
-                                        }
-                                        else if (iIndent < iIndentPrev)
-                                        {
-                                            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
-                                        }
-                                        else
-                                        {
+                                //    Match matchResults = regexObj.Match(sSection);
+                                //    //oChap.AddVerse("<ol>");
+                                //    //bool needUL = true;
+                                //    int iIndentPrev = 0;
+                                //    while (matchResults.Success)
+                                //    { 
+                                //        //check this line versus previous
+                                //        int iIndent = GetLevelOfIndentation(matchResults.Value);
+                                //        if (iIndent > iIndentPrev)
+                                //        {
+                                //            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";                                            
+                                //        }
+                                //        else if (iIndent < iIndentPrev)
+                                //        {
+                                //            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
+                                //        }
+                                //        else
+                                //        {
                                              
-                                        }
+                                //        }
 
-                                        //process the level
-                                        oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
-                                        matchResults = matchResults.NextMatch();
+                                //        //process the level
+                                //        oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
+                                //        matchResults = matchResults.NextMatch();
 
-                                        //set the variable for current indentation level
-                                        iIndentPrev = iIndent;
+                                //        //set the variable for current indentation level
+                                //        iIndentPrev = iIndent;
 
                                    
-                                    }
-                                    oChap.AddVerse("</ol>");
-                                }
-                                catch (ArgumentException ex)
-                                {
-                                    Console.WriteLine("ERROR: " + ex.Message);
-                                    throw;
-                                }
+                                //    }
+                                //    oChap.AddVerse("</ol>");
+                                //}
+                                //catch (ArgumentException ex)
+                                //{
+                                //    Console.WriteLine("ERROR: " + ex.Message);
+                                //    throw;
+                                //}
                                 
                                 //if anything was added then add this to the overall book
                                 if (oChap.VerseCount > 0)
@@ -1205,8 +1282,19 @@ namespace GBC_USFM_Preprocessor
                                         string sTemp = matchResults.Value;
                                         sTemp = sTemp.Replace(@"\s", "").Trim();
                                         //put in extra breaks
-                                        oChap.AddVerse("<br/>");
-                                        oChap.AddVerse("<br/>");
+                                        string sPrevVerse = "";
+                                        if (oChap.Verses.Count > 0)
+                                        {
+                                            sPrevVerse = oChap.Verses[oChap.Verses.Count - 1].ToString();
+                                        }
+                                        
+
+                                        if (!sPrevVerse.EndsWith("</h2>"))
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("<br/>");
+                                        }
+                                        
                                         oChap.AddVerse("! <b>" + sTemp + "</b>");
                                         oChap.AddVerse("<br/>");
 
@@ -1329,9 +1417,19 @@ namespace GBC_USFM_Preprocessor
             }
         }
 
-        private int GetLevelOfIndentation(string p)
+        private int GetLevelOfIndentation(string p, int iPrev)
         {
-            int level = Convert.ToInt16(p.Substring(3, 1));
+            int level;
+            try
+            {
+                level = Convert.ToInt16(p.Substring(3, 1));
+            }
+            catch (Exception)
+            {
+
+                level = iPrev;
+            }
+            
 
             return level;
         } 
