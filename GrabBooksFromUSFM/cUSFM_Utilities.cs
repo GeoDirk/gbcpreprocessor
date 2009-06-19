@@ -232,19 +232,45 @@ namespace GBC_USFM_Preprocessor
                 //there is no space after the verse number which happens when
                 //there are multiline verses and somebody is putting in blank
                 //verse lines
-                sVerse = "";
+                if (sVerse.Substring(0,2) == "\\p")
+                {
+                    //catch an empty p tag line
+                    sVerse = "p";
+                }
+                else
+                {
+                    sVerse = "";
+                }
+                
             }
             //plop in sup if first tag is not \\v
             //so that the first word doesn't look funny
-            else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart - 1) == "\\q" || sVerse.Substring(0, iStart - 1) == "\\li")
+
+            //if if's a paragraph start, or a quote1 or a list of the 1st level, add first level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart) == "\\q1" || sVerse.Substring(0, iStart) == "\\li1")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
                 sVerse = "<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sup>" + sVerse.Substring(iStart);
             }
-            else if (sVerse.Substring(0, iStart) == "\\f")
+            //if it's a list or a quote of the second level add second level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\q2" || sVerse.Substring(0, iStart) == "\\li2")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sup>" + sVerse.Substring(iStart);
+            }
+            //if it's a quote of the third level - add third level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\q3")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sup>" + sVerse.Substring(iStart);
+            }
+            //if it only has a footnote or a selah then do nothing
+            else if (sVerse.Substring(0, iStart) == "\\f" || sVerse.Substring(0, iStart) == "\\qs")
             {
                 //do nothing if the line starts with a footnote
             }
+            //if it's something else (mostly all verse number \v tags and \s tags) 
+            //just get rid of it including the white space after it
             else
             {
                 sVerse = sVerse.Substring(iStart + 1);

@@ -814,7 +814,7 @@ namespace GBC_USFM_Preprocessor
         /// <returns></returns>
         private string ProcessSingularTag(string line, string sTag)
         {
-            ////removes start tag with number and trailing space
+            //removes start tag with number and trailing space
             Regex reg = new Regex(@"\" + sTag + @"[0-9]\s");
             line = reg.Replace(line, "");
             //removes start tag with number
@@ -1093,7 +1093,7 @@ namespace GBC_USFM_Preprocessor
                 string sFilename = fi.Name;
                 string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
 
-                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\091SACARS2.htm")
+                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\41MATCARS2.htm")
                 {
                     //do stuff
                 }
@@ -1153,38 +1153,43 @@ namespace GBC_USFM_Preprocessor
                                         }
                                         else if (matchResults.Value.Substring(0,3) == @"\io")
                                         {
-                                            //oChap.AddVerse("<ol>");
-                                            //bool needUL = true;
+                                            //make table of contents for chapter 0 of each book
                                             int iIndentPrev = 0;
                                             while (matchResults.Success)
                                             {
                                                 //check this line versus previous
-                                                int iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);
+                                                int iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
+                                                //if it's a deeper level slap <ol> at the end of the previous verse
                                                 if (iIndent > iIndentPrev)
                                                 {
                                                     oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";
                                                 }
+                                                //if it's previous level slap "</ol>" at the end of the previous verse
                                                 else if (iIndent < iIndentPrev)
                                                 {
                                                     oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
                                                 }
+                                                //do nothing if it's the same level
                                                 else
                                                 {
 
                                                 }
 
                                                 //process the level
+                                                //replace io's with <li> tags
                                                 if (matchResults.Value.Substring(0,3) == @"\io")
                                                 {
                                                     oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
                                                 }
+                                                //in case it has ip's in the middle of io's check how deep was the list
                                                 else
                                                 {
+                                                    //if deeper than 1 then close ol tag
                                                     if (iIndent > 1)
                                                     {
                                                         oChap.AddVerse("</ol>");
                                                     }
-                                                    
+                                                    //insert actual line surrounded by breaks
                                                     oChap.AddVerse("<br/>");
                                                     oChap.AddVerse(ParseHeaderTags(matchResults.Value));
                                                     oChap.AddVerse("<br/>");
@@ -1207,51 +1212,7 @@ namespace GBC_USFM_Preprocessor
                                     Console.WriteLine("ERROR: " + ex.Message);
                                     throw;
                                 }
-                                //try
-                                //{
-                                //    //check for toc of each bible chapter //io1 and nested in it //io2
-                                //    //todo replace <ol> and <li> in the code below with actual numbering
-                                //    //Regex regexObj = new Regex(@"^.*(\\io1 ).*$\r?\n?", RegexOptions.Multiline);
-                                //    Regex regexObj = new Regex(@"^(\\io[0-9] ).*$\r?\n", RegexOptions.Multiline);
-
-                                //    Match matchResults = regexObj.Match(sSection);
-                                //    //oChap.AddVerse("<ol>");
-                                //    //bool needUL = true;
-                                //    int iIndentPrev = 0;
-                                //    while (matchResults.Success)
-                                //    { 
-                                //        //check this line versus previous
-                                //        int iIndent = GetLevelOfIndentation(matchResults.Value);
-                                //        if (iIndent > iIndentPrev)
-                                //        {
-                                //            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";                                            
-                                //        }
-                                //        else if (iIndent < iIndentPrev)
-                                //        {
-                                //            oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
-                                //        }
-                                //        else
-                                //        {
-                                             
-                                //        }
-
-                                //        //process the level
-                                //        oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
-                                //        matchResults = matchResults.NextMatch();
-
-                                //        //set the variable for current indentation level
-                                //        iIndentPrev = iIndent;
-
-                                   
-                                //    }
-                                //    oChap.AddVerse("</ol>");
-                                //}
-                                //catch (ArgumentException ex)
-                                //{
-                                //    Console.WriteLine("ERROR: " + ex.Message);
-                                //    throw;
-                                //}
-                                
+                                                                
                                 //if anything was added then add this to the overall book
                                 if (oChap.VerseCount > 0)
                                 {
@@ -1268,27 +1229,28 @@ namespace GBC_USFM_Preprocessor
                             //grab all the \ip lines of text
                             try
                             {
+                                bool bNewParagraph = false;
                                 //todo add in the \s tag processing
-                                //Regex regexObj = new Regex(@"^.*((\\v ).*$\r?\n?)|((\\s).*$\r?\n?)|((\\q1).*$\r?\n?)|((\\q2).*$\r?\n?)", RegexOptions.Multiline);
                                 Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
                                 Match matchResults = regexObj.Match(sSection);
                                 while (matchResults.Success)
                                 {
+                                    
                                     //if it's a heading
                                     if (matchResults.Value.Substring(0,2) == @"\s")
                                     {
                                     
                                         //if it's an \s tag
-                                        string sTemp = matchResults.Value;
-                                        sTemp = sTemp.Replace(@"\s", "").Trim();
+                                        string sTemp = ParseVerseTags(matchResults.Value);
                                         //put in extra breaks
                                         string sPrevVerse = "";
                                         if (oChap.Verses.Count > 0)
                                         {
+                                            //find the number of the previous verse (if there are verses)
                                             sPrevVerse = oChap.Verses[oChap.Verses.Count - 1].ToString();
                                         }
                                         
-
+                                        //if previous verse does not end with <h2> (if it's not a header) then add some breaks
                                         if (!sPrevVerse.EndsWith("</h2>"))
                                         {
                                             oChap.AddVerse("<br/>");
@@ -1307,7 +1269,6 @@ namespace GBC_USFM_Preprocessor
                                         string sTemp = matchResults.Value;
                                         sTemp = sTemp.Replace(@"\r", "").Trim();
                                         //put in extra breaks
-                                        //oChap.AddVerse("<br/>");
                                         oChap.AddVerse("! <i>" + sTemp + "</i>");
                                         oChap.AddVerse("<br/>");
 
@@ -1320,7 +1281,6 @@ namespace GBC_USFM_Preprocessor
                                         //put in extra breaks
                                         oChap.AddVerse("<br/>");
                                         oChap.AddVerse("! <h2>" + sTemp + "</h2>");
-                                        //oChap.AddVerse("<br/>");
 
                                     }
                                     
@@ -1330,6 +1290,12 @@ namespace GBC_USFM_Preprocessor
                                         string s = ParseVerseTags(matchResults.Value);
                                         if (s != String.Empty)
                                         {
+                                            //check if it's a new paragraph
+                                            if (bNewParagraph)
+                                            {
+                                                s = s.Insert(s.IndexOf(" "), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                                                bNewParagraph = false;
+                                            }
                                             oChap.AddVerse(s);
                                         }
                                         
@@ -1340,8 +1306,20 @@ namespace GBC_USFM_Preprocessor
                                         string s = ParseVerseTags(matchResults.Value);
                                         if (s != String.Empty)
                                         {
-                                            oChap.AddVerse("<br/>");
-                                            oChap.AddVerse(s);
+                                            //if it's an empty /p tag, make bNewParagraph true, 
+                                            //so that we can slap in some &nbsp's in front of the next line
+                                            if (s == "p")
+                                            {
+                                                bNewParagraph = true;
+                                                oChap.AddVerse("<br/>");
+                                            }
+                                            else
+                                            {
+                                                oChap.AddVerse("<br/>");
+                                                oChap.AddVerse(s);  
+                                            }
+                                            
+                                                                                     
                                         }
                                         else
                                         {
@@ -1422,11 +1400,13 @@ namespace GBC_USFM_Preprocessor
             int level;
             try
             {
+                //get's the number from \io1 or \io2 or \io3 tag
                 level = Convert.ToInt16(p.Substring(3, 1));
             }
             catch (Exception)
             {
-
+                //catch an \ip tag in the middle of \io[n] tags
+                //keeps level the same as previous one
                 level = iPrev;
             }
             
@@ -1603,9 +1583,7 @@ namespace GBC_USFM_Preprocessor
                                 }
                                 catch (Exception ex)
                                 {
-                                    //sb.AppendLine("<br/>");
                                     Console.WriteLine("ERROR: " + ex.Message);
-                                    //throw;
                                 }
                             }
                         }
@@ -1613,9 +1591,6 @@ namespace GBC_USFM_Preprocessor
                         
                     }
                 }
-                ////add a couple of empty lines
-                //sb.AppendLine("<sup></sup>");
-                //sb.AppendLine("<sup></sup>");
                 //insert footnotes at the end of each chapter
                 ArrayList oFtnote = c.Footnotes;
                 for (int i = 0; i < oFtnote.Count; i++)
