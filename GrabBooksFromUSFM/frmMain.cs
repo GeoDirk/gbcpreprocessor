@@ -1093,14 +1093,8 @@ namespace GBC_USFM_Preprocessor
                 string sFilename = fi.Name;
                 string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
 
-                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\41MATCARS2.htm")
-                {
-                    //do stuff
-                }
-
                 //Set Codepage
-                StreamReader sr;
-                sr = new StreamReader(file, Encoding.UTF8, false);
+                StreamReader sr = new StreamReader(file, Encoding.UTF8, false);
 
                 // Create a new stream to read from a file
                 // Read contents of file into a string
