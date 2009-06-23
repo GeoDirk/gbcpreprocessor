@@ -1093,6 +1093,15 @@ namespace GBC_USFM_Preprocessor
                 string sFilename = fi.Name;
                 string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
 
+#if DEBUG 
+
+                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\102SACARS2.htm")
+                {
+                    //do something
+                                        
+                }
+#endif
+
                 //Set Codepage
                 StreamReader sr = new StreamReader(file, Encoding.UTF8, false);
 
@@ -1214,9 +1223,16 @@ namespace GBC_USFM_Preprocessor
                                     oBook.AddChapter(oChap);
                                 }
                             }
+                            else //if chapter 0 is empty like in 2Sam, 2Ki, and 2Chron
+                            {
+                                cBQ_Chapter oChap = new cBQ_Chapter(0);
+                                oChap.AddVerse("<br/>");
+                                bChapterZero = true;
+                                oBook.AddChapter(oChap);
+                            }
                             
                         }
-                        else
+                        else 
                         {
                             #region normal bible chapters
                             cBQ_Chapter oChap = new cBQ_Chapter(i);
