@@ -36,17 +36,21 @@
             this.cmdOpenFile = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.gFonts)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // gFonts
             // 
             this.gFonts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gFonts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gFonts.Location = new System.Drawing.Point(0, 0);
+            this.gFonts.Location = new System.Drawing.Point(0, 50);
             this.gFonts.Name = "gFonts";
-            this.gFonts.Size = new System.Drawing.Size(346, 403);
+            this.gFonts.Size = new System.Drawing.Size(346, 353);
             this.gFonts.TabIndex = 0;
             // 
             // panel1
@@ -105,12 +109,44 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.linkLabel1);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(346, 50);
+            this.panel2.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(343, 40);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Use this grid in the following way: left column goes the letter that you want to " +
+                "swap out (e.g., Ә) and in the right column, put the HTML code for that character" +
+                " (e.g., &&#1240;).";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(246, 34);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(97, 13);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "More HTML Codes";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // frmCharReplacer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(346, 458);
             this.Controls.Add(this.gFonts);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmCharReplacer";
             this.Text = "Character Replacer to HTML Code";
@@ -118,6 +154,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCharReplacer_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.gFonts)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -132,5 +170,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button cmdClear;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label1;
     }
 }

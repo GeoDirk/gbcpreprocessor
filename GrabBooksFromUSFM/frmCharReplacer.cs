@@ -233,7 +233,17 @@ namespace GBC_USFM_Preprocessor
             //pass back the datatable to the main form
             _fMain.charHTMLdatatable = _dt;
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Change the color of the link text by setting LinkVisited 
+            // to true.
+            linkLabel1.LinkVisited = true;
+            //Call the Process.Start method to open the default browser 
+            //with a URL:
+            System.Diagnostics.Process.Start("http://www.1728.com/codes.htm");
+        }
+
+    
     }
-
-
 }
