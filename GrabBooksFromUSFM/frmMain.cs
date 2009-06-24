@@ -584,7 +584,7 @@ namespace GBC_USFM_Preprocessor
                 "\\it","\\k","\\li","\\lit","\\m","\\mi","\\mt","\\ms","\\nb","\\nd","\\ndx",
                 "\\no","\\ord","\\p","\\pb","\\pc","\\ph","\\pi","\\pm","\\pmc",
                 "\\pmo","\\pmr","\\pn","\\pr","\\pro","\\q","\\qa","\\qac","\\qc",
-                "\\qm","\\qr","\\qs","\\qt","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
+                "\\qm","\\qr","\\qs","\\qt","\\r","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
                 "\\va","\\vp","\\w","\\wg","\\wh","\\wj","\\x","\\xdc","\\xk",
                 "\\xo","\\xq","\\xt"
             };
@@ -1064,7 +1064,11 @@ namespace GBC_USFM_Preprocessor
             {
                 return;
             }
-
+            bool bOverwriteSetupFile = false;
+            if (MessageBox.Show("Do you wish to overwrite the setup.ini file?", "Overwrite file", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                bOverwriteSetupFile = true;
+            }
             //change the screen cursor
             this.Cursor = Cursors.WaitCursor;
 
@@ -1095,7 +1099,8 @@ namespace GBC_USFM_Preprocessor
 
 #if DEBUG 
 
-                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\102SACARS2.htm")
+                if (sFileOutName == "c:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARTn\\45ACTTCARS.htm")
+                
                 {
                     //do something
                                         
@@ -1188,7 +1193,7 @@ namespace GBC_USFM_Preprocessor
                                                 else
                                                 {
                                                     //if deeper than 1 then close ol tag
-                                                    if (iIndent > 1)
+                                                    if (iIndent > iIndentPrev)
                                                     {
                                                         oChap.AddVerse("</ol>");
                                                     }
@@ -1240,6 +1245,7 @@ namespace GBC_USFM_Preprocessor
                             try
                             {
                                 bool bNewParagraph = false;
+                                bool bPI = false;
                                 //todo add in the \s tag processing
                                 Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
                                 Match matchResults = regexObj.Match(sSection);
@@ -1310,6 +1316,25 @@ namespace GBC_USFM_Preprocessor
                                         }
                                         
                                     }
+                                    //check if it's a blockquote tag \pi
+                                    else if (matchResults.Value.Substring(0, 3) == @"\pi")
+                                    {
+                                        //if one has already been open then close it
+                                        if (bPI)
+                                        {
+                                            oChap.AddVerse("</blockquote>");
+                                        }
+                                        //indicate that you're openning one
+                                        bPI = true;
+                                        //parse the string, should come back the same
+                                        string s = ParseVerseTags(matchResults.Value);
+                                        //then replace the \pi in the beginning
+                                        //s = s.Replace(@"\pi", "").Trim();
+                                        //add a blockquote line
+                                        //oChap.AddVerse("<blockquote>");
+                                        //add actual text
+                                        oChap.AddVerse(s);
+                                    }
                                     else
                                     {
                                         //if it's everything else
@@ -1322,18 +1347,33 @@ namespace GBC_USFM_Preprocessor
                                             {
                                                 bNewParagraph = true;
                                                 oChap.AddVerse("<br/>");
+                                                
                                             }
+                                            
                                             else
                                             {
+                                                //mostly non-empty \p tags
                                                 oChap.AddVerse("<br/>");
                                                 oChap.AddVerse(s);  
                                             }
                                             
                                                                                      
                                         }
-                                        else
+                                        else //this includes \b, \q1, \li1 and so on tags
                                         {
-                                            oChap.AddVerse("<br/>");
+                                            if (bPI)
+                                            {
+                                                //close \pi (blockquote) tag if it was open
+                                                oChap.AddVerse("</blockquote>");
+                                                //and set bPI to false to show it's been closed
+                                                bPI = false;
+                                                //there is no need for a <br> tag because blockquote takes some extra space before and after
+                                            }
+                                            else
+                                            {
+                                                oChap.AddVerse("<br/>");
+                                            }
+                                            
                                         }
                                         
                                     }
@@ -1385,8 +1425,12 @@ namespace GBC_USFM_Preprocessor
                 progressBar1.Value++;
                 this.Refresh();
             }
-            //dump out the setup.ini file to a computer
-            ExportBQiniFile(oIniFile, bChapterZero, sExportPath);
+            if (bOverwriteSetupFile)
+            {
+                //dump out the setup.ini file to a computer
+                ExportBQiniFile(oIniFile, bChapterZero, sExportPath);
+            }
+            
             
             //reset the cursor
             this.Cursor = Cursors.Default;
@@ -1424,11 +1468,6 @@ namespace GBC_USFM_Preprocessor
             return level;
         } 
 
-        private string ParseFootnote(string sFtnt)
-        {
-            sFtnt = cUSFM_Utilities.ProcessOtherTags(sFtnt);
-            return sFtnt;
-        }
 
         /// <summary>
         /// Export the Bible Quotes ini file
@@ -1581,6 +1620,14 @@ namespace GBC_USFM_Preprocessor
                                 }
                                 
                             }
+                            else if (sTmp == "<blockquote>")
+                            {
+                                sb.AppendLine("<blockquote>");
+                            }
+                            else if (sTmp == "</blockquote>")
+                            {
+                                sb.AppendLine("</blockquote>");
+                            }
                             else
                             {
                                 //when it's a normal verse
@@ -1660,6 +1707,7 @@ namespace GBC_USFM_Preprocessor
         /// <returns></returns>
         private string ParseVerseTags(string sVerse)
         {
+            
             sVerse = cUSFM_Utilities.RemoveDoubleMarkerTags(sVerse);
             sVerse = cUSFM_Utilities.RemoveDoubleMarkerTagsFull(sVerse);
             sVerse = cUSFM_Utilities.RemoveSingularMarkerTags(sVerse);

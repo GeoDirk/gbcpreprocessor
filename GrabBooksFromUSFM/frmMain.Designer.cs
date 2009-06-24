@@ -70,6 +70,7 @@
             this.rbWordsOnly = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.lblExportTo = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.cmdGenerateBQExport = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
@@ -122,7 +123,7 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
-            this.lblExportTo = new System.Windows.Forms.Label();
+            this.chbCharacterReplacement = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -562,6 +563,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chbCharacterReplacement);
             this.tabPage4.Controls.Add(this.panel7);
             this.tabPage4.Controls.Add(this.label19);
             this.tabPage4.Controls.Add(this.txtBQ_BooknameTag);
@@ -610,6 +612,15 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(675, 70);
             this.panel7.TabIndex = 22;
+            // 
+            // lblExportTo
+            // 
+            this.lblExportTo.AutoSize = true;
+            this.lblExportTo.Location = new System.Drawing.Point(6, 47);
+            this.lblExportTo.Name = "lblExportTo";
+            this.lblExportTo.Size = new System.Drawing.Size(70, 13);
+            this.lblExportTo.TabIndex = 33;
+            this.lblExportTo.Text = "Exporting To:";
             // 
             // progressBar1
             // 
@@ -1101,14 +1112,15 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
-            // lblExportTo
+            // chbCharacterReplacement
             // 
-            this.lblExportTo.AutoSize = true;
-            this.lblExportTo.Location = new System.Drawing.Point(6, 47);
-            this.lblExportTo.Name = "lblExportTo";
-            this.lblExportTo.Size = new System.Drawing.Size(70, 13);
-            this.lblExportTo.TabIndex = 33;
-            this.lblExportTo.Text = "Exporting To:";
+            this.chbCharacterReplacement.AutoSize = true;
+            this.chbCharacterReplacement.Location = new System.Drawing.Point(252, 296);
+            this.chbCharacterReplacement.Name = "chbCharacterReplacement";
+            this.chbCharacterReplacement.Size = new System.Drawing.Size(138, 17);
+            this.chbCharacterReplacement.TabIndex = 32;
+            this.chbCharacterReplacement.Text = "Character Replacement";
+            this.chbCharacterReplacement.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -1263,6 +1275,7 @@
         private System.Windows.Forms.Button cmdVersificationFind;
         private System.Windows.Forms.Button cmdAbout;
         private System.Windows.Forms.Label lblExportTo;
+        private System.Windows.Forms.CheckBox chbCharacterReplacement;
     }
 }
 
