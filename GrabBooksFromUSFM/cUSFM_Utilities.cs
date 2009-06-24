@@ -282,8 +282,7 @@ namespace GBC_USFM_Preprocessor
             }
             return sVerse;
         }
-
-
+        
         public static string ProcessOtherTags(string sTmp)
         {
             //deal with footnote tags
@@ -307,6 +306,7 @@ namespace GBC_USFM_Preprocessor
             
             return sTmp;
         }
+
 
         
     }

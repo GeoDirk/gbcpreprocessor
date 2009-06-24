@@ -28,7 +28,27 @@ namespace GBC_USFM_Preprocessor
         ArrayList sFullClipboardText = new ArrayList();
         List<cTagCount> oTags = new List<cTagCount>();
         string _sDigiStudyPath = "";
+        frmCharReplacer _fChar = null;
+        DataTable _charHTMLdatatable = null;
 
+        
+        /// <summary>
+        /// Used to set the reference back to the char form
+        /// </summary>
+        public frmCharReplacer fCharForm
+        {
+            get { return _fChar; }
+            set { _fChar = value; }
+        }
+        /// <summary>
+        /// used by the frmCharReplacer to update this form
+        /// </summary>
+        public DataTable charHTMLdatatable
+        {
+            get { return _charHTMLdatatable; }
+            set { _charHTMLdatatable = value; }
+        }
+        
         public frmMain()
         {
             InitializeComponent();
@@ -1115,6 +1135,31 @@ namespace GBC_USFM_Preprocessor
                 string line = "";
                 line = sr.ReadToEnd();
                 
+                //swap out the funny characters for the HTML codes if needed
+                if (chkCharacterReplacement.Checked)
+                {
+                    if (_fChar !=null)
+                    {
+                        //get the current datatable
+                        _charHTMLdatatable = _fChar.charHTMLdatatable;
+                    }
+
+                    for (int i = 0; i < _charHTMLdatatable.Rows.Count; i++)
+                    {
+                        //loop through making the character changes
+                        try
+                        {
+                            line = Regex.Replace(line, _charHTMLdatatable.Rows[i][0].ToString(), _charHTMLdatatable.Rows[i][1].ToString());
+                        }
+                        catch (ArgumentException)
+                        {
+                            // Syntax error in the regular expression
+                        }
+                    }
+
+
+                }
+
                 //split the text at the chapter tag as we don't need the header information
                 try
                 {
@@ -1488,6 +1533,8 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("DesiredFontCharset = " + cboBQFontCharSet.Text.Substring(0, cboBQFontCharSet.Text.IndexOf(" ")));
             sb.AppendLine("BibleName = " + txtBQBibleNameFull.Text);
             sb.AppendLine("BibleShortName = " + txtBQBibleNameShort.Text);
+            sb.AppendLine("Copyright = " + txtBQCopyright.Text);
+
             if (rbBQIsBible_Y.Checked)
             {
                 sb.AppendLine("Bible = Y");
@@ -1525,6 +1572,7 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("Alphabet = " + txtBQAlphabet.Text);
             sb.AppendLine("ChapterSign = " + txtBQChapterSign.Text);
             sb.AppendLine("VerseSign = " + txtBQVerseSign.Text);
+            
             if (bChapZero)
             {
                 sb.AppendLine("ChapterZero = Y");
@@ -1940,6 +1988,16 @@ namespace GBC_USFM_Preprocessor
             frmAbout f = new frmAbout();
             f.ShowDialog();
         }
+
+        private void chkCharacterReplacement_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkCharacterReplacement.Checked)
+            {
+                frmCharReplacer f = new frmCharReplacer(this);
+                f.Show();
+            }
+        }
+
 
     }
 }

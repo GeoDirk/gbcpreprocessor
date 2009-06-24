@@ -69,6 +69,7 @@
             this.rbWordsAndPunctuation = new System.Windows.Forms.RadioButton();
             this.rbWordsOnly = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkCharacterReplacement = new System.Windows.Forms.CheckBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lblExportTo = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -123,7 +124,6 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
-            this.chbCharacterReplacement = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -563,7 +563,7 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.chbCharacterReplacement);
+            this.tabPage4.Controls.Add(this.chkCharacterReplacement);
             this.tabPage4.Controls.Add(this.panel7);
             this.tabPage4.Controls.Add(this.label19);
             this.tabPage4.Controls.Add(this.txtBQ_BooknameTag);
@@ -601,6 +601,17 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Export to BQ/DigiStudy Format";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chkCharacterReplacement
+            // 
+            this.chkCharacterReplacement.AutoSize = true;
+            this.chkCharacterReplacement.Location = new System.Drawing.Point(13, 335);
+            this.chkCharacterReplacement.Name = "chkCharacterReplacement";
+            this.chkCharacterReplacement.Size = new System.Drawing.Size(223, 17);
+            this.chkCharacterReplacement.TabIndex = 32;
+            this.chkCharacterReplacement.Text = "Swap Characters for HTML friendly codes";
+            this.chkCharacterReplacement.UseVisualStyleBackColor = true;
+            this.chkCharacterReplacement.CheckedChanged += new System.EventHandler(this.chkCharacterReplacement_CheckedChanged);
             // 
             // panel7
             // 
@@ -661,16 +672,16 @@
             // 
             // txtBQVerseSign
             // 
-            this.txtBQVerseSign.Location = new System.Drawing.Point(124, 318);
+            this.txtBQVerseSign.Location = new System.Drawing.Point(346, 294);
             this.txtBQVerseSign.Name = "txtBQVerseSign";
             this.txtBQVerseSign.Size = new System.Drawing.Size(100, 20);
             this.txtBQVerseSign.TabIndex = 28;
-            this.txtBQVerseSign.Text = "<sup>";
+            this.txtBQVerseSign.Text = "<vs>";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(31, 325);
+            this.label18.Location = new System.Drawing.Point(249, 297);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(61, 13);
             this.label18.TabIndex = 27;
@@ -1112,16 +1123,6 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
-            // chbCharacterReplacement
-            // 
-            this.chbCharacterReplacement.AutoSize = true;
-            this.chbCharacterReplacement.Location = new System.Drawing.Point(252, 296);
-            this.chbCharacterReplacement.Name = "chbCharacterReplacement";
-            this.chbCharacterReplacement.Size = new System.Drawing.Size(138, 17);
-            this.chbCharacterReplacement.TabIndex = 32;
-            this.chbCharacterReplacement.Text = "Character Replacement";
-            this.chbCharacterReplacement.UseVisualStyleBackColor = true;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1275,7 +1276,7 @@
         private System.Windows.Forms.Button cmdVersificationFind;
         private System.Windows.Forms.Button cmdAbout;
         private System.Windows.Forms.Label lblExportTo;
-        private System.Windows.Forms.CheckBox chbCharacterReplacement;
+        private System.Windows.Forms.CheckBox chkCharacterReplacement;
     }
 }
 
