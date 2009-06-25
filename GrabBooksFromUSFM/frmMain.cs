@@ -1127,12 +1127,28 @@ namespace GBC_USFM_Preprocessor
                 }
 #endif
 
+                //get the bookname before swapping out the replacement characters as we need
+                //it for the DigiView listbox
+                string line;
+                string sBookName = "";
                 //Set Codepage
-                StreamReader sr = new StreamReader(file, Encoding.UTF8, false);
+                using (StreamReader srBookname = new StreamReader(item, Encoding.UTF8, false))
+                {
+                    while ((line = srBookname.ReadLine()) != null)
+                    {
+                        if (line.StartsWith(txtBQ_BooknameTag.Text))
+                        {
+                            sBookName = line;
+                            sBookName = sBookName.Substring(sBookName.IndexOf(" ")).Trim();
+                        }
+                    }
+                }
+
+
 
                 // Create a new stream to read from a file
                 // Read contents of file into a string
-                string line = "";
+                StreamReader sr = new StreamReader(item, Encoding.UTF8, false);
                 line = sr.ReadToEnd();
                 
                 //swap out the funny characters for the HTML codes if needed
@@ -1451,11 +1467,6 @@ namespace GBC_USFM_Preprocessor
                     throw;
                 }
 
-                if (!bProblem)
-                {
-
-                }
-
                 // Close StreamReader
                 sr.Close();
                 // Close file
@@ -1467,7 +1478,7 @@ namespace GBC_USFM_Preprocessor
                 //create a new ini entry
                 cBQ_IniStructure oIni = new cBQ_IniStructure();
                 oIni.PathName = fi.Name.Substring(0,fi.Name.LastIndexOf(".")) + ".htm";
-                oIni.FullName = oBook.sBookName;
+                oIni.FullName = sBookName;
                 oIni.ChapterQty = oBook.GetNumberOfChapters;
 
                 //add into the ini collection
