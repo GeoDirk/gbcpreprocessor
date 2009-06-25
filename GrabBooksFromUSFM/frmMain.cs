@@ -1119,7 +1119,7 @@ namespace GBC_USFM_Preprocessor
 
 #if DEBUG 
 
-                if (sFileOutName == "c:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARTn\\45ACTTCARS.htm")
+                if (sFileOutName == "c:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\15EZRCARS2.htm")
                 
                 {
                     //do something
@@ -1305,6 +1305,14 @@ namespace GBC_USFM_Preprocessor
                                         string sTemp = ParseVerseTags(matchResults.Value);
                                         //put in extra breaks
                                         string sPrevVerse = "";
+                                        if (bPI)
+                                        {
+                                            //close \pi (blockquote) tag if it was open
+                                            oChap.AddVerse("</blockquote>");
+                                            //and set bPI to false to show it's been closed
+                                            bPI = false;
+                                            //there is no need for a <br> tag because blockquote takes some extra space before and after
+                                        }
                                         if (oChap.Verses.Count > 0)
                                         {
                                             //find the number of the previous verse (if there are verses)
@@ -1354,7 +1362,7 @@ namespace GBC_USFM_Preprocessor
                                             //check if it's a new paragraph
                                             if (bNewParagraph)
                                             {
-                                                s = s.Insert(s.IndexOf(" "), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                                                s = s.Insert(s.IndexOf(" "), " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                                                 bNewParagraph = false;
                                             }
                                             oChap.AddVerse(s);
@@ -1392,7 +1400,6 @@ namespace GBC_USFM_Preprocessor
                                             {
                                                 bNewParagraph = true;
                                                 oChap.AddVerse("<br/>");
-                                                
                                             }
                                             
                                             else

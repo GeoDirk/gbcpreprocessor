@@ -16,3 +16,4 @@ c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFrom
 c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.frmMain.resources
 c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.Properties.Resources.resources
 c:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.csproj.GenerateResource.Cache
+C:\Documents and Settings\Admin\My Documents\GBC_USFM_Preprocessor\GrabBooksFromUSFM\obj\Debug\GBC_USFM_Preprocessor.frmCharReplacer.resources

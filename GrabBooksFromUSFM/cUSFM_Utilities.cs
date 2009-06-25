@@ -232,16 +232,17 @@ namespace GBC_USFM_Preprocessor
                 //there is no space after the verse number which happens when
                 //there are multiline verses and somebody is putting in blank
                 //verse lines
-                if (sVerse.Substring(0, 3) == "\\p " || sVerse.Substring(0, 3) == "\\li" || sVerse.Substring(0, 3) == "\\q1" || sVerse.Substring(0, 3) == "\\q2" || sVerse.Substring(0, 3) == "\\q3")
+                if (sVerse.Substring(0, 3) == "\\pi")
+                {
+                    sVerse = sVerse.Replace("\\pi", "<blockquote> ");
+                }
+                else if (sVerse.Substring(0, 2) == "\\p" || sVerse.Substring(0, 3) == "\\li" || sVerse.Substring(0, 3) == "\\q1" || sVerse.Substring(0, 3) == "\\q2" || sVerse.Substring(0, 3) == "\\q3")
                 {
                     //catch an empty p tag line or li or q tag
                     //because the next line should be indented
                     sVerse = "p";
                 }
-                else if (sVerse.Substring(0, 3) == "\\pi")
-                {
-                    sVerse = sVerse.Replace("\\pi", "<blockquote> ");
-                }
+                
                 else
                 {
                     sVerse = "";
@@ -255,19 +256,19 @@ namespace GBC_USFM_Preprocessor
             else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart) == "\\q1" || sVerse.Substring(0, iStart) == "\\li1")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
             }
             //if it's a list or a quote of the second level add second level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q2" || sVerse.Substring(0, iStart) == "\\li2")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
             }
             //if it's a quote of the third level - add third level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q3")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
             }
             //if it only has a footnote or a selah then do nothing
             else if (sVerse.Substring(0, iStart) == "\\f" || sVerse.Substring(0, iStart) == "\\qs" || sVerse.Substring(0, iStart) == "\\pi")
