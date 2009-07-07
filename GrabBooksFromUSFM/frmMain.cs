@@ -1119,7 +1119,7 @@ namespace GBC_USFM_Preprocessor
 
 #if DEBUG 
 
-                if (sFileOutName == "c:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\15EZRCARS2.htm")
+                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\45ACTCARS2.htm")
                 
                 {
                     //do something
@@ -1140,6 +1140,7 @@ namespace GBC_USFM_Preprocessor
                         {
                             sBookName = line;
                             sBookName = sBookName.Substring(sBookName.IndexOf(" ")).Trim();
+                            break;
                         }
                     }
                 }
@@ -1224,14 +1225,31 @@ namespace GBC_USFM_Preprocessor
                                         {
                                             //make table of contents for chapter 0 of each book
                                             int iIndentPrev = 0;
+                                            int iCountFirstLvl = 0;
                                             while (matchResults.Success)
                                             {
                                                 //check this line versus previous
                                                 int iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
                                                 //if it's a deeper level slap <ol> at the end of the previous verse
+                                                string sOL_Type = "type=\"I\"";
+                                                
+                                                if (iIndent == 2)
+                                                {
+                                                    sOL_Type = "type=\"1\"";
+                                                }
+                                                else if (iIndent == 3)
+                                                {
+                                                    sOL_Type = "type=\"i\"";
+                                                }
+                                                else
+                                                {
+                                                    iCountFirstLvl = iCountFirstLvl+1;
+                                                    sOL_Type = "value=\"" + iCountFirstLvl + "\" type=\"I\"";
+                                                    
+                                                }
                                                 if (iIndent > iIndentPrev)
                                                 {
-                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol>";
+                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol " + sOL_Type + ">";
                                                 }
                                                 //if it's previous level slap "</ol>" at the end of the previous verse
                                                 else if (iIndent < iIndentPrev)
@@ -1254,9 +1272,14 @@ namespace GBC_USFM_Preprocessor
                                                 else
                                                 {
                                                     //if deeper than 1 then close ol tag
-                                                    if (iIndent > iIndentPrev)
+                                                    if (iIndentPrev - iIndent > 2)
                                                     {
                                                         oChap.AddVerse("</ol>");
+                                                        oChap.AddVerse("</ol>");
+                                                    }
+                                                    else
+                                                    {
+                                                        oChap.AddVerse("</ol>");     
                                                     }
                                                     //insert actual line surrounded by breaks
                                                     oChap.AddVerse("<br/>");
@@ -1305,8 +1328,8 @@ namespace GBC_USFM_Preprocessor
                             //grab all the \ip lines of text
                             try
                             {
-                                bool bNewParagraph = false;
-                                bool bPI = false;
+                                bool bNewParagraph = false;//if new paragraph must be started
+                                bool bPI = false;//if blockquote is open
                                 //todo add in the \s tag processing
                                 Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
                                 Match matchResults = regexObj.Match(sSection);
@@ -1378,10 +1401,12 @@ namespace GBC_USFM_Preprocessor
                                             //check if it's a new paragraph
                                             if (bNewParagraph)
                                             {
-                                                s = s.Insert(s.IndexOf(" "), " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                                                s = s.Insert(s.IndexOf(" ")+1, "&nbsp;&nbsp;&nbsp;");
                                                 bNewParagraph = false;
                                             }
+                                            
                                             oChap.AddVerse(s);
+                                            
                                         }
                                         
                                     }
@@ -1402,6 +1427,7 @@ namespace GBC_USFM_Preprocessor
                                         //add a blockquote line
                                         //oChap.AddVerse("<blockquote>");
                                         //add actual text
+                                        s = s.Insert(s.IndexOf(" ") + 1, "&nbsp;&nbsp;&nbsp;");
                                         oChap.AddVerse(s);
                                     }
                                     else
@@ -1416,6 +1442,7 @@ namespace GBC_USFM_Preprocessor
                                             {
                                                 bNewParagraph = true;
                                                 oChap.AddVerse("<br/>");
+                                                
                                             }
                                             
                                             else
@@ -1478,7 +1505,8 @@ namespace GBC_USFM_Preprocessor
                 //create a new ini entry
                 cBQ_IniStructure oIni = new cBQ_IniStructure();
                 oIni.PathName = fi.Name.Substring(0,fi.Name.LastIndexOf(".")) + ".htm";
-                oIni.FullName = sBookName;
+                oIni.FullName = sBookName;  //the book name with all the unicode characters
+                oIni.HTMLName = oBook.sBookName;  //the book name with HTML characters
                 oIni.ChapterQty = oBook.GetNumberOfChapters;
 
                 //add into the ini collection
@@ -1524,7 +1552,7 @@ namespace GBC_USFM_Preprocessor
             {
                 //catch an \ip tag in the middle of \io[n] tags
                 //keeps level the same as previous one
-                level = iPrev;
+                level = 0;
             }
             
 
@@ -1607,6 +1635,7 @@ namespace GBC_USFM_Preprocessor
             {
                 sb.AppendLine("PathName = " + oIni.PathName);
                 sb.AppendLine("FullName = " + oIni.FullName);
+                sb.AppendLine("HTMLName = " + oIni.HTMLName);
                 sb.AppendLine("ShortName = " + oIni.ShortName);
                 sb.AppendLine("ChapterQty = " + oIni.ChapterQty.ToString());
                 sb.AppendLine("");
@@ -1701,7 +1730,7 @@ namespace GBC_USFM_Preprocessor
                                 {
                                     //will error out if missing any verse text, if there is just a tag without text following it
                                     string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
-                                    sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length));
+                                    sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length).TrimStart());
                                     iCount = 0;
                                 }
                                 catch (Exception ex)
@@ -1791,7 +1820,7 @@ namespace GBC_USFM_Preprocessor
         {
             try
             {
-                sVerse = Regex.Replace(sVerse, @"\\ip ", "", RegexOptions.None);
+                sVerse = Regex.Replace(sVerse, @"\\ip ", "&nbsp;&nbsp;&nbsp;", RegexOptions.None);
             }
             catch (ArgumentException ex)
             {
@@ -2015,6 +2044,8 @@ namespace GBC_USFM_Preprocessor
                 f.Show();
             }
         }
+
+
 
 
     }

@@ -4,17 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBC_USFM_Preprocessor", "GrabBooksFromUSFM\GBC_USFM_Preprocessor.csproj", "{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}"
 EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 2
-		SccProjectName0 = ***Default\u0020QVCS\u0020Project***
-		SccLocalPath0 = .
-		SccProvider0 = MSSCCI:Quma\u0020Version\u0020Control\u0020System
-		CanCheckoutShared = true
-		SccProjectUniqueName1 = GrabBooksFromUSFM\\GBC_USFM_Preprocessor.csproj
-		SccLocalPath1 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection1 = GrabBooksFromUSFM\\
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

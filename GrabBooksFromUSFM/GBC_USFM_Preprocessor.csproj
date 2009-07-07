@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -12,11 +12,14 @@
     <AssemblyName>GBC_USFM_Preprocessor</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>%2a%2a%2aDefault QVCS Project%2a%2a%2a</SccProjectName>
-    <SccLocalPath>..</SccLocalPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
     <SccAuxPath>
     </SccAuxPath>
-    <SccProvider>MSSCCI:Quma Version Control System</SccProvider>
+    <SccProvider>
+    </SccProvider>
     <ApplicationIcon>icon_64.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,6 +51,7 @@
     <Compile Include="cBQ_Book.cs" />
     <Compile Include="cCharReplacements.cs" />
     <Compile Include="cConvertCodePages.cs" />
+    <Compile Include="cIntroListLvl.cs" />
     <Compile Include="cLongWords.cs" />
     <Compile Include="cRegistry.cs" />
     <Compile Include="cTagCount.cs" />

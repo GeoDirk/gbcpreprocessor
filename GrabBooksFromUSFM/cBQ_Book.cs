@@ -133,6 +133,13 @@ namespace GBC_USFM_Preprocessor
     {
         private string _PathName = "";
         private string _FullName = "";
+        private string _HTMLName = "";
+
+        public string HTMLName
+        {
+            get { return _HTMLName; }
+            set { _HTMLName = value; }
+        }
         private string _ShortName = "";
         private int _ChapterQty = 0;
 

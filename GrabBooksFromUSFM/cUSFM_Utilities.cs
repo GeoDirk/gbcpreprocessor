@@ -22,6 +22,7 @@ namespace GBC_USFM_Preprocessor
     /// </summary>
     public class cUSFM_Utilities
     {
+        
 
         /*
          * Check to see if the line starts with certain
@@ -256,19 +257,19 @@ namespace GBC_USFM_Preprocessor
             else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart) == "\\q1" || sVerse.Substring(0, iStart) == "\\li1")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = " &nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
             }
             //if it's a list or a quote of the second level add second level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q2" || sVerse.Substring(0, iStart) == "\\li2")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
             }
             //if it's a quote of the third level - add third level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q3")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
             }
             //if it only has a footnote or a selah then do nothing
             else if (sVerse.Substring(0, iStart) == "\\f" || sVerse.Substring(0, iStart) == "\\qs" || sVerse.Substring(0, iStart) == "\\pi")
@@ -298,13 +299,13 @@ namespace GBC_USFM_Preprocessor
             sTmp = sTmp.Replace("\\fv ", "<sup>");
             sTmp = sTmp.Replace("\\ft ", "");
             sTmp = sTmp.Replace("\\bdit*", "</i></b>");
-            sTmp = sTmp.Replace("\\bdit", "<b><i>(");
+            sTmp = sTmp.Replace("\\bdit", "<b><i>");
             //deal with transliterations
             sTmp = sTmp.Replace("\\tl*", "</i>");
             sTmp = sTmp.Replace("\\tl ", "<i>");
             //deal with Selah's that are located only in Psalms
             sTmp = sTmp.Replace("\\qs*", "</i>");
-            sTmp = sTmp.Replace("\\qs", "&nbsp;&nbsp;&nbsp;&nbsp;<i>");
+            sTmp = sTmp.Replace("\\qs", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>");
             sTmp = sTmp.Replace("\\pi ", "<blockquote> ");
             
             return sTmp;
