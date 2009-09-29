@@ -171,6 +171,10 @@ namespace GBC_USFM_Preprocessor
             {
                 txtDir.Text = folderBrowserDialog1.SelectedPath;
             }
+            else
+            {
+                return;
+            }
 
             //get the list of file extensions from that directory
             ArrayList sExt = cUtils.GetFileExtensionList(folderBrowserDialog1.SelectedPath);
@@ -393,6 +397,7 @@ namespace GBC_USFM_Preprocessor
             this.Cursor = Cursors.WaitCursor;
             gridExtraTags.Columns.Clear();
             oTags.Clear();
+            txtDisplayTag.Text = "";
 
             //get all the standard USFM tags that we don't process
             ArrayList sNormalTags = GetNormalTags();
@@ -536,7 +541,7 @@ namespace GBC_USFM_Preprocessor
                 {
                     sTmp += "\n" + sBadFileNames[i].ToString();
                 }
-                MessageBox.Show("Problems with the following files: \n" + sTmp + "\n\nThe file(s) do not appear to be valid USFM bible files. \n Rename their extension to something else");                
+                MessageBox.Show("Problems with the following files: \n" + sTmp + "\n\nCould not find '\\c 1' tag.  The file(s) do not appear to be valid USFM bible files. \nRename their extension to something else or correct the files.");                
             }
             else
             {
@@ -606,7 +611,7 @@ namespace GBC_USFM_Preprocessor
                 "\\pmo","\\pmr","\\pn","\\pr","\\pro","\\q","\\qa","\\qac","\\qc",
                 "\\qm","\\qr","\\qs","\\qt","\\r","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
                 "\\va","\\vp","\\w","\\wg","\\wh","\\wj","\\x","\\xdc","\\xk",
-                "\\xo","\\xq","\\xt"
+                "\\xo","\\xq","\\xt","\\xot","\\xnt","\\iqt","\\d","\\mr","\\sr","\\sp","\\r","\\k","\\rq"
             };
             ArrayList s = new ArrayList();
             for (int i = 0; i < sMarker.Length; i++)
@@ -1938,7 +1943,7 @@ namespace GBC_USFM_Preprocessor
                 if (!bProblem)
                 {
                     //bust the book up into chapters
-                    string[] sSplitChar = new string[]{"\\c"};
+                    string[] sSplitChar = new string[]{"\\c "};
                     string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
 
                     //iterate through each chapter
@@ -1949,7 +1954,7 @@ namespace GBC_USFM_Preprocessor
                         
                         //rip out the verse numbers
                         ArrayList alVerses = new ArrayList();
-                        for (int j = 0; j < sVerses.Length; j++)
+                        for (int j = 1; j < sVerses.Length; j++)  //start at verse 1
                         {
                             sVerses[j] = RipOutVerseNumber(sVerses[j]);
                             //remove blank verses
@@ -1960,17 +1965,50 @@ namespace GBC_USFM_Preprocessor
                         }
 
                         //look for gaps
+                        bool bInProblem = false;
                         int iPrevVerse = 1;
                         for (int j = 0; j < alVerses.Count; j++)
                         {
+                            bool bAdded = false;
                             if (Convert.ToString(iPrevVerse) != alVerses[j].ToString())
                             {
-                                //found versification problem here
-                                //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
-                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString());
+                                if (!bInProblem)
+                                {
+                                    //found versification problem here
+                                    //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
+                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "");
+                                    oVersificationList.Add(oV);
+                                    bAdded = true;
+                                    bInProblem = true;
+                                }
+                            }
+                            if (cUtils.IsNumeric(alVerses[j].ToString()))
+                            {
+                                try
+                                {
+                                    iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
+                                    bInProblem = false;
+                                }
+                                catch (Exception)
+                                {
+                                    //check to see if the verse has been added or not
+                                    //if so, delete it so we can add in more detail
+                                    if (bAdded)
+                                    {
+                                        oVersificationList.RemoveAt(oVersificationList.Count - 1);
+                                    }
+                                    //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
+                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
+                                    oVersificationList.Add(oV);
+                                }
+                            }
+                            else
+                            {
+                                //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
+                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
                                 oVersificationList.Add(oV);
                             }
-                            iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
+                            bAdded = false;
                         }
                     }
 
@@ -1988,7 +2026,7 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("Filename\tChapter\tVerse");
             foreach (cVersification lw in oVersificationList)
             {
-                sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum);
+                sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum + "\t" + lw.sMessage);
             }
 
             //dump to the clipboard
@@ -2012,11 +2050,11 @@ namespace GBC_USFM_Preprocessor
             p = p.TrimStart();
 
             //look for a normal number followed by a space then the verse text
-            if (p.IndexOf(" " ) == -1)
+            if (p.IndexOf(' ') == -1)
             {
                 return "";
             }
-            string sTmp = p.Substring(0, p.IndexOf(" "));
+            string sTmp = p.Substring(0, p.IndexOf(' '));
             double result;
             if (double.TryParse(sTmp, out result))
             {

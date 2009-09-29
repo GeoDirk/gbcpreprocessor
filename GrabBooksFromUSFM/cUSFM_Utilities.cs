@@ -34,7 +34,8 @@ namespace GBC_USFM_Preprocessor
         public static bool CheckIfWeKeepLine(string sTmp)
         {	
             bool bKeep = true;
-            string[] sMarker = { "\\cl", "\\cp", "\\cd", "\\qa", "\\s", "\\ms", "\\mte", "\\mt", "\\mr", "\\sr", "\\sp"};
+            string[] sMarker = { "\\cl", "\\cp", "\\cd", "\\qa", "\\sr", "\\ms", 
+                "\\mte", "\\mt", "\\mr ", "\\sr ", "\\s", "\\r ", "\\d ", "\\sp" };
             //loop through the markers removing them all from the text
             for (int i = 0; i < sMarker.Length; i++)
             {
@@ -117,6 +118,10 @@ namespace GBC_USFM_Preprocessor
                 //sTmp = sTmp.replaceAll("\\" + sTagNum2[i] + " ", "");
                 //replace tag without trailing number
                 //sTmp = sTmp.replaceAll("\\" + sTagNum2[i], "");
+
+                //replace the ones that don't end in a number
+                sTmp = sTmp.Replace("\\" + sTagNum2[i], "");
+            
             }
             
             return sTmp;
@@ -133,7 +138,7 @@ namespace GBC_USFM_Preprocessor
             //the list of markers that this applies to
             string [] sMarker = {"\\qs", "\\qac", "\\add", "\\dc", 
             "\\nd", "\\ord", "\\pn", "\\qt", "\\sig", "\\sls", 
-            "\\tl", "\\em", "\\bd", "\\it", "\\bdit", "\\no", "\\sc"};
+            "\\tl", "\\em", "\\bd", "\\it", "\\bdit", "\\no", "\\sc", "\\k"};
             //loop through the markers removing them all from the text
             for (int i = 0; i < sMarker.Length; i++)
             {
@@ -180,45 +185,45 @@ namespace GBC_USFM_Preprocessor
         //the list of markers that this applies to
         //note that order is important here so that \fm is processed
         //before \f
-        string [] sMarker = {"\\ca", "\\va", "\\vp", "\\fe", "\\bk", 
-        "\\xdc", "\\fdc", "\\fm", "\\fig", "\\ndx", "\\pro", 
-        "\\wg", "\\wh", "\\w", "\\x" };
-        //loop through the markers removing them all from the text
-        for (int i = 0; i < sMarker.Length; i++)
-        {
-            //find if the start tag is found
-            while (sTmp.IndexOf(sMarker[i]) != -1) 
+            string[] sMarker = {"\\ca", "\\va", "\\vp", "\\fe", "\\bk", 
+            "\\xdc", "\\fdc", "\\fm", "\\fig", "\\ndx", "\\pro", 
+            "\\wg", "\\wh", "\\f", "\\w", "\\x", "\\rq", "\\xot", "\\xnt", "\\iqt"};
+            //loop through the markers removing them all from the text
+            for (int i = 0; i < sMarker.Length; i++)
             {
-                int iStart = sTmp.IndexOf(sMarker[i]);
-                int iEnd = sTmp.IndexOf(sMarker[i] + "*");
-                if (iStart != -1 && iEnd != -1)
+                //find if the start tag is found
+                while (sTmp.IndexOf(sMarker[i]) != -1) 
                 {
-                    //replace the marker tag with an empty string
-                    String sFirstPart = sTmp.Substring(0, iStart);
-                    String sSecondPart = sTmp.Substring(iEnd + sMarker[i].Length + 1);
-                    //insert a space if needed here
-//                    if(sFirstPart.endsWith(" ") || sSecondPart.startsWith(" "))
-//                    {
-//                        //blank exists between parts
-//                        sTmp = sFirstPart + sSecondPart;
-//                    }
-//                    else
-//                    {
-//                        //slap a blank between the parts
-//                        sTmp = sFirstPart + " " + sSecondPart;
-//                    }
-                    sTmp = sFirstPart + sSecondPart;
-                }
-                else
-                {
-                    //keep this from going into an endless loop
-                    //if the end tag is missing
-                    break;
+                    int iStart = sTmp.IndexOf(sMarker[i]);
+                    int iEnd = sTmp.IndexOf(sMarker[i] + "*");
+                    if (iStart != -1 && iEnd != -1)
+                    {
+                        //replace the marker tag with an empty string
+                        String sFirstPart = sTmp.Substring(0, iStart);
+                        String sSecondPart = sTmp.Substring(iEnd + sMarker[i].Length + 1);
+                        //insert a space if needed here
+    //                    if(sFirstPart.endsWith(" ") || sSecondPart.startsWith(" "))
+    //                    {
+    //                        //blank exists between parts
+    //                        sTmp = sFirstPart + sSecondPart;
+    //                    }
+    //                    else
+    //                    {
+    //                        //slap a blank between the parts
+    //                        sTmp = sFirstPart + " " + sSecondPart;
+    //                    }
+                        sTmp = sFirstPart + sSecondPart;
+                    }
+                    else
+                    {
+                        //keep this from going into an endless loop
+                        //if the end tag is missing
+                        break;
+                    }
                 }
             }
-        }
 
-        return sTmp;
+            return sTmp;
         }
 
         /*
