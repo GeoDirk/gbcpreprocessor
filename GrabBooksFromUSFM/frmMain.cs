@@ -30,7 +30,11 @@ namespace GBC_USFM_Preprocessor
         string _sDigiStudyPath = "";
         frmCharReplacer _fChar = null;
         DataTable _charHTMLdatatable = null;
-
+        private enum ExtensionType
+        {
+            DirBrowser = 0,
+            EnterButton = 1
+        }
         
         /// <summary>
         /// Used to set the reference back to the char form
@@ -176,8 +180,22 @@ namespace GBC_USFM_Preprocessor
                 return;
             }
 
+            PopulateExtensionList(ExtensionType.DirBrowser);
+        }
+
+        private void PopulateExtensionList(ExtensionType e)
+        {
             //get the list of file extensions from that directory
-            ArrayList sExt = cUtils.GetFileExtensionList(folderBrowserDialog1.SelectedPath);
+            string sPath = "";
+            if (e == ExtensionType.DirBrowser)
+            {
+                sPath = folderBrowserDialog1.SelectedPath;
+            }
+            else
+            {
+                sPath = txtDir.Text;
+            }
+            ArrayList sExt = cUtils.GetFileExtensionList(sPath);
             cboExt.Items.Clear();
             for (int i = 0; i < sExt.Count; i++)
             {
@@ -185,9 +203,9 @@ namespace GBC_USFM_Preprocessor
                 cboExt.Items.Add(sExt2.Substring(1));
             }
             if (cboExt.Items.Count > 0)
-	        {
-                cboExt.Text = cboExt.Items[0].ToString();        		 
-	        }
+            {
+                cboExt.Text = cboExt.Items[0].ToString();
+            }
         }
 
 
@@ -2080,6 +2098,16 @@ namespace GBC_USFM_Preprocessor
             {
                 frmCharReplacer f = new frmCharReplacer(this);
                 f.Show();
+            }
+        }
+
+        private void txtDir_KeyDown(object sender, KeyEventArgs e)
+        {
+            //look for enter key (13)
+            if (e.KeyValue == 13)
+            {
+                //trigger file extension refresh
+                PopulateExtensionList(ExtensionType.EnterButton);
             }
         }
 

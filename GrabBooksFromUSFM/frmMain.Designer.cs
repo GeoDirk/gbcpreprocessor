@@ -1071,6 +1071,7 @@
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(643, 20);
             this.txtDir.TabIndex = 2;
+            this.txtDir.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDir_KeyDown);
             // 
             // label1
             // 
