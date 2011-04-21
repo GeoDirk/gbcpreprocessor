@@ -29,11 +29,10 @@ namespace GBC_USFM_Preprocessor
         public static ArrayList GetFileExtensionList(string sDir)
         {
             ArrayList sList = new ArrayList();
-            //check to see if the directory exists
-            if (!System.IO.Directory.Exists(sDir))
-	        {
+            if (sDir == "")
+            {
                 return sList;
-	        }      
+            }
 
             string[] filePaths = System.IO.Directory.GetFiles(sDir, "*.*");
             foreach (string item in filePaths)
@@ -61,24 +60,6 @@ namespace GBC_USFM_Preprocessor
             }
             return sList;
         }
-
-        internal static bool IsNumeric(object ObjectToTest)
-        {
-            if (ObjectToTest == null)
-            {
-                return false;
-            }
-            else
-            {
-                double OutValue;
-                return double.TryParse(ObjectToTest.ToString().Trim(),
-                    System.Globalization.NumberStyles.Any,
-                    System.Globalization.CultureInfo.CurrentCulture,
-                    out OutValue);
-            }
-        }
-
-
 
     }
 }

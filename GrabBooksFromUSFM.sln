@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBC_USFM_Preprocessor", "GrabBooksFromUSFM\GBC_USFM_Preprocessor.csproj", "{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}"
 EndProject
 Global

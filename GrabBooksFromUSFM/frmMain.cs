@@ -30,10 +30,12 @@ namespace GBC_USFM_Preprocessor
         string _sDigiStudyPath = "";
         frmCharReplacer _fChar = null;
         DataTable _charHTMLdatatable = null;
-        private enum ExtensionType
+        bool _bDDtag = false;
+
+        public bool bDDtag
         {
-            DirBrowser = 0,
-            EnterButton = 1
+            get { return _bDDtag; }
+            set { _bDDtag = value; }
         }
         
         /// <summary>
@@ -175,27 +177,9 @@ namespace GBC_USFM_Preprocessor
             {
                 txtDir.Text = folderBrowserDialog1.SelectedPath;
             }
-            else
-            {
-                return;
-            }
 
-            PopulateExtensionList(ExtensionType.DirBrowser);
-        }
-
-        private void PopulateExtensionList(ExtensionType e)
-        {
             //get the list of file extensions from that directory
-            string sPath = "";
-            if (e == ExtensionType.DirBrowser)
-            {
-                sPath = folderBrowserDialog1.SelectedPath;
-            }
-            else
-            {
-                sPath = txtDir.Text;
-            }
-            ArrayList sExt = cUtils.GetFileExtensionList(sPath);
+            ArrayList sExt = cUtils.GetFileExtensionList(folderBrowserDialog1.SelectedPath);
             cboExt.Items.Clear();
             for (int i = 0; i < sExt.Count; i++)
             {
@@ -203,9 +187,9 @@ namespace GBC_USFM_Preprocessor
                 cboExt.Items.Add(sExt2.Substring(1));
             }
             if (cboExt.Items.Count > 0)
-            {
-                cboExt.Text = cboExt.Items[0].ToString();
-            }
+	        {
+                cboExt.Text = cboExt.Items[0].ToString();        		 
+	        }
         }
 
 
@@ -351,7 +335,25 @@ namespace GBC_USFM_Preprocessor
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cmdConvertToUTF_Click(object sender, EventArgs e)
+        private void cmdConvertToUTF_WithoutBOM_Click(object sender, EventArgs e)
+        {
+            if (txtDir.Text != "")
+            {
+                folderBrowserDialog1.SelectedPath = txtDir.Text;
+            }
+
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (System.IO.Directory.Exists(folderBrowserDialog1.SelectedPath))
+                {
+                    ConvertFileToUTF(ckAddBOM.Checked, folderBrowserDialog1.SelectedPath);
+                }
+
+            }
+            
+        }
+
+        private void ConvertFileToUTF(bool bBOM, string sOutputFolder)
         {
             //make sure that the file extensions are not the same
             if (txtOutFileExtension.Text == cboExt.Text)
@@ -359,7 +361,7 @@ namespace GBC_USFM_Preprocessor
                 MessageBox.Show("Specify a different file extension");
                 return;
             }
-            
+
             this.Cursor = Cursors.WaitCursor;
 
             //get the file encoding to convert to
@@ -383,10 +385,10 @@ namespace GBC_USFM_Preprocessor
                 //the output file differently
                 FileInfo fi = new FileInfo(item);
                 string sExt = fi.Extension;
-                string sFileOut = fi.DirectoryName + @"\" + fi.Name.Substring(0,fi.Name.Length - fi.Extension.Length) + "." + txtOutFileExtension.Text;
+                string sFileOut = sOutputFolder + @"\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + "." + txtOutFileExtension.Text;
 
                 //convert from ANSI to UTF8 format
-                cConvertCodePages.ConvertFileToUTF8File(item, sFileOut, encoding);
+                cConvertCodePages.ConvertFileToUTF8File(item, sFileOut, encoding, bBOM);
             }
             this.Cursor = Cursors.Default;
 
@@ -415,7 +417,6 @@ namespace GBC_USFM_Preprocessor
             this.Cursor = Cursors.WaitCursor;
             gridExtraTags.Columns.Clear();
             oTags.Clear();
-            txtDisplayTag.Text = "";
 
             //get all the standard USFM tags that we don't process
             ArrayList sNormalTags = GetNormalTags();
@@ -559,7 +560,7 @@ namespace GBC_USFM_Preprocessor
                 {
                     sTmp += "\n" + sBadFileNames[i].ToString();
                 }
-                MessageBox.Show("Problems with the following files: \n" + sTmp + "\n\nCould not find '\\c 1' tag.  The file(s) do not appear to be valid USFM bible files. \nRename their extension to something else or correct the files.");                
+                MessageBox.Show("Problems with the following files: \n" + sTmp + "\n\nThe file(s) do not appear to be valid USFM bible files. \n Rename their extension to something else");                
             }
             else
             {
@@ -629,7 +630,7 @@ namespace GBC_USFM_Preprocessor
                 "\\pmo","\\pmr","\\pn","\\pr","\\pro","\\q","\\qa","\\qac","\\qc",
                 "\\qm","\\qr","\\qs","\\qt","\\r","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
                 "\\va","\\vp","\\w","\\wg","\\wh","\\wj","\\x","\\xdc","\\xk",
-                "\\xo","\\xq","\\xt","\\xot","\\xnt","\\iqt","\\d","\\mr","\\sr","\\sp","\\r","\\k","\\rq"
+                "\\xo","\\xq","\\xt"
             };
             ArrayList s = new ArrayList();
             for (int i = 0; i < sMarker.Length; i++)
@@ -1028,7 +1029,7 @@ namespace GBC_USFM_Preprocessor
 
             //parse out data for the clipboard
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Words Greater than " + updownLongWords.Value.ToString() + " characters");
+            sb.AppendLine("Words Greater than or Equal to " + updownLongWords.Value.ToString() + " characters");
             sb.AppendLine("Filename\tWord\tTotal Hits\tWord Length");
             foreach (cLongWords lw in c)
             {
@@ -1142,7 +1143,7 @@ namespace GBC_USFM_Preprocessor
 
 #if DEBUG 
 
-                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\45ACTCARS2.htm")
+                if (sFileOutName == "C:\\Documents and Settings\\Admin\\Desktop\\DigiStudy\\CARSn\\04NUMCARS2.htm")
                 
                 {
                     //do something
@@ -1353,6 +1354,8 @@ namespace GBC_USFM_Preprocessor
                             {
                                 bool bNewParagraph = false;//if new paragraph must be started
                                 bool bPI = false;//if blockquote is open
+                                bool bDTtag = false;//if dt tag was open
+                                
                                 //todo add in the \s tag processing
                                 Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
                                 Match matchResults = regexObj.Match(sSection);
@@ -1386,6 +1389,19 @@ namespace GBC_USFM_Preprocessor
                                         {
                                             oChap.AddVerse("<br/>");
                                             oChap.AddVerse("<br/>");
+                                        }
+                                        //check if dt or dd was open and close it
+                                        if (bDTtag)
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("</dt>");
+                                            bDTtag = false;
+                                        }
+                                        else if (bDDtag)
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("</dd><dt></dt>");
+                                            bDDtag = false;
                                         }
                                         
                                         oChap.AddVerse("! <b>" + sTemp + "</b>");
@@ -1424,6 +1440,11 @@ namespace GBC_USFM_Preprocessor
                                             //check if it's a new paragraph
                                             if (bNewParagraph)
                                             {
+                                                if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
                                                 s = s.Insert(s.IndexOf(" ")+1, "&nbsp;&nbsp;&nbsp;");
                                                 bNewParagraph = false;
                                             }
@@ -1450,7 +1471,6 @@ namespace GBC_USFM_Preprocessor
                                         //add a blockquote line
                                         //oChap.AddVerse("<blockquote>");
                                         //add actual text
-                                        s = s.Insert(s.IndexOf(" ") + 1, "&nbsp;&nbsp;&nbsp;");
                                         oChap.AddVerse(s);
                                     }
                                     else
@@ -1467,9 +1487,51 @@ namespace GBC_USFM_Preprocessor
                                                 oChap.AddVerse("<br/>");
                                                 
                                             }
-                                            
+                                            else if (s == "<dt>")
+                                            {
+                                                if (bDTtag)
+                                                {
+                                                    oChap.AddVerse("</dt>");
+                                                    bDTtag = false;
+                                                }
+                                                else if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
+                                                oChap.AddVerse("<br/>");
+                                                oChap.AddVerse(s);
+                                                bDTtag = true;
+
+                                            }
+                                            else if (s == "<dd>")
+                                            {
+                                                if (bDTtag)
+                                                {
+                                                    oChap.AddVerse("</dt>");
+                                                    bDTtag = false;
+                                                }
+                                                else if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
+                                                oChap.AddVerse("<br/>");
+                                                oChap.AddVerse(s);
+                                                bDDtag = true;
+                                            }
                                             else
                                             {
+                                                if (bDTtag)
+                                                {
+                                                    oChap.AddVerse("</dt>");
+                                                    bDTtag = false;
+                                                }
+                                                else if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
                                                 //mostly non-empty \p tags
                                                 oChap.AddVerse("<br/>");
                                                 oChap.AddVerse(s);  
@@ -1486,6 +1548,10 @@ namespace GBC_USFM_Preprocessor
                                                 //and set bPI to false to show it's been closed
                                                 bPI = false;
                                                 //there is no need for a <br> tag because blockquote takes some extra space before and after
+                                            }
+                                            else if (!bDDtag)
+                                            {
+                                                
                                             }
                                             else
                                             {
@@ -1738,13 +1804,21 @@ namespace GBC_USFM_Preprocessor
                                 }
                                 
                             }
-                            else if (sTmp == "<blockquote>")
+                            //else if (sTmp == "<blockquote>")
+                            //{
+                            //    sb.AppendLine("<blockquote>");
+                            //}
+                            //else if (sTmp == "</blockquote>")
+                            //{
+                            //    sb.AppendLine("</blockquote>");
+                            //}
+                            //else if (sTmp == "<dt>")
+                            //{
+                            //    sb.AppendLine("<dt>");
+                            //}
+                            else if (sTmp.StartsWith("<"))
                             {
-                                sb.AppendLine("<blockquote>");
-                            }
-                            else if (sTmp == "</blockquote>")
-                            {
-                                sb.AppendLine("</blockquote>");
+                                sb.AppendLine(sTmp);
                             }
                             else
                             {
@@ -1829,7 +1903,7 @@ namespace GBC_USFM_Preprocessor
             sVerse = cUSFM_Utilities.RemoveDoubleMarkerTags(sVerse);
             sVerse = cUSFM_Utilities.RemoveDoubleMarkerTagsFull(sVerse);
             sVerse = cUSFM_Utilities.RemoveSingularMarkerTags(sVerse);
-            sVerse = cUSFM_Utilities.RemoveVerseNumbering(sVerse);
+            sVerse = cUSFM_Utilities.RemoveVerseNumbering(sVerse, ref _bDDtag);
             sVerse = cUSFM_Utilities.ProcessOtherTags(sVerse);
             return sVerse;
         }
@@ -1961,7 +2035,7 @@ namespace GBC_USFM_Preprocessor
                 if (!bProblem)
                 {
                     //bust the book up into chapters
-                    string[] sSplitChar = new string[]{"\\c "};
+                    string[] sSplitChar = new string[]{"\\c"};
                     string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
 
                     //iterate through each chapter
@@ -1972,7 +2046,7 @@ namespace GBC_USFM_Preprocessor
                         
                         //rip out the verse numbers
                         ArrayList alVerses = new ArrayList();
-                        for (int j = 1; j < sVerses.Length; j++)  //start at verse 1
+                        for (int j = 0; j < sVerses.Length; j++)
                         {
                             sVerses[j] = RipOutVerseNumber(sVerses[j]);
                             //remove blank verses
@@ -1983,50 +2057,17 @@ namespace GBC_USFM_Preprocessor
                         }
 
                         //look for gaps
-                        bool bInProblem = false;
                         int iPrevVerse = 1;
                         for (int j = 0; j < alVerses.Count; j++)
                         {
-                            bool bAdded = false;
                             if (Convert.ToString(iPrevVerse) != alVerses[j].ToString())
                             {
-                                if (!bInProblem)
-                                {
-                                    //found versification problem here
-                                    //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
-                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "");
-                                    oVersificationList.Add(oV);
-                                    bAdded = true;
-                                    bInProblem = true;
-                                }
-                            }
-                            if (cUtils.IsNumeric(alVerses[j].ToString()))
-                            {
-                                try
-                                {
-                                    iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
-                                    bInProblem = false;
-                                }
-                                catch (Exception)
-                                {
-                                    //check to see if the verse has been added or not
-                                    //if so, delete it so we can add in more detail
-                                    if (bAdded)
-                                    {
-                                        oVersificationList.RemoveAt(oVersificationList.Count - 1);
-                                    }
-                                    //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
-                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
-                                    oVersificationList.Add(oV);
-                                }
-                            }
-                            else
-                            {
-                                //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
-                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
+                                //found versification problem here
+                                //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
+                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString());
                                 oVersificationList.Add(oV);
                             }
-                            bAdded = false;
+                            iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
                         }
                     }
 
@@ -2044,7 +2085,7 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("Filename\tChapter\tVerse");
             foreach (cVersification lw in oVersificationList)
             {
-                sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum + "\t" + lw.sMessage);
+                sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum);
             }
 
             //dump to the clipboard
@@ -2068,11 +2109,11 @@ namespace GBC_USFM_Preprocessor
             p = p.TrimStart();
 
             //look for a normal number followed by a space then the verse text
-            if (p.IndexOf(' ') == -1)
+            if (p.IndexOf(" " ) == -1)
             {
                 return "";
             }
-            string sTmp = p.Substring(0, p.IndexOf(' '));
+            string sTmp = p.Substring(0, p.IndexOf(" "));
             double result;
             if (double.TryParse(sTmp, out result))
             {
@@ -2100,18 +2141,6 @@ namespace GBC_USFM_Preprocessor
                 f.Show();
             }
         }
-
-        private void txtDir_KeyDown(object sender, KeyEventArgs e)
-        {
-            //look for enter key (13)
-            if (e.KeyValue == 13)
-            {
-                //trigger file extension refresh
-                PopulateExtensionList(ExtensionType.EnterButton);
-            }
-        }
-
-
 
 
     }

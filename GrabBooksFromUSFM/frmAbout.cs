@@ -29,12 +29,12 @@ namespace GBC_USFM_Preprocessor
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("IExplore", "http://gbcpreprocessor.codeplex.com");
+            System.Diagnostics.Process.Start("http://gbcpreprocessor.codeplex.com");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("IExplore", "http://www.crosswire.org");
+            System.Diagnostics.Process.Start("http://www.crosswire.org/gobible");
         }
 
         private void frmAbout_Load(object sender, EventArgs e)
@@ -59,12 +59,12 @@ namespace GBC_USFM_Preprocessor
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            System.Diagnostics.Process.Start("IExplore", "http://www.maflt.org");
+            System.Diagnostics.Process.Start("http://www.maflt.org");
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("IExplore", "http://www.apache.org/licenses/LICENSE-2.0");
+            System.Diagnostics.Process.Start("http://www.apache.org/licenses/LICENSE-2.0");
         }
 
         private void cmdClose_Click(object sender, EventArgs e)

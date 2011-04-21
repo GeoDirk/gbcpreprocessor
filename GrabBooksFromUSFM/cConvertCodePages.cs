@@ -298,7 +298,7 @@ namespace GBC_USFM_Preprocessor
         /// </summary>
         /// <param name="sFileIn">Input file to parse</param>
         /// <param name="encoding">Encoding parameter for the input file</param>
-        public static void ConvertFileToUTF8File(string sFileIn, string sFileOut, Encoding encoding)
+        public static void ConvertFileToUTF8File(string sFileIn, string sFileOut, Encoding encoding, bool bBOM)
         {
             // Specify the code page to correctly interpret byte values
             byte[] codePageValues = System.IO.File.ReadAllBytes(sFileIn);
@@ -306,8 +306,21 @@ namespace GBC_USFM_Preprocessor
             // Same content is now encoded as UTF-16
             string unicodeValues = encoding.GetString(codePageValues);
 
-            // Same content is stored as UTF-8
-            File.WriteAllText(sFileOut, unicodeValues, Encoding.UTF8);
+            if (bBOM)
+            {
+                // Same content is stored as UTF-8
+                File.WriteAllText(sFileOut, unicodeValues, Encoding.UTF8);
+            }
+            else
+            {
+                // Save file as UTF-8 without BOM
+                Encoding utf8WithoutBom = new UTF8Encoding(false);  //false indicates no BOM
+                TextWriter tw = new StreamWriter(sFileOut, false, utf8WithoutBom);
+                tw.Write(unicodeValues);
+                tw.Close();
+            }
+
+
         }
 
     }

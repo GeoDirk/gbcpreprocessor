@@ -12,7 +12,6 @@ namespace GBC_USFM_Preprocessor
         private string _sFileName = "";
         private string _sChapNum = "";
         private string _sVerseNum = "";
-        private string _sMessage = "";
 
         /// <summary>
         /// Class initialization
@@ -20,12 +19,11 @@ namespace GBC_USFM_Preprocessor
         /// <param name="FileName">Filename</param>
         /// <param name="ChapNum">chapter number</param>
         /// <param name="VerseNum">verse number</param>
-        public cVersification(string FileName, string ChapNum, string VerseNum, string Message)
+        public cVersification(string FileName, string ChapNum, string VerseNum)
         {
             _sFileName = FileName;
             _sChapNum = ChapNum;
             _sVerseNum = VerseNum;
-            _sMessage = Message;
         }
 
         /// <summary>
@@ -55,14 +53,6 @@ namespace GBC_USFM_Preprocessor
             set { _sVerseNum = value; }
         }
 
-        /// <summary>
-        /// message to send out
-        /// </summary>
-        public string sMessage
-        {
-            get { return _sMessage; }
-            set { _sMessage = value; }
-        }
 
     }
 }
