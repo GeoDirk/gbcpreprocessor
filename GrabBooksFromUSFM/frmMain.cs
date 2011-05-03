@@ -2035,7 +2035,7 @@ namespace GBC_USFM_Preprocessor
                 if (!bProblem)
                 {
                     //bust the book up into chapters
-                    string[] sSplitChar = new string[]{"\\c"};
+                    string[] sSplitChar = new string[] { "\\c " };
                     string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
 
                     //iterate through each chapter
@@ -2043,10 +2043,10 @@ namespace GBC_USFM_Preprocessor
                     {
                         string[] sSplitVerse = new string[] { "\\v" };
                         string[] sVerses = sChapters[i].Split(sSplitVerse, StringSplitOptions.RemoveEmptyEntries);
-                        
+
                         //rip out the verse numbers
                         ArrayList alVerses = new ArrayList();
-                        for (int j = 0; j < sVerses.Length; j++)
+                        for (int j = 1; j < sVerses.Length; j++)  //start at verse 1
                         {
                             sVerses[j] = RipOutVerseNumber(sVerses[j]);
                             //remove blank verses
@@ -2057,17 +2057,50 @@ namespace GBC_USFM_Preprocessor
                         }
 
                         //look for gaps
+                        bool bInProblem = false;
                         int iPrevVerse = 1;
                         for (int j = 0; j < alVerses.Count; j++)
                         {
+                            bool bAdded = false;
                             if (Convert.ToString(iPrevVerse) != alVerses[j].ToString())
                             {
-                                //found versification problem here
-                                //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
-                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString());
+                                if (!bInProblem)
+                                {
+                                    //found versification problem here
+                                    //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
+                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "");
+                                    oVersificationList.Add(oV);
+                                    bAdded = true;
+                                    bInProblem = true;
+                                }
+                            }
+                            if (cUtils.IsNumeric(alVerses[j].ToString()))
+                            {
+                                try
+                                {
+                                    iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
+                                    bInProblem = false;
+                                }
+                                catch (Exception)
+                                {
+                                    //check to see if the verse has been added or not
+                                    //if so, delete it so we can add in more detail
+                                    if (bAdded)
+                                    {
+                                        oVersificationList.RemoveAt(oVersificationList.Count - 1);
+                                    }
+                                    //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
+                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
+                                    oVersificationList.Add(oV);
+                                }
+                            }
+                            else
+                            {
+                                //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
+                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
                                 oVersificationList.Add(oV);
                             }
-                            iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
+                            bAdded = false;
                         }
                     }
 
@@ -2085,7 +2118,7 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("Filename\tChapter\tVerse");
             foreach (cVersification lw in oVersificationList)
             {
-                sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum);
+                sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum + "\t" + lw.sMessage);
             }
 
             //dump to the clipboard
@@ -2102,6 +2135,114 @@ namespace GBC_USFM_Preprocessor
             }
 
         }
+
+
+        //private void cmdVersificationFind_Click(object sender, EventArgs e)
+        //{
+        //    this.Cursor = Cursors.WaitCursor;
+        //    bool bProblem = false;
+        //    List<cVersification> oVersificationList = new List<cVersification>();
+
+        //    //get all the USFM files to process
+        //    string[] filePaths = System.IO.Directory.GetFiles(txtDir.Text, "*." + cboExt.Text);
+
+        //    //iterate through each file
+        //    foreach (string item in filePaths)
+        //    {
+        //        bProblem = false;
+        //        //open each book up and get the bookname (ie. Genesis)
+        //        FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
+        //        FileInfo fi = new FileInfo(file.Name);
+        //        string sFilename = fi.Name;
+
+        //        //Set Codepage
+        //        StreamReader sr = new StreamReader(file, Encoding.UTF8, false);
+
+        //        // Create a new stream to read from a file
+        //        // Read contents of file into a string
+        //        string line = "";
+        //        try
+        //        {
+        //            //read in the entire file
+        //            line = sr.ReadToEnd();
+        //            //split the text at the chapter tag as we don't need the header information
+        //            line = line.Substring(line.IndexOf("\\c "));
+        //        }
+        //        catch (Exception)
+        //        {
+        //            bProblem = true;
+        //        }
+
+        //        if (!bProblem)
+        //        {
+        //            //bust the book up into chapters
+        //            string[] sSplitChar = new string[]{"\\c"};
+        //            string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
+
+        //            //iterate through each chapter
+        //            for (int i = 0; i < sChapters.Length; i++)
+        //            {
+        //                string[] sSplitVerse = new string[] { "\\v" };
+        //                string[] sVerses = sChapters[i].Split(sSplitVerse, StringSplitOptions.RemoveEmptyEntries);
+                        
+        //                //rip out the verse numbers
+        //                ArrayList alVerses = new ArrayList();
+        //                for (int j = 0; j < sVerses.Length; j++)
+        //                {
+        //                    sVerses[j] = RipOutVerseNumber(sVerses[j]);
+        //                    //remove blank verses
+        //                    if (sVerses[j] != string.Empty)
+        //                    {
+        //                        alVerses.Add(sVerses[j].ToString());
+        //                    }
+        //                }
+
+        //                //look for gaps
+        //                int iPrevVerse = 1;
+        //                for (int j = 0; j < alVerses.Count; j++)
+        //                {
+        //                    if (Convert.ToString(iPrevVerse) != alVerses[j].ToString())
+        //                    {
+        //                        //found versification problem here
+        //                        //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
+        //                        cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString());
+        //                        oVersificationList.Add(oV);
+        //                    }
+        //                    iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
+        //                }
+        //            }
+
+
+        //        }
+        //        // Close StreamReader
+        //        sr.Close();
+        //        // Close file
+        //        file.Close();
+        //    }
+
+        //    //parse out data for the clipboard
+        //    StringBuilder sb = new StringBuilder();
+        //    sb.AppendLine("Versification Issues");
+        //    sb.AppendLine("Filename\tChapter\tVerse");
+        //    foreach (cVersification lw in oVersificationList)
+        //    {
+        //        sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum);
+        //    }
+
+        //    //dump to the clipboard
+        //    this.Cursor = Cursors.Default;
+        //    Clipboard.Clear();
+        //    try
+        //    {
+        //        Clipboard.SetText(sb.ToString());
+        //        MessageBox.Show("Results placed in clipboard");
+        //    }
+        //    catch (Exception)
+        //    {
+        //        MessageBox.Show("Error copying results to clipboard", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+
+        //}
 
         private string RipOutVerseNumber(string p)
         {

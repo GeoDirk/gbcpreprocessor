@@ -61,5 +61,23 @@ namespace GBC_USFM_Preprocessor
             return sList;
         }
 
+
+        internal static bool IsNumeric(object ObjectToTest)
+        {
+            if (ObjectToTest == null)
+            {
+                return false;
+            }
+            else
+            {
+                double OutValue;
+                return double.TryParse(ObjectToTest.ToString().Trim(),
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.CurrentCulture,
+                    out OutValue);
+            }
+        }
+
+
     }
 }
