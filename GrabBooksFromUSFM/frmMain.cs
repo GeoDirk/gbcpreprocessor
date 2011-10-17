@@ -31,6 +31,11 @@ namespace GBC_USFM_Preprocessor
         frmCharReplacer _fChar = null;
         DataTable _charHTMLdatatable = null;
         bool _bDDtag = false;
+        private enum ExtensionType
+        {
+            DirBrowser = 0,
+            EnterButton = 1
+        }
 
         public bool bDDtag
         {
@@ -87,7 +92,8 @@ namespace GBC_USFM_Preprocessor
             txtBQChapterSign.Text = cRegistry.GetStringRegistryValue("BQChapterSign", "<h4>");
             txtBQVerseSign.Text = cRegistry.GetStringRegistryValue("BQVerseSign", "<sup>");
             txtBQ_BooknameTag.Text = cRegistry.GetStringRegistryValue("BQ_BooknameTag", @"\h");
-
+            txtReplacemetText.Text = cRegistry.GetStringRegistryValue("replacement", ". .");
+            
             if (cRegistry.GetStringRegistryValue("fullcomments", "false") == "false")
             {
                 radioDropComments.Checked = true;
@@ -173,13 +179,48 @@ namespace GBC_USFM_Preprocessor
         /// <param name="e"></param>
         private void cmdGetDir_Click(object sender, EventArgs e)
         {
+            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    txtDir.Text = folderBrowserDialog1.SelectedPath;
+            //}
+
+            ////get the list of file extensions from that directory
+            //ArrayList sExt = cUtils.GetFileExtensionList(folderBrowserDialog1.SelectedPath);
+            //cboExt.Items.Clear();
+            //for (int i = 0; i < sExt.Count; i++)
+            //{
+            //    string sExt2 = sExt[i].ToString();
+            //    cboExt.Items.Add(sExt2.Substring(1));
+            //}
+            //if (cboExt.Items.Count > 0)
+            //{
+            //    cboExt.Text = cboExt.Items[0].ToString();        		 
+            //}
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 txtDir.Text = folderBrowserDialog1.SelectedPath;
             }
+            else
+            {
+                return;
+            }
 
+            PopulateExtensionList(ExtensionType.DirBrowser);
+        }
+
+        private void PopulateExtensionList(ExtensionType e)
+        {
             //get the list of file extensions from that directory
-            ArrayList sExt = cUtils.GetFileExtensionList(folderBrowserDialog1.SelectedPath);
+            string sPath = "";
+            if (e == ExtensionType.DirBrowser)
+            {
+                sPath = folderBrowserDialog1.SelectedPath;
+            }
+            else
+            {
+                sPath = txtDir.Text;
+            }
+            ArrayList sExt = cUtils.GetFileExtensionList(sPath);
             cboExt.Items.Clear();
             for (int i = 0; i < sExt.Count; i++)
             {
@@ -187,9 +228,9 @@ namespace GBC_USFM_Preprocessor
                 cboExt.Items.Add(sExt2.Substring(1));
             }
             if (cboExt.Items.Count > 0)
-	        {
-                cboExt.Text = cboExt.Items[0].ToString();        		 
-	        }
+            {
+                cboExt.Text = cboExt.Items[0].ToString();
+            }
         }
 
 
@@ -1998,10 +2039,17 @@ namespace GBC_USFM_Preprocessor
 
         private void cmdVersificationFind_Click(object sender, EventArgs e)
         {
+            DetectAndFixVProblems(false);
+            
+        }
+
+        private void DetectAndFixVProblems(bool bFix)
+        {
             this.Cursor = Cursors.WaitCursor;
             bool bProblem = false;
             List<cVersification> oVersificationList = new List<cVersification>();
-
+            int iOld = 0;//for file name
+            bool bFineNumbDone = false;
             //get all the USFM files to process
             string[] filePaths = System.IO.Directory.GetFiles(txtDir.Text, "*." + cboExt.Text);
 
@@ -2016,7 +2064,7 @@ namespace GBC_USFM_Preprocessor
 
                 //Set Codepage
                 StreamReader sr = new StreamReader(file, Encoding.UTF8, false);
-
+                StringBuilder sbFileOut = new StringBuilder();
                 // Create a new stream to read from a file
                 // Read contents of file into a string
                 string line = "";
@@ -2024,94 +2072,112 @@ namespace GBC_USFM_Preprocessor
                 {
                     //read in the entire file
                     line = sr.ReadToEnd();
+                    sbFileOut.Append(line.Substring(0, line.IndexOf("\\c ")));
                     //split the text at the chapter tag as we don't need the header information
                     line = line.Substring(line.IndexOf("\\c "));
                 }
                 catch (Exception)
                 {
                     bProblem = true;
+                    // Close file
+                    file.Close();
                 }
 
                 if (!bProblem)
                 {
+                    // Close file
+                    file.Close();
+
                     //bust the book up into chapters
                     string[] sSplitChar = new string[] { "\\c " };
                     string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
 
+
                     //iterate through each chapter
                     for (int i = 0; i < sChapters.Length; i++)
                     {
+                        List<cVerseHolder> oVHOut = new List<cVerseHolder>();
+                        //append everything between chapter number and first verse number
+                        sbFileOut.Append("\\c " + sChapters[i].Substring(0, sChapters[i].IndexOf("\\v ")));
+                        //split into verses
                         string[] sSplitVerse = new string[] { "\\v" };
                         string[] sVerses = sChapters[i].Split(sSplitVerse, StringSplitOptions.RemoveEmptyEntries);
 
-                        //rip out the verse numbers
-                        ArrayList alVerses = new ArrayList();
+                        List<cVerseHolder> oVH = new List<cVerseHolder>();
                         for (int j = 1; j < sVerses.Length; j++)  //start at verse 1
                         {
-                            sVerses[j] = RipOutVerseNumber(sVerses[j]);
-                            //remove blank verses
-                            if (sVerses[j] != string.Empty)
+                            oVH.Add(RipOutVerseNumber(sVerses[j]));
+
+                        }
+                        List<cVerseHolder> oVHTemp = new List<cVerseHolder>();
+                        for (int j = 0; j < oVH.Count - 1; j++)
+                        {
+
+                            oVHTemp = cVerseHolder.CheckForVersification(oVH[j], oVH[j + 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text);
+                            //
+                            foreach (cVerseHolder verse in oVHTemp)
                             {
-                                alVerses.Add(sVerses[j].ToString());
+                                oVHOut.Add(verse);
+                                //append fileOut
+                                sbFileOut.Append("\\v " + verse.sVerseNum + " " + verse.sVerse + verse.sExtraText + "\r");
                             }
+
                         }
 
-                        //look for gaps
-                        bool bInProblem = false;
-                        int iPrevVerse = 1;
-                        for (int j = 0; j < alVerses.Count; j++)
+                        //deal with the last element in oVH
+                        oVHTemp = cVerseHolder.CheckLastOneForVersification(oVH[oVH.Count - 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text);
+                        foreach (cVerseHolder verse in oVHTemp)
                         {
-                            bool bAdded = false;
-                            if (Convert.ToString(iPrevVerse) != alVerses[j].ToString())
-                            {
-                                if (!bInProblem)
-                                {
-                                    //found versification problem here
-                                    //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
-                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "");
-                                    oVersificationList.Add(oV);
-                                    bAdded = true;
-                                    bInProblem = true;
-                                }
-                            }
-                            if (cUtils.IsNumeric(alVerses[j].ToString()))
-                            {
-                                try
-                                {
-                                    iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
-                                    bInProblem = false;
-                                }
-                                catch (Exception)
-                                {
-                                    //check to see if the verse has been added or not
-                                    //if so, delete it so we can add in more detail
-                                    if (bAdded)
-                                    {
-                                        oVersificationList.RemoveAt(oVersificationList.Count - 1);
-                                    }
-                                    //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
-                                    cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
-                                    oVersificationList.Add(oV);
-                                }
-                            }
-                            else
-                            {
-                                //some sort of problem with the verse numbering (e.g., they have non-numbers in there)
-                                cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString(), "Non-Numeric: '" + alVerses[j].ToString() + "'");
-                                oVersificationList.Add(oV);
-                            }
-                            bAdded = false;
+                            oVHOut.Add(verse);
+                            //append fileOut
+                            sbFileOut.Append("\n\\v " + verse.sVerseNum + " " + verse.sVerse + verse.sExtraText + "\r");
                         }
+
+                       
+                        
+
+                        
                     }
 
 
                 }
                 // Close StreamReader
                 sr.Close();
-                // Close file
-                file.Close();
-            }
+                
+                if (bFix)//alter the file
+                {
+                    
+                    //copy the file with a different extension
+                    //check directory for files with .old extension
+                    //check if .old has a - after it
+                    //if it does, search through such files and find what's the highest number after the -
+                    if (!bFineNumbDone)
+                    {
+                        iOld = CreateFileName(iOld, file);
+                        bFineNumbDone = true;
+                    }
+                    
 
+                    System.IO.File.Copy(file.Name, file.Name.Substring(0, file.Name.IndexOf(".utf")) + ".old-" + iOld.ToString());
+                    //reopen the file and dump fileOut in it
+                    // create a writer and open the file
+                    TextWriter tw = new StreamWriter(file.Name);
+
+                    // write the rest of the text lines
+                    tw.Write(sbFileOut);
+
+                    // close the stream
+                    tw.Close();
+                    
+                    //System.IO.TextWriter 
+                    //close file
+                }
+                
+            }
+            if (bFix)
+            {
+                MessageBox.Show("All files have been modified for versification issues. \nOld files names were given an extension .old-" + iOld.ToString());
+            }
             //parse out data for the clipboard
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Versification Issues");
@@ -2119,7 +2185,9 @@ namespace GBC_USFM_Preprocessor
             foreach (cVersification lw in oVersificationList)
             {
                 sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum + "\t" + lw.sMessage);
+                
             }
+
 
             //dump to the clipboard
             this.Cursor = Cursors.Default;
@@ -2128,12 +2196,44 @@ namespace GBC_USFM_Preprocessor
             {
                 Clipboard.SetText(sb.ToString());
                 MessageBox.Show("Results placed in clipboard");
+
             }
             catch (Exception)
             {
                 MessageBox.Show("Error copying results to clipboard", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
+        private static int CreateFileName(int iOld, FileStream file)
+        {
+            string[] sFiles = Directory.GetFiles(file.Name.Substring(0, file.Name.LastIndexOf("\\")), "*.old-*");
+            int iPrev = -1;
+            int iCurrent = -1;
+            int iTemp = -1;
+            foreach (string s in sFiles)
+            {
+                string sExt = s.Substring(s.LastIndexOf("."));
+                sExt = sExt.Substring(5);
+
+                if (sExt.Length > 0)
+                {
+                    if (cUtils.IsNumeric(sExt))
+                    {
+                        
+                        iCurrent = Convert.ToInt16(sExt);
+                        if (iCurrent > iPrev)
+                        {
+                            iTemp = iCurrent;
+
+                        }
+                        
+                        iPrev = iCurrent;
+                    }
+                }
+                
+            }
+            iOld = iTemp + 1;
+            return iOld;
         }
 
 
@@ -2244,27 +2344,102 @@ namespace GBC_USFM_Preprocessor
 
         //}
 
-        private string RipOutVerseNumber(string p)
+        private cVerseHolder RipOutVerseNumber(string p)
         {
+            cVerseHolder vh = new cVerseHolder();
             //rip out the verse number - will have a space after the number
             p = p.TrimStart();
 
             //look for a normal number followed by a space then the verse text
-            if (p.IndexOf(" " ) == -1)
+            //this is the case of a verse number followed by now verse text
+            //and either white space or no space
+            if (p.IndexOf("\r") < 4 && p.IndexOf("\r") != -1)
             {
-                return "";
+                //take such line and one by one character strip out the number of the verse
+                string sVnum = "";
+                //check if there is a verse number
+                foreach (char c in p)
+                {
+                    if (cUtils.IsNumeric(c))
+                    {
+                        sVnum = sVnum + c;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                vh.sVerseNum = sVnum;
+                //rest of the text put in sExtraText field
+                //remover verse number from the start of the p
+                p = p.Substring(sVnum.Length);
+                //create a string array by splitting on spaces
+                string[] sSplitChar = new string[] { " " };
+                string[] sText = p.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
+                bool bFoundVerseText = false;
+                //loop through each sText
+                foreach (string s in sText)
+                {
+                    //first check to see if it's empty
+                    if (s != String.Empty)
+                    {
+                        if (s != "\r\n")
+                        {
+                            string sT = s.Replace("\r\n", "");
+                            //test to see if it starts with a \
+                            if (!sT.StartsWith(@"\"))
+                            {
+                                //this is actual verse text
+                                bFoundVerseText = true;
+                                break;
+                            }
+                        }
+
+                        
+                    }
+                }
+                if (bFoundVerseText)
+                {
+                    vh.sVerse = p.Substring(sVnum.Length);
+                }
+                else
+                {
+                    if (p != "\r\n")
+                    {
+                        vh.sExtraText = p.Replace("\r\n", "").Trim();
+                    }
+                }
+                
+                return vh;
+
+                
             }
             string sTmp = p.Substring(0, p.IndexOf(" "));
             double result;
             if (double.TryParse(sTmp, out result))
             {
                 //valid number
-                return sTmp;
+                vh.sVerseNum = sTmp;
+                vh.sVerse = p.Substring(p.IndexOf(" ")).Trim();
+                return vh;
             }
             else
             {
-                //not a valid verse number
-                return "";
+                if (sTmp.IndexOf('-') > -1)
+                {
+                    //verse range like 32-39
+                    vh.sVerseNum = sTmp;
+                    vh.sVerse = p.Substring(p.IndexOf(" ")).Trim();
+                    return vh;
+                }
+                else
+                {
+                    //not a valid verse number
+                    vh.sExtraText = p;
+                    return vh;
+                }
+                
+
             }
         }
 
@@ -2282,6 +2457,42 @@ namespace GBC_USFM_Preprocessor
                 f.Show();
             }
         }
+
+        private void cmdReportAndFix_Click(object sender, EventArgs e)
+        {
+            if (txtReplacemetText.Text == "")
+            {
+                MessageBox.Show("You need to provide replacement text");
+                txtReplacemetText.BackColor = Color.Red;
+            }
+            else
+            {
+                txtReplacemetText.BackColor = Color.White;
+                DetectAndFixVProblems(true);
+                cRegistry.SetStringRegistryValue("replacement", txtReplacemetText.Text);
+                
+            }
+            
+        }
+
+        private void txtDir_KeyDown(object sender, KeyEventArgs e)
+        {
+            //look for enter key (13)
+            if (e.KeyValue == 13)
+            {
+                //trigger file extension refresh
+                PopulateExtensionList(ExtensionType.EnterButton);
+            }
+        }
+
+        private void txtReplacemetText_TextChanged(object sender, EventArgs e)
+        {
+            if (txtReplacemetText.Text.Length > 0)
+            {
+                txtReplacemetText.BackColor = Color.White;
+            }
+        }
+
 
 
     }

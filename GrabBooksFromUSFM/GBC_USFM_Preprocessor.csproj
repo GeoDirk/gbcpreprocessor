@@ -62,6 +62,7 @@
     <Compile Include="cTagCount.cs" />
     <Compile Include="cUSFM_Utilities.cs" />
     <Compile Include="cUtils.cs" />
+    <Compile Include="cVerseHolder.cs" />
     <Compile Include="cVersification.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
