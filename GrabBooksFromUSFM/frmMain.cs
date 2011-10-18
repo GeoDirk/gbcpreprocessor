@@ -179,23 +179,6 @@ namespace GBC_USFM_Preprocessor
         /// <param name="e"></param>
         private void cmdGetDir_Click(object sender, EventArgs e)
         {
-            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            //{
-            //    txtDir.Text = folderBrowserDialog1.SelectedPath;
-            //}
-
-            ////get the list of file extensions from that directory
-            //ArrayList sExt = cUtils.GetFileExtensionList(folderBrowserDialog1.SelectedPath);
-            //cboExt.Items.Clear();
-            //for (int i = 0; i < sExt.Count; i++)
-            //{
-            //    string sExt2 = sExt[i].ToString();
-            //    cboExt.Items.Add(sExt2.Substring(1));
-            //}
-            //if (cboExt.Items.Count > 0)
-            //{
-            //    cboExt.Text = cboExt.Items[0].ToString();        		 
-            //}
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 txtDir.Text = folderBrowserDialog1.SelectedPath;
@@ -2236,114 +2219,6 @@ namespace GBC_USFM_Preprocessor
             return iOld;
         }
 
-
-        //private void cmdVersificationFind_Click(object sender, EventArgs e)
-        //{
-        //    this.Cursor = Cursors.WaitCursor;
-        //    bool bProblem = false;
-        //    List<cVersification> oVersificationList = new List<cVersification>();
-
-        //    //get all the USFM files to process
-        //    string[] filePaths = System.IO.Directory.GetFiles(txtDir.Text, "*." + cboExt.Text);
-
-        //    //iterate through each file
-        //    foreach (string item in filePaths)
-        //    {
-        //        bProblem = false;
-        //        //open each book up and get the bookname (ie. Genesis)
-        //        FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
-        //        FileInfo fi = new FileInfo(file.Name);
-        //        string sFilename = fi.Name;
-
-        //        //Set Codepage
-        //        StreamReader sr = new StreamReader(file, Encoding.UTF8, false);
-
-        //        // Create a new stream to read from a file
-        //        // Read contents of file into a string
-        //        string line = "";
-        //        try
-        //        {
-        //            //read in the entire file
-        //            line = sr.ReadToEnd();
-        //            //split the text at the chapter tag as we don't need the header information
-        //            line = line.Substring(line.IndexOf("\\c "));
-        //        }
-        //        catch (Exception)
-        //        {
-        //            bProblem = true;
-        //        }
-
-        //        if (!bProblem)
-        //        {
-        //            //bust the book up into chapters
-        //            string[] sSplitChar = new string[]{"\\c"};
-        //            string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
-
-        //            //iterate through each chapter
-        //            for (int i = 0; i < sChapters.Length; i++)
-        //            {
-        //                string[] sSplitVerse = new string[] { "\\v" };
-        //                string[] sVerses = sChapters[i].Split(sSplitVerse, StringSplitOptions.RemoveEmptyEntries);
-                        
-        //                //rip out the verse numbers
-        //                ArrayList alVerses = new ArrayList();
-        //                for (int j = 0; j < sVerses.Length; j++)
-        //                {
-        //                    sVerses[j] = RipOutVerseNumber(sVerses[j]);
-        //                    //remove blank verses
-        //                    if (sVerses[j] != string.Empty)
-        //                    {
-        //                        alVerses.Add(sVerses[j].ToString());
-        //                    }
-        //                }
-
-        //                //look for gaps
-        //                int iPrevVerse = 1;
-        //                for (int j = 0; j < alVerses.Count; j++)
-        //                {
-        //                    if (Convert.ToString(iPrevVerse) != alVerses[j].ToString())
-        //                    {
-        //                        //found versification problem here
-        //                        //Console.WriteLine("Versification Issue\tBook: " + sFilename + "\tChapter: " + (i + 1).ToString() + "\tVerse: " + iPrevVerse.ToString());
-        //                        cVersification oV = new cVersification(sFilename, (i + 1).ToString(), iPrevVerse.ToString());
-        //                        oVersificationList.Add(oV);
-        //                    }
-        //                    iPrevVerse = Convert.ToInt16(alVerses[j].ToString()) + 1;
-        //                }
-        //            }
-
-
-        //        }
-        //        // Close StreamReader
-        //        sr.Close();
-        //        // Close file
-        //        file.Close();
-        //    }
-
-        //    //parse out data for the clipboard
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.AppendLine("Versification Issues");
-        //    sb.AppendLine("Filename\tChapter\tVerse");
-        //    foreach (cVersification lw in oVersificationList)
-        //    {
-        //        sb.AppendLine(lw.sFileName + "\t" + lw.sChapNum + "\t" + lw.sVerseNum);
-        //    }
-
-        //    //dump to the clipboard
-        //    this.Cursor = Cursors.Default;
-        //    Clipboard.Clear();
-        //    try
-        //    {
-        //        Clipboard.SetText(sb.ToString());
-        //        MessageBox.Show("Results placed in clipboard");
-        //    }
-        //    catch (Exception)
-        //    {
-        //        MessageBox.Show("Error copying results to clipboard", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-
-        //}
-
         private cVerseHolder RipOutVerseNumber(string p)
         {
             cVerseHolder vh = new cVerseHolder();
@@ -2409,11 +2284,9 @@ namespace GBC_USFM_Preprocessor
                         vh.sExtraText = p.Replace("\r\n", "").Trim();
                     }
                 }
-                
-                return vh;
-
-                
+                return vh;                
             }
+
             string sTmp = p.Substring(0, p.IndexOf(" "));
             double result;
             if (double.TryParse(sTmp, out result))
@@ -2438,9 +2311,8 @@ namespace GBC_USFM_Preprocessor
                     vh.sExtraText = p;
                     return vh;
                 }
-                
-
             }
+
         }
 
         private void cmdAbout_Click(object sender, EventArgs e)
@@ -2469,8 +2341,7 @@ namespace GBC_USFM_Preprocessor
             {
                 txtReplacemetText.BackColor = Color.White;
                 DetectAndFixVProblems(true);
-                cRegistry.SetStringRegistryValue("replacement", txtReplacemetText.Text);
-                
+                cRegistry.SetStringRegistryValue("replacement", txtReplacemetText.Text);    
             }
             
         }
