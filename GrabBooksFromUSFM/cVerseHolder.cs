@@ -29,7 +29,7 @@ namespace GBC_USFM_Preprocessor
             set { _sExtraText = value; }
         }
 
-        public static List<cVerseHolder> CheckForVersification(cVerseHolder vhFirst, cVerseHolder vhSecond, ref List<cVersification> oVL, string sFilename, string sChapter, string sReplacement)
+        public static List<cVerseHolder> CheckForVersification(cVerseHolder vhFirst, cVerseHolder vhSecond, ref List<cVersification> oVL, string sFilename, string sChapter, string sReplacement, bool bVerseRangeNotification)
         {
             List<cVerseHolder> oVH = new List<cVerseHolder>();
             cVerseHolder vhTemp = new cVerseHolder();
@@ -54,8 +54,17 @@ namespace GBC_USFM_Preprocessor
                 vhTemp = new cVerseHolder();
                 vhTemp._sVerseNum = iV1.ToString();
                 vhTemp._sVerse = vhFirst._sVerse;
-                //vhTemp._sExtraText = vhFirst._sExtraText;
+
+                //add in the verse marker on the lead verse
+                if (iDifference > 0 && bVerseRangeNotification)
+                {
+                    {
+                        vhTemp._sVerse = "{" + iV1.ToString() + "-" + (iV1 + iDifference).ToString() + "} " + vhTemp._sVerse;
+                    }
+                }
                 oVH.Add(vhTemp);
+
+                //add in verse range verses
                 for (int i = 0; i < iDifference; i++)
                 {
                     vhTemp = new cVerseHolder();
@@ -66,8 +75,7 @@ namespace GBC_USFM_Preprocessor
                     {
                         vhTemp.sExtraText = "\r\n" + vhFirst._sExtraText;
                     }
-                    oVH.Add(vhTemp);
-                    
+                    oVH.Add(vhTemp);                  
                 }
 
             }
@@ -113,8 +121,6 @@ namespace GBC_USFM_Preprocessor
 
             //We don't add the second one in, because we'll do it the next time we run this function
             //then in will come in as the first one
-            
-
 
             return oVH;
         }
@@ -170,8 +176,11 @@ namespace GBC_USFM_Preprocessor
             }
 
             vhTemp.sVerse = sVerse;
-            sExtra = sExtra.Substring(0, sExtra.Length - 2);
-            vhTemp.sExtraText = sExtra;
+            if (sExtra.Length > 0)
+            {
+                sExtra = sExtra.Substring(0, sExtra.Length - 2);
+                vhTemp.sExtraText = sExtra;
+            }
 
             return vhTemp;
         }
@@ -202,7 +211,7 @@ namespace GBC_USFM_Preprocessor
             }
         }
 
-        public static List<cVerseHolder> CheckLastOneForVersification(cVerseHolder vhFirst, ref List<cVersification> oVL, string sFilename, string sChapter, string sReplacement)
+        public static List<cVerseHolder> CheckLastOneForVersification(cVerseHolder vhFirst, ref List<cVersification> oVL, string sFilename, string sChapter, string sReplacement, bool bVerseRangeNotification)
         {
             List<cVerseHolder> oVH = new List<cVerseHolder>();
             cVerseHolder vhTemp = new cVerseHolder();
@@ -226,7 +235,17 @@ namespace GBC_USFM_Preprocessor
                 vhTemp._sVerseNum = iV1.ToString();
                 vhTemp._sVerse = vhFirst._sVerse;
                 vhTemp._sExtraText = vhFirst._sExtraText;
+
+                //add in the verse marker on the lead verse
+                if (iDifference > 0 && bVerseRangeNotification)
+                {
+                    {
+                        vhTemp._sVerse = "{" + iV1.ToString() + "-" + (iV1 + iDifference).ToString() + "} " + vhTemp._sVerse;
+                    }
+                }
                 oVH.Add(vhTemp);
+
+                //add in additional verse range verses
                 for (int i = 0; i < iDifference; i++)
                 {
                     vhTemp = new cVerseHolder();

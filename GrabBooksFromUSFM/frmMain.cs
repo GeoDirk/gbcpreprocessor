@@ -2075,7 +2075,6 @@ namespace GBC_USFM_Preprocessor
                     string[] sSplitChar = new string[] { "\\c " };
                     string[] sChapters = line.Split(sSplitChar, StringSplitOptions.RemoveEmptyEntries);
 
-
                     //iterate through each chapter
                     for (int i = 0; i < sChapters.Length; i++)
                     {
@@ -2090,13 +2089,11 @@ namespace GBC_USFM_Preprocessor
                         for (int j = 1; j < sVerses.Length; j++)  //start at verse 1
                         {
                             oVH.Add(RipOutVerseNumber(sVerses[j]));
-
                         }
                         List<cVerseHolder> oVHTemp = new List<cVerseHolder>();
                         for (int j = 0; j < oVH.Count - 1; j++)
                         {
-
-                            oVHTemp = cVerseHolder.CheckForVersification(oVH[j], oVH[j + 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text);
+                            oVHTemp = cVerseHolder.CheckForVersification(oVH[j], oVH[j + 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text, chkVerseRangeMarkers.Checked);
                             //
                             foreach (cVerseHolder verse in oVHTemp)
                             {
@@ -2108,7 +2105,7 @@ namespace GBC_USFM_Preprocessor
                         }
 
                         //deal with the last element in oVH
-                        oVHTemp = cVerseHolder.CheckLastOneForVersification(oVH[oVH.Count - 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text);
+                        oVHTemp = cVerseHolder.CheckLastOneForVersification(oVH[oVH.Count - 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text, chkVerseRangeMarkers.Checked);
                         foreach (cVerseHolder verse in oVHTemp)
                         {
                             oVHOut.Add(verse);
@@ -2116,10 +2113,6 @@ namespace GBC_USFM_Preprocessor
                             sbFileOut.Append("\n\\v " + verse.sVerseNum + " " + verse.sVerse + verse.sExtraText + "\r");
                         }
 
-                       
-                        
-
-                        
                     }
 
 
@@ -2139,9 +2132,9 @@ namespace GBC_USFM_Preprocessor
                         iOld = CreateFileName(iOld, file);
                         bFineNumbDone = true;
                     }
-                    
 
-                    System.IO.File.Copy(file.Name, file.Name.Substring(0, file.Name.IndexOf(".utf")) + ".old-" + iOld.ToString());
+                    string sPath = file.Name.Substring(0, file.Name.Length - fi.Extension.Length);
+                    System.IO.File.Copy(file.Name, sPath + ".old-" + iOld.ToString());
                     //reopen the file and dump fileOut in it
                     // create a writer and open the file
                     TextWriter tw = new StreamWriter(file.Name);
