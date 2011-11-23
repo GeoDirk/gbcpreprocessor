@@ -647,7 +647,7 @@ namespace GBC_USFM_Preprocessor
             //list of standard USFM markers
             string[] sMarker = { 
                 "!$","//","\\add","\\b","\\bd","\\bdit","\\bk","\\c","\\ca","\\cd",
-                "\\cl","\\cls","\\cp","\\dc","\\em","\\f","\\fdc","\\fe","\\fig",
+                "\\cl","\\cls","\\cp","\\d","\\dc","\\em","\\f","\\fdc","\\fe","\\fig",
                 "\\fk","\\fl","\\fm","\\fp","\\fq","\\fqa","\\fr","\\ft","\\fv",
                 "\\it","\\k","\\li","\\lit","\\m","\\mi","\\mt","\\ms","\\nb","\\nd","\\ndx",
                 "\\no","\\ord","\\p","\\pb","\\pc","\\ph","\\pi","\\pm","\\pmc",
