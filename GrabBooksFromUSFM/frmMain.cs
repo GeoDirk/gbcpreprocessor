@@ -2079,8 +2079,19 @@ namespace GBC_USFM_Preprocessor
                     for (int i = 0; i < sChapters.Length; i++)
                     {
                         List<cVerseHolder> oVHOut = new List<cVerseHolder>();
-                        //append everything between chapter number and first verse number
-                        sbFileOut.Append("\\c " + sChapters[i].Substring(0, sChapters[i].IndexOf("\\v ")));
+                        //try if v tags exist in the file
+                        try
+                        {
+
+                            //append everything between chapter number and first verse number
+                            sbFileOut.Append("\\c " + sChapters[i].Substring(0, sChapters[i].IndexOf("\\v ")));
+                        }
+                        catch (Exception)
+                        {
+
+                            //throw;
+                        }
+                        
                         //split into verses
                         string[] sSplitVerse = new string[] { "\\v" };
                         string[] sVerses = sChapters[i].Split(sSplitVerse, StringSplitOptions.RemoveEmptyEntries);
@@ -2105,13 +2116,17 @@ namespace GBC_USFM_Preprocessor
                         }
 
                         //deal with the last element in oVH
-                        oVHTemp = cVerseHolder.CheckLastOneForVersification(oVH[oVH.Count - 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text, chkVerseRangeMarkers.Checked);
-                        foreach (cVerseHolder verse in oVHTemp)
+                        if (oVHTemp.Count > 0)//make sure oVHTemp is not empty
                         {
-                            oVHOut.Add(verse);
-                            //append fileOut
-                            sbFileOut.Append("\n\\v " + verse.sVerseNum + " " + verse.sVerse + verse.sExtraText + "\r");
+                            oVHTemp = cVerseHolder.CheckLastOneForVersification(oVH[oVH.Count - 1], ref oVersificationList, sFilename, (i + 1).ToString(), txtReplacemetText.Text, chkVerseRangeMarkers.Checked);
+                            foreach (cVerseHolder verse in oVHTemp)
+                            {
+                                oVHOut.Add(verse);
+                                //append fileOut
+                                sbFileOut.Append("\n\\v " + verse.sVerseNum + " " + verse.sVerse + verse.sExtraText + "\r");
+                            }
                         }
+                        
 
                     }
 
