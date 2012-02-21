@@ -652,7 +652,7 @@ namespace GBC_USFM_Preprocessor
                 "\\it","\\k","\\li","\\lit","\\m","\\mi","\\mt","\\ms","\\nb","\\nd","\\ndx",
                 "\\no","\\ord","\\p","\\pb","\\pc","\\ph","\\pi","\\pm","\\pmc",
                 "\\pmo","\\pmr","\\pn","\\pr","\\pro","\\q","\\qa","\\qac","\\qc",
-                "\\qm","\\qr","\\qs","\\qt","\\r","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
+                "\\qm","\\qr","\\qs","\\qt","\\r","\\rq","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
                 "\\va","\\vp","\\w","\\wg","\\wh","\\wj","\\x","\\xdc","\\xk",
                 "\\xo","\\xq","\\xt"
             };
