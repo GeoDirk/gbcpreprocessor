@@ -13,6 +13,7 @@ limitations under the License.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace GBC_USFM_Preprocessor
 {
@@ -22,7 +23,109 @@ namespace GBC_USFM_Preprocessor
     /// </summary>
     public class cUSFM_Utilities
     {
-        
+        //tags to load in 
+        private List<string> _sLineRemovalTags = new List<string>(); //{ "\\cl", "\\cp", "\\cd", "\\qa", "\\s", "\\ms", "\\mte", "\\mt", "\\mr", "\\sr", "\\sp" }
+        private List<string> _sSingularNumberTags = new List<string>(); //{ "\\pi", "\\ph" };
+        private List<string> _sDoubleTags = new List<string>(); //{ "\\qs", "\\qac", "\\add", "\\dc", "\\nd", "\\ord", "\\pn", "\\qt", "\\sig", "\\sls", "\\tl", "\\em", "\\bd", "\\it", "\\bdit", "\\no", "\\sc" };
+        private List<string> _sSingularTags = new List<string>(); //{ "\\pmo", "\\pm", "\\pmc", "\\pmr", "\\mi", "\\nb", "\\cls", "\\pc", "\\pr", "\\qr", "\\qc", "\\pb", "\\b", "\\m", "\\p", "\\z" };
+        //the list of markers that this applies to
+        //note that order is important here so that \fm is processed
+        //before \f
+        private List<string> _sDoubleTagsFull = new List<string>(); //{ "\\ca", "\\va", "\\vp", "\\fe", "\\bk", "\\xdc", "\\fdc", "\\fm", "\\fig", "\\ndx", "\\pro", "\\wg", "\\wh", "\\w", "\\x" };
+
+        public enum TagType
+        {
+            eUnknown,
+            eLineRemovalMarker,
+            eSingularTag,
+            eSingularNumberTag,
+            eDoubleTag,
+            eDoubleFullTag,
+            eUSFMstandardTag
+        }
+
+        //constructor call
+        public cUSFM_Utilities()
+        {
+            //load in the tags from the TAG XML file
+            LoadTags();
+        }
+
+        private void LoadTags()
+        {
+            //zero out the lists before loading
+            _sLineRemovalTags.Clear();
+            _sSingularNumberTags.Clear();
+            _sDoubleTags.Clear();
+            _sSingularTags.Clear();
+            _sDoubleTagsFull.Clear();
+
+            TagType tagType = TagType.eUnknown;
+            string line = "";
+            System.IO.StreamReader file = new System.IO.StreamReader(System.Windows.Forms.Application.StartupPath + @"\taglist.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                line = line.Trim();
+                if (!line.StartsWith("/")) //comment line
+                {
+                    switch (line)
+                    {
+                        case "SECTION:LINE_REMOVAL_TAGS":
+                            tagType = TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:SINGULAR_NUMBER_TAGS":
+                            tagType = TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:SINGULAR_TAGS":
+                            tagType = TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:DOUBLE_TAGS":
+                            tagType = TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:DOUBLE_FULL_TAGS":
+                            tagType = TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:LIST_OF_STANDARD_USFM_TAGS":
+                            tagType = TagType.eUSFMstandardTag;
+                            break;
+                        default:
+                            //process the following tag
+                            if (line != "")
+                            {
+                                switch (tagType)
+                                {
+                                    case TagType.eUnknown:
+                                        break;
+                                    case TagType.eLineRemovalMarker:
+                                        _sLineRemovalTags.Add(line);
+                                        break;
+                                    case TagType.eSingularNumberTag:
+                                        _sSingularNumberTags.Add(line);
+                                        break;
+                                    case TagType.eSingularTag:
+                                        _sSingularTags.Add(line);
+                                        break;
+                                    case TagType.eDoubleTag:
+                                        _sDoubleTags.Add(line);
+                                        break;
+                                    case TagType.eDoubleFullTag:
+                                        _sDoubleTagsFull.Add(line);
+                                        break;
+                                    case TagType.eUSFMstandardTag:
+                                        //do nothing
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+
+            file.Close();
+        }
+
 
         /*
          * Check to see if the line starts with certain
@@ -31,14 +134,13 @@ namespace GBC_USFM_Preprocessor
          * 
          * Return 'true' if we keep
          */
-        public static bool CheckIfWeKeepLine(string sTmp)
+        public bool CheckIfWeKeepLine(string sTmp)
         {	
             bool bKeep = true;
-            string[] sMarker = { "\\cl", "\\cp", "\\cd", "\\qa", "\\s", "\\ms", "\\mte", "\\mt", "\\mr", "\\sr", "\\sp"};
             //loop through the markers removing them all from the text
-            for (int i = 0; i < sMarker.Length; i++)
+            for (int i = 0; i < _sLineRemovalTags.Count; i++)
             {
-                if (sTmp.StartsWith(sMarker[i]))
+                if (sTmp.StartsWith(_sLineRemovalTags[i]))
                 {
                     return false;
                 }
@@ -64,55 +166,51 @@ namespace GBC_USFM_Preprocessor
          * which are singular (do not have and end tag).  Example
          * of this is the paragraph tag \p which is not needed
          */
-        public static string RemoveSingularMarkerTags(string sTmp)
+        public string RemoveSingularMarkerTags(string sTmp)
         {		
             //for ones that are a tag and number '\q1'
-            string [] sTagNum = {"\\pi", "\\ph"};
-            for (int i = 0; i < sTagNum.Length; i++)
+            for (int i = 0; i < _sSingularNumberTags.Count; i++)
             {
                 //replace tag with trailing number (trailing blank remove)
                 //sTmp = sTmp.replaceAll("\\" + sTagNum[i] + "+[0-9] ", "");
                 //replace tag with trailing number
-                sTmp = sTmp.Replace("\\" + sTagNum[i] + "+[0-9]", "");
+                sTmp = sTmp.Replace("\\" + _sSingularNumberTags[i] + "+[0-9]", "");
                 //replace tag without trailing number (trailing blank remove)
-                sTmp = sTmp.Replace("\\" + sTagNum[i] + " ", "");
+                sTmp = sTmp.Replace("\\" + _sSingularNumberTags[i] + " ", "");
                 //replace tag without trailing number
-                sTmp = sTmp.Replace("\\" + sTagNum[i], "");
+                sTmp = sTmp.Replace("\\" + _sSingularNumberTags[i], "");
             }
             //the list of markers that this applies to
             //NOTE: you need four '\' to account for the \p string
             //as this is a regex command
-            string [] sMarker = {"\\pmo", "\\pm", "\\pmc",
-            "\\pmr", "\\mi", "\\nb", "\\cls", "\\pc", "\\pr", 
-            "\\qr", "\\qc", "\\pb", "\\b", "\\m", "\\p", "\\z"};
             
             //loop through the markers removing them all from the text
-            for (int i = 0; i < sMarker.Length; i++)
+            for (int i = 0; i < _sSingularTags.Count; i++)
             {
                 //replace the marker tag with an empty string (trailing blank remove)
                 //sTmp = sTmp.replaceAll("\\" + sMarker[i] + " ", "");
                 //replace the marker tag with an empty string
-                sTmp = sTmp.Replace("\\" + sMarker[i], "");
+                sTmp = sTmp.Replace("\\" + _sSingularTags[i], "");
             }
             
             //for ones that do not start with the slash
-            string [] sSpecial = {"!\\$", "//"};  //todo - check this in .NET as this is a Java regex
-            for (int i = 0; i < sSpecial.Length; i++)
+            string [] _sSpecial = {"!\\$", "//"};  //todo - check this in .NET as this is a Java regex
+            for (int i = 0; i < _sSpecial.Length; i++)
             {
                 //replace the marker tag with an empty string (trailing blank remove)
-                sTmp = sTmp.Replace(sSpecial[i] + " ", "");
+                sTmp = sTmp.Replace(_sSpecial[i] + " ", "");
                 //replace the marker tag with an empty string
-                sTmp = sTmp.Replace(sSpecial[i], "");
+                sTmp = sTmp.Replace(_sSpecial[i], "");
             }
             
             //for ones that are a tag and number '\q1'
-            string [] sTagNum2 = {"\\li", "\\qm", "\\q"};
-            for (int i = 0; i < sTagNum2.Length; i++)
+            string [] _sTagNum2 = {"\\li", "\\qm", "\\q"};
+            for (int i = 0; i < _sTagNum2.Length; i++)
             {
                 //replace tag with trailing number (trailing blank remove)
                 //sTmp = sTmp.replaceAll("\\" + sTagNum2[i] + "+[0-9] ", "");
                 //replace tag with trailing number
-                sTmp = sTmp.Replace("\\" + sTagNum2[i] + "+[0-9]", "");
+                sTmp = sTmp.Replace("\\" + _sTagNum2[i] + "+[0-9]", "");
                 //replace tag without trailing number (trailing blank remove)
                 //sTmp = sTmp.replaceAll("\\" + sTagNum2[i] + " ", "");
                 //replace tag without trailing number
@@ -128,19 +226,15 @@ namespace GBC_USFM_Preprocessor
          * of this is the bold tag \bd...\bd* in which we want to 
          * remove the tags only but keep the text between
          */
-        public static string RemoveDoubleMarkerTags(string sTmp)
+        public string RemoveDoubleMarkerTags(string sTmp)
         {		
-            //the list of markers that this applies to
-            string [] sMarker = {"\\qs", "\\qac", "\\add", "\\dc", 
-            "\\nd", "\\ord", "\\pn", "\\qt", "\\sig", "\\sls", 
-            "\\tl", "\\em", "\\bd", "\\it", "\\bdit", "\\no", "\\sc"};
             //loop through the markers removing them all from the text
-            for (int i = 0; i < sMarker.Length; i++)
+            for (int i = 0; i < _sDoubleTags.Count; i++)
             {
-                sTmp = sTmp.Replace("\\" + sMarker[i] + "\\*", "");
+                sTmp = sTmp.Replace("\\" + _sDoubleTags[i] + "\\*", "");
                 //remove trailing blank from tag
-                sTmp = sTmp.Replace("\\" + sMarker[i] + " ", "");                   
-                sTmp = sTmp.Replace("\\" + sMarker[i], "");                   
+                sTmp = sTmp.Replace("\\" + _sDoubleTags[i] + " ", "");                   
+                sTmp = sTmp.Replace("\\" + _sDoubleTags[i], "");                   
             }
             return sTmp;
         }
@@ -175,56 +269,50 @@ namespace GBC_USFM_Preprocessor
          * of this is the footnote tag \f...\f* in which we want to 
          * remove the tags and all the text between
          */
-        public static string RemoveDoubleMarkerTagsFull(string sTmp)
+        public string RemoveDoubleMarkerTagsFull(string sTmp)
         {		
-        //the list of markers that this applies to
-        //note that order is important here so that \fm is processed
-        //before \f
-        string [] sMarker = {"\\ca", "\\va", "\\vp", "\\fe", "\\bk", 
-        "\\xdc", "\\fdc", "\\fm", "\\fig", "\\ndx", "\\pro", 
-        "\\wg", "\\wh", "\\w", "\\x" };
-        //loop through the markers removing them all from the text
-        for (int i = 0; i < sMarker.Length; i++)
-        {
-            //find if the start tag is found
-            while (sTmp.IndexOf(sMarker[i]) != -1) 
+            //loop through the markers removing them all from the text
+            for (int i = 0; i < _sDoubleTagsFull.Count; i++)
             {
-                int iStart = sTmp.IndexOf(sMarker[i]);
-                int iEnd = sTmp.IndexOf(sMarker[i] + "*");
-                if (iStart != -1 && iEnd != -1)
+                //find if the start tag is found
+                while (sTmp.IndexOf(_sDoubleTagsFull[i]) != -1) 
                 {
-                    //replace the marker tag with an empty string
-                    String sFirstPart = sTmp.Substring(0, iStart);
-                    String sSecondPart = sTmp.Substring(iEnd + sMarker[i].Length + 1);
-                    //insert a space if needed here
-//                    if(sFirstPart.endsWith(" ") || sSecondPart.startsWith(" "))
-//                    {
-//                        //blank exists between parts
-//                        sTmp = sFirstPart + sSecondPart;
-//                    }
-//                    else
-//                    {
-//                        //slap a blank between the parts
-//                        sTmp = sFirstPart + " " + sSecondPart;
-//                    }
-                    sTmp = sFirstPart + sSecondPart;
-                }
-                else
-                {
-                    //keep this from going into an endless loop
-                    //if the end tag is missing
-                    break;
+                    int iStart = sTmp.IndexOf(_sDoubleTagsFull[i]);
+                    int iEnd = sTmp.IndexOf(_sDoubleTagsFull[i] + "*");
+                    if (iStart != -1 && iEnd != -1)
+                    {
+                        //replace the marker tag with an empty string
+                        String sFirstPart = sTmp.Substring(0, iStart);
+                        String sSecondPart = sTmp.Substring(iEnd + _sDoubleTagsFull[i].Length + 1);
+                        //insert a space if needed here
+    //                    if(sFirstPart.endsWith(" ") || sSecondPart.startsWith(" "))
+    //                    {
+    //                        //blank exists between parts
+    //                        sTmp = sFirstPart + sSecondPart;
+    //                    }
+    //                    else
+    //                    {
+    //                        //slap a blank between the parts
+    //                        sTmp = sFirstPart + " " + sSecondPart;
+    //                    }
+                        sTmp = sFirstPart + sSecondPart;
+                    }
+                    else
+                    {
+                        //keep this from going into an endless loop
+                        //if the end tag is missing
+                        break;
+                    }
                 }
             }
-        }
 
-        return sTmp;
+            return sTmp;
         }
 
         /*
          * Drop the verse number from the start of the verse string
          */
-        public static string RemoveVerseNumbering(string sVerse, ref bool bDDTag)
+        public string RemoveVerseNumbering(string sVerse, ref bool bDDTag)
         {
             //find the first verse and remove everything before that
             int iStart = sVerse.IndexOf(" ");
@@ -302,7 +390,7 @@ namespace GBC_USFM_Preprocessor
             return sVerse;
         }
         
-        public static string ProcessOtherTags(string sTmp)
+        public string ProcessOtherTags(string sTmp)
         {
             //deal with footnote tags
             sTmp = sTmp.Replace("\\f*", "</n>");

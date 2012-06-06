@@ -1,0 +1,196 @@
+// This file contains the list of the tags and how they are parsed by the GBC_USFM_Preprocessor
+//
+// You may edit this file to add in your own tags into the appropriate section below
+// Any line that preceeds with a slash "/" or are blank are not be processed
+// -DO NOT CHANGE THE SECTION HEADER NAMES - just add/delete tags below the section headers
+// -ONLY PUT THE TAG INTO A ROW - nothing else...if you want to add in comment,
+//    then put it in a comment line above it.
+// -Tags in a section will be processed by the parser in the order listed below. Be
+//    sure that you put them in the right order so that the tag will be processed 
+//    properly.  Example: "\up" would need to go before another tag called "\u"
+//    otherwise processing the "\u" will kill off all of the "\up" tags and leave
+//    at trailing p sitting in your text on the phone 
+
+//============================================================================
+//  SECTION: LIST OF STANDARD USFM TAGS
+//  Description: These is the list of all the standard tags in the USFM standard
+//    It is probably best to keep this list alphabetized....
+//============================================================================
+SECTION:LIST_OF_STANDARD_USFM_TAGS
+!$
+//
+\add
+\b
+\bd
+\bdit
+\bk
+\c
+\ca
+\cd
+\cl
+\cls
+\cp
+\d
+\dc
+\em
+\f
+\fdc
+\fe
+\fig
+\fk
+\fl
+\fm
+\fp
+\fq
+\fqa
+\fr
+\ft
+\fv
+\it
+\k
+\li
+\lit
+\m
+\mi
+\mt
+\ms
+\nb
+\nd
+\ndx
+\no
+\ord
+\p
+\pb
+\pc
+\ph
+\pi
+\pm
+\pmc
+\pmo
+\pmr
+\pn
+\pr
+\pro
+\q
+\qa
+\qac
+\qc
+\qm
+\qr
+\qs
+\qt
+\r
+\rq
+\s
+\sc
+\sig
+\sls
+\tl
+\v
+\va
+\vp
+\w
+\wg
+\wh
+\wj
+\x
+\xdc
+\xk
+\xo
+\xq
+\xt
+
+//============================================================================
+//  SECTION: LINE REMOVAL TAGS
+//  Description: These tags are those that designate a full line that will be
+//    removed by the parser
+//============================================================================
+SECTION:LINE_REMOVAL_TAGS
+\cl
+\cp
+\cd
+\qa
+\s
+\ms
+\mte
+\mt
+\mr
+\sr
+\sp
+
+//============================================================================
+//  SECTION: SINGULAR NUMBER TAGS
+//  Description: These tags that are followed by a number and in which only
+//    the tag itself is removed by the parser
+//============================================================================
+SECTION:SINGULAR_NUMBER_TAGS
+\pi
+\ph
+
+//============================================================================
+//  SECTION: SINGULAR TAGS
+//  Description: These tags in which only the tag itself is removed by the parser
+//============================================================================
+SECTION:SINGULAR_TAGS
+\pmo
+\pm
+\pmc
+\pmr
+\mi
+\nb
+\cls
+\pc
+\pr
+\qr
+\qc
+\pb
+\b
+\m
+\p
+\z
+
+//============================================================================
+//  SECTION: DOUBLE TAGS
+//  Description: These tags are those which have both a starting and ending 
+//    tag.  The parser removes only the two tags but leaves the text between
+//============================================================================
+SECTION:DOUBLE_TAGS
+\qs
+\qac
+\add
+\dc
+\nd
+\ord
+\pn
+\qt
+\sig
+\sls
+\tl
+\em
+\bd
+\it
+\bdit
+\no
+\sc
+
+//============================================================================
+//  SECTION: DOUBLE TAGS
+//  Description: These tags are those which have both a starting and ending 
+//    tag.  The parser removes the two tags and all text between
+//============================================================================
+SECTION:DOUBLE_FULL_TAGS
+\ca
+\va
+\vp
+\fe
+\bk
+\xdc
+\fdc
+\fm
+\fig
+\ndx
+\pro
+\wg
+\wh
+\w
+\x

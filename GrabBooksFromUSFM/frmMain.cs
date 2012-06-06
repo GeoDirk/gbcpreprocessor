@@ -645,23 +645,98 @@ namespace GBC_USFM_Preprocessor
         private ArrayList GetNormalTags()
         {
             //list of standard USFM markers
-            string[] sMarker = { 
-                "!$","//","\\add","\\b","\\bd","\\bdit","\\bk","\\c","\\ca","\\cd",
-                "\\cl","\\cls","\\cp","\\d","\\dc","\\em","\\f","\\fdc","\\fe","\\fig",
-                "\\fk","\\fl","\\fm","\\fp","\\fq","\\fqa","\\fr","\\ft","\\fv",
-                "\\it","\\k","\\li","\\lit","\\m","\\mi","\\mt","\\ms","\\nb","\\nd","\\ndx",
-                "\\no","\\ord","\\p","\\pb","\\pc","\\ph","\\pi","\\pm","\\pmc",
-                "\\pmo","\\pmr","\\pn","\\pr","\\pro","\\q","\\qa","\\qac","\\qc",
-                "\\qm","\\qr","\\qs","\\qt","\\r","\\rq","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
-                "\\va","\\vp","\\w","\\wg","\\wh","\\wj","\\x","\\xdc","\\xk",
-                "\\xo","\\xq","\\xt"
-            };
+            
+            //string[] sMarker = { 
+            //    "!$","//","\\add","\\b","\\bd","\\bdit","\\bk","\\c","\\ca","\\cd",
+            //    "\\cl","\\cls","\\cp","\\d","\\dc","\\em","\\f","\\fdc","\\fe","\\fig",
+            //    "\\fk","\\fl","\\fm","\\fp","\\fq","\\fqa","\\fr","\\ft","\\fv",
+            //    "\\it","\\k","\\li","\\lit","\\m","\\mi","\\mt","\\ms","\\nb","\\nd","\\ndx",
+            //    "\\no","\\ord","\\p","\\pb","\\pc","\\ph","\\pi","\\pm","\\pmc",
+            //    "\\pmo","\\pmr","\\pn","\\pr","\\pro","\\q","\\qa","\\qac","\\qc",
+            //    "\\qm","\\qr","\\qs","\\qt","\\r","\\rq","\\s","\\sc","\\sig","\\sls","\\tl","\\v",
+            //    "\\va","\\vp","\\w","\\wg","\\wh","\\wj","\\x","\\xdc","\\xk",
+            //    "\\xo","\\xq","\\xt"
+            //};
+
+            List<string> sStandardTags = LoadTags();
             ArrayList s = new ArrayList();
-            for (int i = 0; i < sMarker.Length; i++)
+            for (int i = 0; i < sStandardTags.Count; i++)
             {
-                s.Add(sMarker[i]);
+                s.Add(sStandardTags[i]);
             }
             return s;
+
+        }
+
+        private List<string> LoadTags()
+        {
+            List<string> sTagList = new List<string>();
+
+            cUSFM_Utilities.TagType tagType = cUSFM_Utilities.TagType.eUnknown;
+            string line = "";
+            System.IO.StreamReader file = new System.IO.StreamReader(System.Windows.Forms.Application.StartupPath + @"\taglist.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                line = line.Trim();
+                if (!line.StartsWith("/")) //comment line
+                {
+                    switch (line)
+                    {
+                        case "SECTION:LINE_REMOVAL_TAGS":
+                            tagType = cUSFM_Utilities.TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:SINGULAR_NUMBER_TAGS":
+                            tagType = cUSFM_Utilities.TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:SINGULAR_TAGS":
+                            tagType = cUSFM_Utilities.TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:DOUBLE_TAGS":
+                            tagType = cUSFM_Utilities.TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:DOUBLE_FULL_TAGS":
+                            tagType = cUSFM_Utilities.TagType.eLineRemovalMarker;
+                            break;
+                        case "SECTION:LIST_OF_STANDARD_USFM_TAGS":
+                            tagType = cUSFM_Utilities.TagType.eUSFMstandardTag;
+                            break;
+                        default:
+                            //process the following tag
+                            if (line != "")
+                            {
+                                switch (tagType)
+                                {
+                                    case cUSFM_Utilities.TagType.eUnknown:
+                                        break;
+                                    case cUSFM_Utilities.TagType.eLineRemovalMarker:
+                                        //do nothing
+                                        break;
+                                    case cUSFM_Utilities.TagType.eSingularNumberTag:
+                                        //do nothing
+                                        break;
+                                    case cUSFM_Utilities.TagType.eSingularTag:
+                                        //do nothing
+                                        break;
+                                    case cUSFM_Utilities.TagType.eDoubleTag:
+                                        //do nothing
+                                        break;
+                                    case cUSFM_Utilities.TagType.eDoubleFullTag:
+                                        //do nothing
+                                        break;
+                                    case cUSFM_Utilities.TagType.eUSFMstandardTag:
+                                        sTagList.Add(line);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+
+            file.Close();
+            return sTagList;
         }
 
         /// <summary>
@@ -1923,12 +1998,12 @@ namespace GBC_USFM_Preprocessor
         /// <returns></returns>
         private string ParseVerseTags(string sVerse)
         {
-            
-            sVerse = cUSFM_Utilities.RemoveDoubleMarkerTags(sVerse);
-            sVerse = cUSFM_Utilities.RemoveDoubleMarkerTagsFull(sVerse);
-            sVerse = cUSFM_Utilities.RemoveSingularMarkerTags(sVerse);
-            sVerse = cUSFM_Utilities.RemoveVerseNumbering(sVerse, ref _bDDtag);
-            sVerse = cUSFM_Utilities.ProcessOtherTags(sVerse);
+            cUSFM_Utilities Util = new cUSFM_Utilities();
+            sVerse = Util.RemoveDoubleMarkerTags(sVerse);
+            sVerse = Util.RemoveDoubleMarkerTagsFull(sVerse);
+            sVerse = Util.RemoveSingularMarkerTags(sVerse);
+            sVerse = Util.RemoveVerseNumbering(sVerse, ref _bDDtag);
+            sVerse = Util.ProcessOtherTags(sVerse);
             return sVerse;
         }
 
