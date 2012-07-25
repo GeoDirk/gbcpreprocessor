@@ -59,6 +59,20 @@ namespace GBC_USFM_Preprocessor
             get { return _charHTMLdatatable; }
             set { _charHTMLdatatable = value; }
         }
+
+        public string USFM_FilesPath
+        {
+            get { return txtDir.Text; }
+        }
+        public string USFM_FilesExt
+        {
+            get { return cboExt.Text; }
+        }
+        public string USFM_FilesEncoding
+        {
+            get { return cboEncoding.Text; }
+        }        
+
         
         public frmMain()
         {
@@ -225,67 +239,12 @@ namespace GBC_USFM_Preprocessor
         private void cmdProcess_Click(object sender, EventArgs e)
         {
             string[] filePaths = System.IO.Directory.GetFiles(txtDir.Text, "*." + cboExt.Text);
-            lvOutput.Items.Clear();
+
             sFullClipboardText.Clear();
             sFullClipboardText.Add("//Source Directory Path: " + txtDir.Text + @"\*." + cboExt.Text + "\n");
 
-            foreach (string item in filePaths)
-            {
-
-                //open each book up and get the bookname (ie. Genesis)
-                FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
-
-                //Set Codepage
-                StreamReader sr;
-                if (cboEncoding.Text == "")
-                {
-                    sr = new StreamReader(file, Encoding.UTF8, false);
-                }
-                else
-                {
-                    string sEncoding = cboEncoding.Text;
-                    sEncoding = sEncoding.Substring(0, sEncoding.IndexOf(" -")).Trim();
-                    sr = new StreamReader(file, Encoding.GetEncoding(Convert.ToInt16(sEncoding)), false);
-                }
-                // Create a new stream to read from a file
-                // Read contents of file into a string
-                string line = "";
-                do
-                {
-                    try
-                    {
-                        //read in a line
-                        line = sr.ReadLine();
-                    }
-                    catch (Exception ex)
-                    {
-                        //problem with read - set line to null
-                        Console.WriteLine(ex.Message);
-                        line = null;
-                    }
-                    if (line != null)
-                    {
-                        if (line.StartsWith(txtBookNameTag.Text + " "))
-                        {
-                            FileInfo fi = new FileInfo(item.ToString());
-
-                            //add to string
-                            sFullClipboardText.Add("//filename:" + fi.Name + "\n");
-                            sFullClipboardText.Add("Book: " + line.Substring(txtBookNameTag.Text.Length).Trim() + "\n");
-                            //add to listview
-                            ListViewItem li = new ListViewItem();
-                            li.Text = line.Substring(3);
-                            li.SubItems.Add(file.Name.Substring(file.Name.LastIndexOf("\\")+1));
-                            lvOutput.Items.Add(li);
-                            break;
-                        }
-                    }
-                } while (line != null);
-                // Close StreamReader
-                sr.Close();
-                // Close file
-                file.Close();
-            }
+            cUtils c = new cUtils();
+            c.ExtractBookNames(filePaths, ref lvOutput, cboEncoding.Text, txtBookNameTag.Text, sFullClipboardText);
 
             //take out comments
             ProcessText();
@@ -2445,6 +2404,545 @@ namespace GBC_USFM_Preprocessor
             {
                 txtReplacemetText.BackColor = Color.White;
             }
+        }
+
+        private void cmdGenerateEPUB_Click(object sender, EventArgs e)
+        {
+            //show the export path to the user
+            string sExportPath = sExportPath = txtDir.Text;
+
+            //add on trailing \ character
+            if (!sExportPath.EndsWith(@"\"))
+            {
+                sExportPath += @"\";
+            }
+            lblExportTo.Text = "Exporting To: " + sExportPath;
+
+            //create directory if it doesn't exist
+            if (!Directory.Exists(sExportPath))
+            {
+                Directory.CreateDirectory(sExportPath);
+            }
+
+            //give the user a chance to abort.
+            if (MessageBox.Show("Use of this function will overwrite all .htm files in your export directory", "Continue?", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+
+            //change the screen cursor
+            this.Cursor = Cursors.WaitCursor;
+
+            bool bProblem = false;
+            bool bChapterZero = false;
+            //process each file
+            //get all the USFM files to process
+            string[] filePaths = System.IO.Directory.GetFiles(txtDir.Text, "*." + cboExt.Text);
+            List<cBQ_IniStructure> oIniFile = new List<cBQ_IniStructure>();
+
+            //calculate the number of files we are going to parse so we can set
+            //the progress bar max
+            progressBar1.Value = 0;
+            progressBar1.Maximum = filePaths.Length;
+
+            //iterate through each file
+            foreach (string item in filePaths)
+            {
+                bProblem = false;
+                //create a book object to hold the chapters / verses
+                cBQ_Book oBook = new cBQ_Book();
+
+                //open each book up and get the bookname (ie. Genesis)
+                FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
+                FileInfo fi = new FileInfo(file.Name);
+                string sFilename = fi.Name;
+                string sFileOutName = sExportPath + fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
+
+                //get the bookname before swapping out the replacement characters as we need
+                //it for the DigiView listbox
+                string line;
+                string sBookName = "";
+                //Set Codepage
+                using (StreamReader srBookname = new StreamReader(item, Encoding.UTF8, false))
+                {
+                    while ((line = srBookname.ReadLine()) != null)
+                    {
+                        if (line.StartsWith(txtBQ_BooknameTag.Text))
+                        {
+                            sBookName = line;
+                            sBookName = sBookName.Substring(sBookName.IndexOf(" ")).Trim();
+                            break;
+                        }
+                    }
+                }
+
+                // Create a new stream to read from a file
+                // Read contents of file into a string
+                StreamReader sr = new StreamReader(item, Encoding.UTF8, false);
+                line = sr.ReadToEnd();
+
+                //swap out the funny characters for the HTML codes if needed
+                if (chkCharacterReplacement.Checked)
+                {
+                    if (_fChar != null)
+                    {
+                        //get the current datatable
+                        _charHTMLdatatable = _fChar.charHTMLdatatable;
+                    }
+
+                    for (int i = 0; i < _charHTMLdatatable.Rows.Count; i++)
+                    {
+                        //loop through making the character changes
+                        try
+                        {
+                            line = Regex.Replace(line, _charHTMLdatatable.Rows[i][0].ToString(), _charHTMLdatatable.Rows[i][1].ToString());
+                        }
+                        catch (ArgumentException)
+                        {
+                            // Syntax error in the regular expression
+                        }
+                    }
+
+
+                }
+
+                //split the text at the chapter tag as we don't need the header information
+                try
+                {
+                    //split the file based upon the chapter tags
+                    string[] sChapters = Regex.Split(line, @"\\c ", RegexOptions.Multiline);
+                    for (int i = 0; i < sChapters.Length; i++)
+                    {
+                        string sSection = sChapters[i];
+                        if (i == 0)
+                        {
+                            //prechapter text that could be in the introduction
+
+                            //get the bible header
+                            int iStart = sSection.IndexOf(txtBQ_BooknameTag.Text);
+                            int iEnd;
+                            if (iStart > 0)
+                            {
+                                iStart += 3; //add in for the \h tag and space themselves
+                                iEnd = sSection.IndexOf("\r\n", iStart);
+                                if (iEnd > iStart)
+                                {
+                                    oBook.sBookName = sSection.Substring(iStart, iEnd - iStart);
+                                }
+                            }
+
+                            //look for any intro paragraphs
+                            if (sSection.IndexOf("\\ip ") > 0)
+                            {
+                                //create a Chapter 0 chapter
+                                cBQ_Chapter oChap = new cBQ_Chapter(0);
+                                //grab all the \ip lines of text
+                                try
+                                {
+                                    Regex regexObj = new Regex(@"^.*((\\ip ).*$\r?\n?)|((\\io[0-9] ).*$\r?\n?)", RegexOptions.Multiline);
+                                    Match matchResults = regexObj.Match(sSection);
+                                    while (matchResults.Success)
+                                    {
+                                        if (matchResults.Value.Substring(0, 3) == @"\ip")
+                                        {
+                                            oChap.AddVerse(ParseHeaderTags(matchResults.Value));
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("<br/>");
+                                            matchResults = matchResults.NextMatch();
+                                        }
+                                        else if (matchResults.Value.Substring(0, 3) == @"\io")
+                                        {
+                                            //make table of contents for chapter 0 of each book
+                                            int iIndentPrev = 0;
+                                            int iCountFirstLvl = 0;
+                                            while (matchResults.Success)
+                                            {
+                                                //check this line versus previous
+                                                int iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
+                                                //if it's a deeper level slap <ol> at the end of the previous verse
+                                                string sOL_Type = "type=\"I\"";
+
+                                                if (iIndent == 2)
+                                                {
+                                                    sOL_Type = "type=\"1\"";
+                                                }
+                                                else if (iIndent == 3)
+                                                {
+                                                    sOL_Type = "type=\"i\"";
+                                                }
+                                                else
+                                                {
+                                                    iCountFirstLvl = iCountFirstLvl + 1;
+                                                    sOL_Type = "value=\"" + iCountFirstLvl + "\" type=\"I\"";
+
+                                                }
+                                                if (iIndent > iIndentPrev)
+                                                {
+                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "<ol " + sOL_Type + ">";
+                                                }
+                                                //if it's previous level slap "</ol>" at the end of the previous verse
+                                                else if (iIndent < iIndentPrev)
+                                                {
+                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</ol>";
+                                                }
+                                                //do nothing if it's the same level
+                                                else
+                                                {
+
+                                                }
+
+                                                //process the level
+                                                //replace io's with <li> tags
+                                                if (matchResults.Value.Substring(0, 3) == @"\io")
+                                                {
+                                                    oChap.AddVerse(Regex.Replace(matchResults.Value, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
+                                                }
+                                                //in case it has ip's in the middle of io's check how deep was the list
+                                                else
+                                                {
+                                                    //if deeper than 1 then close ol tag
+                                                    if (iIndentPrev - iIndent > 2)
+                                                    {
+                                                        oChap.AddVerse("</ol>");
+                                                        oChap.AddVerse("</ol>");
+                                                    }
+                                                    else
+                                                    {
+                                                        oChap.AddVerse("</ol>");
+                                                    }
+                                                    //insert actual line surrounded by breaks
+                                                    oChap.AddVerse("<br/>");
+                                                    oChap.AddVerse(ParseHeaderTags(matchResults.Value));
+                                                    oChap.AddVerse("<br/>");
+                                                }
+
+                                                matchResults = matchResults.NextMatch();
+
+                                                //set the variable for current indentation level
+                                                iIndentPrev = iIndent;
+
+
+                                            }
+                                            oChap.AddVerse("</ol>");
+                                        }
+
+                                    }
+                                }
+                                catch (ArgumentException ex)
+                                {
+                                    Console.WriteLine("ERROR: " + ex.Message);
+                                    throw;
+                                }
+
+                                //if anything was added then add this to the overall book
+                                if (oChap.VerseCount > 0)
+                                {
+                                    bChapterZero = true;
+                                    oBook.AddChapter(oChap);
+                                }
+                            }
+                            else //if chapter 0 is empty like in 2Sam, 2Ki, and 2Chron
+                            {
+                                cBQ_Chapter oChap = new cBQ_Chapter(0);
+                                oChap.AddVerse("<br/>");
+                                bChapterZero = true;
+                                oBook.AddChapter(oChap);
+                            }
+
+                        }
+                        else
+                        {
+                            #region normal bible chapters
+                            cBQ_Chapter oChap = new cBQ_Chapter(i);
+                            //grab all the \ip lines of text
+                            try
+                            {
+                                bool bNewParagraph = false;//if new paragraph must be started
+                                bool bPI = false;//if blockquote is open
+                                bool bDTtag = false;//if dt tag was open
+
+                                //todo add in the \s tag processing
+                                Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
+                                Match matchResults = regexObj.Match(sSection);
+                                while (matchResults.Success)
+                                {
+
+                                    //if it's a heading
+                                    if (matchResults.Value.Substring(0, 2) == @"\s")
+                                    {
+
+                                        //if it's an \s tag
+                                        string sTemp = ParseVerseTags(matchResults.Value);
+                                        //put in extra breaks
+                                        string sPrevVerse = "";
+                                        if (bPI)
+                                        {
+                                            //close \pi (blockquote) tag if it was open
+                                            oChap.AddVerse("</blockquote>");
+                                            //and set bPI to false to show it's been closed
+                                            bPI = false;
+                                            //there is no need for a <br> tag because blockquote takes some extra space before and after
+                                        }
+                                        if (oChap.Verses.Count > 0)
+                                        {
+                                            //find the number of the previous verse (if there are verses)
+                                            sPrevVerse = oChap.Verses[oChap.Verses.Count - 1].ToString();
+                                        }
+
+                                        //if previous verse does not end with <h2> (if it's not a header) then add some breaks
+                                        if (!sPrevVerse.EndsWith("</h2>"))
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("<br/>");
+                                        }
+                                        //check if dt or dd was open and close it
+                                        if (bDTtag)
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("</dt>");
+                                            bDTtag = false;
+                                        }
+                                        else if (bDDtag)
+                                        {
+                                            oChap.AddVerse("<br/>");
+                                            oChap.AddVerse("</dd><dt></dt>");
+                                            bDDtag = false;
+                                        }
+
+                                        oChap.AddVerse("! <b>" + sTemp + "</b>");
+                                        oChap.AddVerse("<br/>");
+
+                                    }
+                                    //if it's a parallel ref
+                                    else if (matchResults.Value.Substring(0, 2) == @"\r")
+                                    {
+
+                                        //if it's an \r tag
+                                        string sTemp = matchResults.Value;
+                                        sTemp = sTemp.Replace(@"\r", "").Trim();
+                                        //put in extra breaks
+                                        oChap.AddVerse("! <i>" + sTemp + "</i>");
+                                        oChap.AddVerse("<br/>");
+
+                                    }
+                                    else if (matchResults.Value.Substring(0, 3) == @"\ms")
+                                    {
+                                        //poetry \ms tags
+                                        string sTemp = matchResults.Value;
+                                        sTemp = sTemp.Replace(@"\ms", "").Trim();
+                                        //put in extra breaks
+                                        oChap.AddVerse("<br/>");
+                                        oChap.AddVerse("! <h2>" + sTemp + "</h2>");
+
+                                    }
+
+                                    //if it's a regular verse
+                                    else if (matchResults.Value.Substring(0, 2) == @"\v")
+                                    {
+                                        string s = ParseVerseTags(matchResults.Value);
+                                        if (s != String.Empty)
+                                        {
+                                            //check if it's a new paragraph
+                                            if (bNewParagraph)
+                                            {
+                                                if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
+                                                s = s.Insert(s.IndexOf(" ") + 1, "&nbsp;&nbsp;&nbsp;");
+                                                bNewParagraph = false;
+                                            }
+
+                                            oChap.AddVerse(s);
+
+                                        }
+
+                                    }
+                                    //check if it's a blockquote tag \pi
+                                    else if (matchResults.Value.Substring(0, 3) == @"\pi")
+                                    {
+                                        //if one has already been open then close it
+                                        if (bPI)
+                                        {
+                                            oChap.AddVerse("</blockquote>");
+                                        }
+                                        //indicate that you're openning one
+                                        bPI = true;
+                                        //parse the string, should come back the same
+                                        string s = ParseVerseTags(matchResults.Value);
+                                        //then replace the \pi in the beginning
+                                        //s = s.Replace(@"\pi", "").Trim();
+                                        //add a blockquote line
+                                        //oChap.AddVerse("<blockquote>");
+                                        //add actual text
+                                        oChap.AddVerse(s);
+                                    }
+                                    else
+                                    {
+                                        //if it's everything else
+                                        string s = ParseVerseTags(matchResults.Value);
+                                        if (s != String.Empty)
+                                        {
+                                            //if it's an empty /p tag, make bNewParagraph true, 
+                                            //so that we can slap in some &nbsp's in front of the next line
+                                            if (s == "p")
+                                            {
+                                                bNewParagraph = true;
+                                                oChap.AddVerse("<br/>");
+
+                                            }
+                                            else if (s == "<dt>")
+                                            {
+                                                if (bDTtag)
+                                                {
+                                                    oChap.AddVerse("</dt>");
+                                                    bDTtag = false;
+                                                }
+                                                else if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
+                                                oChap.AddVerse("<br/>");
+                                                oChap.AddVerse(s);
+                                                bDTtag = true;
+
+                                            }
+                                            else if (s == "<dd>")
+                                            {
+                                                if (bDTtag)
+                                                {
+                                                    oChap.AddVerse("</dt>");
+                                                    bDTtag = false;
+                                                }
+                                                else if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
+                                                oChap.AddVerse("<br/>");
+                                                oChap.AddVerse(s);
+                                                bDDtag = true;
+                                            }
+                                            else
+                                            {
+                                                if (bDTtag)
+                                                {
+                                                    oChap.AddVerse("</dt>");
+                                                    bDTtag = false;
+                                                }
+                                                else if (bDDtag)
+                                                {
+                                                    oChap.AddVerse("</dd><dt></dt>");
+                                                    bDDtag = false;
+                                                }
+                                                //mostly non-empty \p tags
+                                                oChap.AddVerse("<br/>");
+                                                oChap.AddVerse(s);
+                                            }
+
+
+                                        }
+                                        else //this includes \b, \q1, \li1 and so on tags
+                                        {
+                                            if (bPI)
+                                            {
+                                                //close \pi (blockquote) tag if it was open
+                                                oChap.AddVerse("</blockquote>");
+                                                //and set bPI to false to show it's been closed
+                                                bPI = false;
+                                                //there is no need for a <br> tag because blockquote takes some extra space before and after
+                                            }
+                                            else if (!bDDtag)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                oChap.AddVerse("<br/>");
+                                            }
+
+                                        }
+
+                                    }
+                                    matchResults = matchResults.NextMatch();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("ERROR: " + ex.Message);
+                                throw;
+                            }
+                            #endregion
+                            //add in the chapter to the book object
+                            oBook.AddChapter(oChap);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    bProblem = true;
+                    Console.WriteLine("ERROR: " + ex.Message);
+                    throw;
+                }
+
+                // Close StreamReader
+                sr.Close();
+                // Close file
+                file.Close();
+
+                //dump out the book to a file
+                ExportBQFile(sFileOutName, oBook);
+
+                //create a new ini entry
+                cBQ_IniStructure oIni = new cBQ_IniStructure();
+                oIni.PathName = fi.Name.Substring(0, fi.Name.LastIndexOf(".")) + ".htm";
+                oIni.FullName = sBookName;  //the book name with all the unicode characters
+                oIni.HTMLName = oBook.sBookName;  //the book name with HTML characters
+                oIni.ChapterQty = oBook.GetNumberOfChapters;
+
+                //add into the ini collection
+                oIniFile.Add(oIni);
+
+                //iterate the progress bar
+                progressBar1.Value++;
+                this.Refresh();
+            }
+
+            //reset the cursor
+            this.Cursor = Cursors.Default;
+
+        //    //check for DigiStudy's existance
+        //    if (File.Exists(_sDigiStudyPath + "digistudy.exe"))
+        //    {
+        //        if (MessageBox.Show("Completed Conversion - Do you wish to start DigiStudy?", "Completed", MessageBoxButtons.YesNo) == DialogResult.Yes)
+        //        {
+        //            System.Diagnostics.Process.Start(_sDigiStudyPath + "digistudy.exe");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Completed Conversion");
+        //    }
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBookNameTag_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdSetBookOrder_Click(object sender, EventArgs e)
+        {
+            frmSetBookOrder f = new frmSetBookOrder(this);
+            f.Show();
         }
 
 

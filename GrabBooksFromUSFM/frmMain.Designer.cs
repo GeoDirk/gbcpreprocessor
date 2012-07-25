@@ -62,6 +62,7 @@
             this.cmdScanTags = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chkVerseRangeMarkers = new System.Windows.Forms.CheckBox();
             this.txtReplacemetText = new System.Windows.Forms.TextBox();
             this.lblReplacement = new System.Windows.Forms.Label();
             this.cmdReportAndFix = new System.Windows.Forms.Button();
@@ -128,7 +129,23 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
-            this.chkVerseRangeMarkers = new System.Windows.Forms.CheckBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.cmdGenerateEPUB = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.DragAndDropListView1 = new DragNDrop.DragAndDropListView();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label23 = new System.Windows.Forms.Label();
+            this.cmdSetBookOrder = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -149,13 +166,15 @@
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdClose
             // 
             this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdClose.Location = new System.Drawing.Point(817, 663);
-            this.cmdClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdClose.Margin = new System.Windows.Forms.Padding(4);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(100, 28);
             this.cmdClose.TabIndex = 1;
@@ -172,8 +191,9 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Location = new System.Drawing.Point(0, 91);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(920, 574);
@@ -184,9 +204,9 @@
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(912, 545);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Standard Utilities";
@@ -203,9 +223,9 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.txtOutFileExtension);
             this.groupBox3.Location = new System.Drawing.Point(4, 7);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(901, 76);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
@@ -217,7 +237,7 @@
             this.ckAddBOM.Location = new System.Drawing.Point(659, 43);
             this.ckAddBOM.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ckAddBOM.Name = "ckAddBOM";
-            this.ckAddBOM.Size = new System.Drawing.Size(228, 26);
+            this.ckAddBOM.Size = new System.Drawing.Size(171, 21);
             this.ckAddBOM.TabIndex = 18;
             this.ckAddBOM.Text = "add BOM to UTF-8 file";
             this.ckAddBOM.UseVisualStyleBackColor = true;
@@ -226,7 +246,7 @@
             // 
             this.cboEncoding.FormattingEnabled = true;
             this.cboEncoding.Location = new System.Drawing.Point(111, 43);
-            this.cboEncoding.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboEncoding.Margin = new System.Windows.Forms.Padding(4);
             this.cboEncoding.Name = "cboEncoding";
             this.cboEncoding.Size = new System.Drawing.Size(493, 24);
             this.cboEncoding.TabIndex = 8;
@@ -244,7 +264,7 @@
             // cmdConvertToUTF_WithoutBOM
             // 
             this.cmdConvertToUTF_WithoutBOM.Location = new System.Drawing.Point(621, 10);
-            this.cmdConvertToUTF_WithoutBOM.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdConvertToUTF_WithoutBOM.Margin = new System.Windows.Forms.Padding(4);
             this.cmdConvertToUTF_WithoutBOM.Name = "cmdConvertToUTF_WithoutBOM";
             this.cmdConvertToUTF_WithoutBOM.Size = new System.Drawing.Size(247, 28);
             this.cmdConvertToUTF_WithoutBOM.TabIndex = 13;
@@ -265,7 +285,7 @@
             // txtOutFileExtension
             // 
             this.txtOutFileExtension.Location = new System.Drawing.Point(220, 16);
-            this.txtOutFileExtension.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtOutFileExtension.Margin = new System.Windows.Forms.Padding(4);
             this.txtOutFileExtension.Name = "txtOutFileExtension";
             this.txtOutFileExtension.Size = new System.Drawing.Size(64, 22);
             this.txtOutFileExtension.TabIndex = 16;
@@ -286,9 +306,9 @@
             this.groupBox2.Controls.Add(this.radioDropComments);
             this.groupBox2.Controls.Add(this.radioKeepComments);
             this.groupBox2.Location = new System.Drawing.Point(4, 91);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(901, 447);
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
@@ -299,7 +319,7 @@
             // 
             this.cmdCopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdCopyToClipboard.Location = new System.Drawing.Point(13, 410);
-            this.cmdCopyToClipboard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdCopyToClipboard.Margin = new System.Windows.Forms.Padding(4);
             this.cmdCopyToClipboard.Name = "cmdCopyToClipboard";
             this.cmdCopyToClipboard.Size = new System.Drawing.Size(171, 28);
             this.cmdCopyToClipboard.TabIndex = 20;
@@ -312,7 +332,7 @@
             this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.txtOutput.Location = new System.Drawing.Point(8, 23);
-            this.txtOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtOutput.Margin = new System.Windows.Forms.Padding(4);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(360, 381);
             this.txtOutput.TabIndex = 11;
@@ -327,7 +347,7 @@
             this.columnHeader1,
             this.columnHeader2});
             this.lvOutput.Location = new System.Drawing.Point(377, 23);
-            this.lvOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lvOutput.Margin = new System.Windows.Forms.Padding(4);
             this.lvOutput.Name = "lvOutput";
             this.lvOutput.Size = new System.Drawing.Size(508, 381);
             this.lvOutput.TabIndex = 12;
@@ -348,7 +368,7 @@
             // 
             this.cmdProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdProcess.Location = new System.Drawing.Point(707, 411);
-            this.cmdProcess.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdProcess.Margin = new System.Windows.Forms.Padding(4);
             this.cmdProcess.Name = "cmdProcess";
             this.cmdProcess.Size = new System.Drawing.Size(181, 28);
             this.cmdProcess.TabIndex = 0;
@@ -366,25 +386,27 @@
             this.label5.Size = new System.Drawing.Size(108, 17);
             this.label5.TabIndex = 15;
             this.label5.Text = "Bookname Tag:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // txtBookNameTag
             // 
             this.txtBookNameTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBookNameTag.Location = new System.Drawing.Point(644, 414);
-            this.txtBookNameTag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBookNameTag.Margin = new System.Windows.Forms.Padding(4);
             this.txtBookNameTag.Name = "txtBookNameTag";
             this.txtBookNameTag.Size = new System.Drawing.Size(52, 22);
             this.txtBookNameTag.TabIndex = 14;
             this.txtBookNameTag.Text = "\\h";
+            this.txtBookNameTag.TextChanged += new System.EventHandler(this.txtBookNameTag_TextChanged);
             // 
             // radioDropComments
             // 
             this.radioDropComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioDropComments.AutoSize = true;
-            this.radioDropComments.Location = new System.Drawing.Point(192, 420);
-            this.radioDropComments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioDropComments.Location = new System.Drawing.Point(192, 425);
+            this.radioDropComments.Margin = new System.Windows.Forms.Padding(4);
             this.radioDropComments.Name = "radioDropComments";
-            this.radioDropComments.Size = new System.Drawing.Size(156, 26);
+            this.radioDropComments.Size = new System.Drawing.Size(117, 21);
             this.radioDropComments.TabIndex = 22;
             this.radioDropComments.Text = "No Comments";
             this.radioDropComments.UseVisualStyleBackColor = true;
@@ -395,10 +417,10 @@
             this.radioKeepComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioKeepComments.AutoSize = true;
             this.radioKeepComments.Checked = true;
-            this.radioKeepComments.Location = new System.Drawing.Point(192, 400);
-            this.radioKeepComments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioKeepComments.Location = new System.Drawing.Point(192, 405);
+            this.radioKeepComments.Margin = new System.Windows.Forms.Padding(4);
             this.radioKeepComments.Name = "radioKeepComments";
-            this.radioKeepComments.Size = new System.Drawing.Size(161, 26);
+            this.radioKeepComments.Size = new System.Drawing.Size(121, 21);
             this.radioKeepComments.TabIndex = 21;
             this.radioKeepComments.TabStop = true;
             this.radioKeepComments.Text = "Full Comments";
@@ -415,9 +437,9 @@
             this.tabPage2.Controls.Add(this.gridExtraTags);
             this.tabPage2.Controls.Add(this.cmdScanTags);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(912, 545);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Extra Tags Processor";
@@ -436,7 +458,7 @@
             // txtDisplayTag
             // 
             this.txtDisplayTag.Location = new System.Drawing.Point(739, 71);
-            this.txtDisplayTag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDisplayTag.Margin = new System.Windows.Forms.Padding(4);
             this.txtDisplayTag.Multiline = true;
             this.txtDisplayTag.Name = "txtDisplayTag";
             this.txtDisplayTag.Size = new System.Drawing.Size(171, 421);
@@ -459,7 +481,7 @@
             this.txtOutputTagExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtOutputTagExtension.Enabled = false;
             this.txtOutputTagExtension.Location = new System.Drawing.Point(283, 498);
-            this.txtOutputTagExtension.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtOutputTagExtension.Margin = new System.Windows.Forms.Padding(4);
             this.txtOutputTagExtension.Name = "txtOutputTagExtension";
             this.txtOutputTagExtension.Size = new System.Drawing.Size(64, 22);
             this.txtOutputTagExtension.TabIndex = 18;
@@ -471,7 +493,7 @@
             this.btnProcessExtraTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnProcessExtraTags.Enabled = false;
             this.btnProcessExtraTags.Location = new System.Drawing.Point(359, 496);
-            this.btnProcessExtraTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnProcessExtraTags.Margin = new System.Windows.Forms.Padding(4);
             this.btnProcessExtraTags.Name = "btnProcessExtraTags";
             this.btnProcessExtraTags.Size = new System.Drawing.Size(265, 28);
             this.btnProcessExtraTags.TabIndex = 2;
@@ -488,8 +510,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridExtraTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridExtraTags.Location = new System.Drawing.Point(13, 43);
-            this.gridExtraTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gridExtraTags.Margin = new System.Windows.Forms.Padding(4);
             this.gridExtraTags.Name = "gridExtraTags";
+            this.gridExtraTags.RowTemplate.Height = 24;
             this.gridExtraTags.ShowCellToolTips = false;
             this.gridExtraTags.Size = new System.Drawing.Size(717, 450);
             this.gridExtraTags.TabIndex = 1;
@@ -498,7 +521,7 @@
             // cmdScanTags
             // 
             this.cmdScanTags.Location = new System.Drawing.Point(8, 7);
-            this.cmdScanTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdScanTags.Margin = new System.Windows.Forms.Padding(4);
             this.cmdScanTags.Name = "cmdScanTags";
             this.cmdScanTags.Size = new System.Drawing.Size(468, 28);
             this.cmdScanTags.TabIndex = 0;
@@ -511,9 +534,9 @@
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Controls.Add(this.groupBox4);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage3.Size = new System.Drawing.Size(912, 545);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Check For Consistency";
@@ -527,19 +550,31 @@
             this.groupBox5.Controls.Add(this.cmdReportAndFix);
             this.groupBox5.Controls.Add(this.cmdVersificationFind);
             this.groupBox5.Location = new System.Drawing.Point(376, 11);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox5.Size = new System.Drawing.Size(372, 168);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Look for Versification Issues";
             // 
+            // chkVerseRangeMarkers
+            // 
+            this.chkVerseRangeMarkers.AutoSize = true;
+            this.chkVerseRangeMarkers.Checked = true;
+            this.chkVerseRangeMarkers.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkVerseRangeMarkers.Location = new System.Drawing.Point(39, 133);
+            this.chkVerseRangeMarkers.Name = "chkVerseRangeMarkers";
+            this.chkVerseRangeMarkers.Size = new System.Drawing.Size(290, 21);
+            this.chkVerseRangeMarkers.TabIndex = 4;
+            this.chkVerseRangeMarkers.Text = "Add in verse range markers (e.g., {4-7})?";
+            this.chkVerseRangeMarkers.UseVisualStyleBackColor = true;
+            // 
             // txtReplacemetText
             // 
             this.txtReplacemetText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtReplacemetText.Location = new System.Drawing.Point(215, 97);
-            this.txtReplacemetText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtReplacemetText.Margin = new System.Windows.Forms.Padding(4);
             this.txtReplacemetText.Name = "txtReplacemetText";
             this.txtReplacemetText.Size = new System.Drawing.Size(117, 26);
             this.txtReplacemetText.TabIndex = 3;
@@ -559,7 +594,7 @@
             // cmdReportAndFix
             // 
             this.cmdReportAndFix.Location = new System.Drawing.Point(53, 62);
-            this.cmdReportAndFix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdReportAndFix.Margin = new System.Windows.Forms.Padding(4);
             this.cmdReportAndFix.Name = "cmdReportAndFix";
             this.cmdReportAndFix.Size = new System.Drawing.Size(280, 28);
             this.cmdReportAndFix.TabIndex = 1;
@@ -570,7 +605,7 @@
             // cmdVersificationFind
             // 
             this.cmdVersificationFind.Location = new System.Drawing.Point(53, 23);
-            this.cmdVersificationFind.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdVersificationFind.Margin = new System.Windows.Forms.Padding(4);
             this.cmdVersificationFind.Name = "cmdVersificationFind";
             this.cmdVersificationFind.Size = new System.Drawing.Size(280, 28);
             this.cmdVersificationFind.TabIndex = 0;
@@ -586,9 +621,9 @@
             this.groupBox4.Controls.Add(this.rbWordsAndPunctuation);
             this.groupBox4.Controls.Add(this.rbWordsOnly);
             this.groupBox4.Location = new System.Drawing.Point(11, 7);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(357, 135);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
@@ -597,7 +632,7 @@
             // updownLongWords
             // 
             this.updownLongWords.Location = new System.Drawing.Point(8, 23);
-            this.updownLongWords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.updownLongWords.Margin = new System.Windows.Forms.Padding(4);
             this.updownLongWords.Name = "updownLongWords";
             this.updownLongWords.Size = new System.Drawing.Size(63, 22);
             this.updownLongWords.TabIndex = 1;
@@ -611,7 +646,7 @@
             // 
             this.rbWordsAndHyphens.AutoSize = true;
             this.rbWordsAndHyphens.Location = new System.Drawing.Point(8, 81);
-            this.rbWordsAndHyphens.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbWordsAndHyphens.Margin = new System.Windows.Forms.Padding(4);
             this.rbWordsAndHyphens.Name = "rbWordsAndHyphens";
             this.rbWordsAndHyphens.Size = new System.Drawing.Size(186, 21);
             this.rbWordsAndHyphens.TabIndex = 4;
@@ -621,7 +656,7 @@
             // cmdFindAllLongWords
             // 
             this.cmdFindAllLongWords.Location = new System.Drawing.Point(79, 20);
-            this.cmdFindAllLongWords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdFindAllLongWords.Margin = new System.Windows.Forms.Padding(4);
             this.cmdFindAllLongWords.Name = "cmdFindAllLongWords";
             this.cmdFindAllLongWords.Size = new System.Drawing.Size(211, 28);
             this.cmdFindAllLongWords.TabIndex = 0;
@@ -633,7 +668,7 @@
             // 
             this.rbWordsAndPunctuation.AutoSize = true;
             this.rbWordsAndPunctuation.Location = new System.Drawing.Point(8, 106);
-            this.rbWordsAndPunctuation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbWordsAndPunctuation.Margin = new System.Windows.Forms.Padding(4);
             this.rbWordsAndPunctuation.Name = "rbWordsAndPunctuation";
             this.rbWordsAndPunctuation.Size = new System.Drawing.Size(321, 21);
             this.rbWordsAndPunctuation.TabIndex = 3;
@@ -645,7 +680,7 @@
             this.rbWordsOnly.AutoSize = true;
             this.rbWordsOnly.Checked = true;
             this.rbWordsOnly.Location = new System.Drawing.Point(8, 55);
-            this.rbWordsOnly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbWordsOnly.Margin = new System.Windows.Forms.Padding(4);
             this.rbWordsOnly.Name = "rbWordsOnly";
             this.rbWordsOnly.Size = new System.Drawing.Size(282, 21);
             this.rbWordsOnly.TabIndex = 2;
@@ -687,9 +722,9 @@
             this.tabPage4.Controls.Add(this.label2);
             this.tabPage4.Controls.Add(this.cboBQCodePage);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage4.Size = new System.Drawing.Size(912, 545);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Export to BQ/DigiStudy Format";
@@ -699,9 +734,9 @@
             // 
             this.chkCharacterReplacement.AutoSize = true;
             this.chkCharacterReplacement.Location = new System.Drawing.Point(17, 412);
-            this.chkCharacterReplacement.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkCharacterReplacement.Margin = new System.Windows.Forms.Padding(4);
             this.chkCharacterReplacement.Name = "chkCharacterReplacement";
-            this.chkCharacterReplacement.Size = new System.Drawing.Size(389, 26);
+            this.chkCharacterReplacement.Size = new System.Drawing.Size(292, 21);
             this.chkCharacterReplacement.TabIndex = 32;
             this.chkCharacterReplacement.Text = "Swap Characters for HTML friendly codes";
             this.chkCharacterReplacement.UseVisualStyleBackColor = true;
@@ -714,7 +749,7 @@
             this.panel7.Controls.Add(this.progressBar1);
             this.panel7.Controls.Add(this.cmdGenerateBQExport);
             this.panel7.Location = new System.Drawing.Point(8, 441);
-            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel7.Margin = new System.Windows.Forms.Padding(4);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(899, 86);
             this.panel7.TabIndex = 22;
@@ -732,7 +767,7 @@
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(5, 36);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(884, 18);
             this.progressBar1.TabIndex = 32;
@@ -741,7 +776,7 @@
             // cmdGenerateBQExport
             // 
             this.cmdGenerateBQExport.Location = new System.Drawing.Point(327, 4);
-            this.cmdGenerateBQExport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdGenerateBQExport.Margin = new System.Windows.Forms.Padding(4);
             this.cmdGenerateBQExport.Name = "cmdGenerateBQExport";
             this.cmdGenerateBQExport.Size = new System.Drawing.Size(232, 28);
             this.cmdGenerateBQExport.TabIndex = 29;
@@ -764,7 +799,7 @@
             // 
             this.txtBQ_BooknameTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBQ_BooknameTag.Location = new System.Drawing.Point(841, 391);
-            this.txtBQ_BooknameTag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQ_BooknameTag.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQ_BooknameTag.Name = "txtBQ_BooknameTag";
             this.txtBQ_BooknameTag.Size = new System.Drawing.Size(52, 22);
             this.txtBQ_BooknameTag.TabIndex = 30;
@@ -773,7 +808,7 @@
             // txtBQVerseSign
             // 
             this.txtBQVerseSign.Location = new System.Drawing.Point(461, 362);
-            this.txtBQVerseSign.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQVerseSign.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQVerseSign.Name = "txtBQVerseSign";
             this.txtBQVerseSign.Size = new System.Drawing.Size(132, 22);
             this.txtBQVerseSign.TabIndex = 28;
@@ -792,7 +827,7 @@
             // txtBQChapterSign
             // 
             this.txtBQChapterSign.Location = new System.Drawing.Point(165, 362);
-            this.txtBQChapterSign.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQChapterSign.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQChapterSign.Name = "txtBQChapterSign";
             this.txtBQChapterSign.Size = new System.Drawing.Size(132, 22);
             this.txtBQChapterSign.TabIndex = 26;
@@ -812,7 +847,7 @@
             // 
             this.cboBQFontCharSet.FormattingEnabled = true;
             this.cboBQFontCharSet.Location = new System.Drawing.Point(165, 329);
-            this.cboBQFontCharSet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboBQFontCharSet.Margin = new System.Windows.Forms.Padding(4);
             this.cboBQFontCharSet.Name = "cboBQFontCharSet";
             this.cboBQFontCharSet.Size = new System.Drawing.Size(512, 24);
             this.cboBQFontCharSet.TabIndex = 24;
@@ -830,7 +865,7 @@
             // txtBQAlphabet
             // 
             this.txtBQAlphabet.Location = new System.Drawing.Point(165, 263);
-            this.txtBQAlphabet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQAlphabet.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQAlphabet.Name = "txtBQAlphabet";
             this.txtBQAlphabet.Size = new System.Drawing.Size(648, 22);
             this.txtBQAlphabet.TabIndex = 22;
@@ -862,7 +897,7 @@
             this.panel6.Controls.Add(this.rbBQGreek_N);
             this.panel6.Controls.Add(this.rbBQGreek_Y);
             this.panel6.Location = new System.Drawing.Point(592, 191);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(158, 30);
             this.panel6.TabIndex = 19;
@@ -872,9 +907,9 @@
             this.rbBQGreek_N.AutoSize = true;
             this.rbBQGreek_N.Checked = true;
             this.rbBQGreek_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQGreek_N.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQGreek_N.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQGreek_N.Name = "rbBQGreek_N";
-            this.rbBQGreek_N.Size = new System.Drawing.Size(63, 26);
+            this.rbBQGreek_N.Size = new System.Drawing.Size(47, 21);
             this.rbBQGreek_N.TabIndex = 1;
             this.rbBQGreek_N.TabStop = true;
             this.rbBQGreek_N.Text = "No";
@@ -884,9 +919,9 @@
             // 
             this.rbBQGreek_Y.AutoSize = true;
             this.rbBQGreek_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQGreek_Y.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQGreek_Y.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQGreek_Y.Name = "rbBQGreek_Y";
-            this.rbBQGreek_Y.Size = new System.Drawing.Size(71, 26);
+            this.rbBQGreek_Y.Size = new System.Drawing.Size(53, 21);
             this.rbBQGreek_Y.TabIndex = 0;
             this.rbBQGreek_Y.Text = "Yes";
             this.rbBQGreek_Y.UseVisualStyleBackColor = true;
@@ -907,7 +942,7 @@
             this.panel3.Controls.Add(this.rbBQApocrypha_N);
             this.panel3.Controls.Add(this.rbBQApocrypha_Y);
             this.panel3.Location = new System.Drawing.Point(592, 153);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(158, 30);
             this.panel3.TabIndex = 17;
@@ -917,9 +952,9 @@
             this.rbBQApocrypha_N.AutoSize = true;
             this.rbBQApocrypha_N.Checked = true;
             this.rbBQApocrypha_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQApocrypha_N.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQApocrypha_N.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQApocrypha_N.Name = "rbBQApocrypha_N";
-            this.rbBQApocrypha_N.Size = new System.Drawing.Size(63, 26);
+            this.rbBQApocrypha_N.Size = new System.Drawing.Size(47, 21);
             this.rbBQApocrypha_N.TabIndex = 1;
             this.rbBQApocrypha_N.TabStop = true;
             this.rbBQApocrypha_N.Text = "No";
@@ -929,9 +964,9 @@
             // 
             this.rbBQApocrypha_Y.AutoSize = true;
             this.rbBQApocrypha_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQApocrypha_Y.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQApocrypha_Y.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQApocrypha_Y.Name = "rbBQApocrypha_Y";
-            this.rbBQApocrypha_Y.Size = new System.Drawing.Size(71, 26);
+            this.rbBQApocrypha_Y.Size = new System.Drawing.Size(53, 21);
             this.rbBQApocrypha_Y.TabIndex = 0;
             this.rbBQApocrypha_Y.Text = "Yes";
             this.rbBQApocrypha_Y.UseVisualStyleBackColor = true;
@@ -942,7 +977,7 @@
             this.panel4.Controls.Add(this.rbBQ_NT_N);
             this.panel4.Controls.Add(this.rbBQ_NT_Y);
             this.panel4.Location = new System.Drawing.Point(165, 225);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(158, 30);
             this.panel4.TabIndex = 17;
@@ -951,9 +986,9 @@
             // 
             this.rbBQ_NT_N.AutoSize = true;
             this.rbBQ_NT_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQ_NT_N.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQ_NT_N.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQ_NT_N.Name = "rbBQ_NT_N";
-            this.rbBQ_NT_N.Size = new System.Drawing.Size(63, 26);
+            this.rbBQ_NT_N.Size = new System.Drawing.Size(47, 21);
             this.rbBQ_NT_N.TabIndex = 1;
             this.rbBQ_NT_N.Text = "No";
             this.rbBQ_NT_N.UseVisualStyleBackColor = true;
@@ -963,9 +998,9 @@
             this.rbBQ_NT_Y.AutoSize = true;
             this.rbBQ_NT_Y.Checked = true;
             this.rbBQ_NT_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQ_NT_Y.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQ_NT_Y.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQ_NT_Y.Name = "rbBQ_NT_Y";
-            this.rbBQ_NT_Y.Size = new System.Drawing.Size(71, 26);
+            this.rbBQ_NT_Y.Size = new System.Drawing.Size(53, 21);
             this.rbBQ_NT_Y.TabIndex = 0;
             this.rbBQ_NT_Y.TabStop = true;
             this.rbBQ_NT_Y.Text = "Yes";
@@ -977,7 +1012,7 @@
             this.panel5.Controls.Add(this.rbBQ_OT_N);
             this.panel5.Controls.Add(this.rbBQ_OT_Y);
             this.panel5.Location = new System.Drawing.Point(165, 187);
-            this.panel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(158, 30);
             this.panel5.TabIndex = 17;
@@ -986,9 +1021,9 @@
             // 
             this.rbBQ_OT_N.AutoSize = true;
             this.rbBQ_OT_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQ_OT_N.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQ_OT_N.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQ_OT_N.Name = "rbBQ_OT_N";
-            this.rbBQ_OT_N.Size = new System.Drawing.Size(63, 26);
+            this.rbBQ_OT_N.Size = new System.Drawing.Size(47, 21);
             this.rbBQ_OT_N.TabIndex = 1;
             this.rbBQ_OT_N.Text = "No";
             this.rbBQ_OT_N.UseVisualStyleBackColor = true;
@@ -998,9 +1033,9 @@
             this.rbBQ_OT_Y.AutoSize = true;
             this.rbBQ_OT_Y.Checked = true;
             this.rbBQ_OT_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQ_OT_Y.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQ_OT_Y.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQ_OT_Y.Name = "rbBQ_OT_Y";
-            this.rbBQ_OT_Y.Size = new System.Drawing.Size(71, 26);
+            this.rbBQ_OT_Y.Size = new System.Drawing.Size(53, 21);
             this.rbBQ_OT_Y.TabIndex = 0;
             this.rbBQ_OT_Y.TabStop = true;
             this.rbBQ_OT_Y.Text = "Yes";
@@ -1012,7 +1047,7 @@
             this.panel2.Controls.Add(this.rbBQIsBible_N);
             this.panel2.Controls.Add(this.rbBQIsBible_Y);
             this.panel2.Location = new System.Drawing.Point(165, 149);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(158, 30);
             this.panel2.TabIndex = 16;
@@ -1021,9 +1056,9 @@
             // 
             this.rbBQIsBible_N.AutoSize = true;
             this.rbBQIsBible_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQIsBible_N.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQIsBible_N.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQIsBible_N.Name = "rbBQIsBible_N";
-            this.rbBQIsBible_N.Size = new System.Drawing.Size(63, 26);
+            this.rbBQIsBible_N.Size = new System.Drawing.Size(47, 21);
             this.rbBQIsBible_N.TabIndex = 1;
             this.rbBQIsBible_N.Text = "No";
             this.rbBQIsBible_N.UseVisualStyleBackColor = true;
@@ -1033,9 +1068,9 @@
             this.rbBQIsBible_Y.AutoSize = true;
             this.rbBQIsBible_Y.Checked = true;
             this.rbBQIsBible_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQIsBible_Y.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBQIsBible_Y.Margin = new System.Windows.Forms.Padding(4);
             this.rbBQIsBible_Y.Name = "rbBQIsBible_Y";
-            this.rbBQIsBible_Y.Size = new System.Drawing.Size(71, 26);
+            this.rbBQIsBible_Y.Size = new System.Drawing.Size(53, 21);
             this.rbBQIsBible_Y.TabIndex = 0;
             this.rbBQIsBible_Y.TabStop = true;
             this.rbBQIsBible_Y.Text = "Yes";
@@ -1077,7 +1112,7 @@
             this.panel1.Controls.Add(this.rbR2L);
             this.panel1.Controls.Add(this.rbL2R);
             this.panel1.Location = new System.Drawing.Point(165, 102);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(398, 39);
             this.panel1.TabIndex = 12;
@@ -1086,9 +1121,9 @@
             // 
             this.rbR2L.AutoSize = true;
             this.rbR2L.Location = new System.Drawing.Point(223, 11);
-            this.rbR2L.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbR2L.Margin = new System.Windows.Forms.Padding(4);
             this.rbR2L.Name = "rbR2L";
-            this.rbR2L.Size = new System.Drawing.Size(192, 26);
+            this.rbR2L.Size = new System.Drawing.Size(144, 21);
             this.rbR2L.TabIndex = 3;
             this.rbR2L.Text = "Right-To-Left Text";
             this.rbR2L.UseVisualStyleBackColor = true;
@@ -1098,9 +1133,9 @@
             this.rbL2R.AutoSize = true;
             this.rbL2R.Checked = true;
             this.rbL2R.Location = new System.Drawing.Point(16, 11);
-            this.rbL2R.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbL2R.Margin = new System.Windows.Forms.Padding(4);
             this.rbL2R.Name = "rbL2R";
-            this.rbL2R.Size = new System.Drawing.Size(185, 26);
+            this.rbL2R.Size = new System.Drawing.Size(139, 21);
             this.rbL2R.TabIndex = 2;
             this.rbL2R.TabStop = true;
             this.rbL2R.Text = "Left-to-Right Text";
@@ -1109,7 +1144,7 @@
             // txtBQCopyright
             // 
             this.txtBQCopyright.Location = new System.Drawing.Point(165, 70);
-            this.txtBQCopyright.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQCopyright.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQCopyright.Name = "txtBQCopyright";
             this.txtBQCopyright.Size = new System.Drawing.Size(669, 22);
             this.txtBQCopyright.TabIndex = 11;
@@ -1127,7 +1162,7 @@
             // txtBQBibleNameShort
             // 
             this.txtBQBibleNameShort.Location = new System.Drawing.Point(165, 38);
-            this.txtBQBibleNameShort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQBibleNameShort.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQBibleNameShort.Name = "txtBQBibleNameShort";
             this.txtBQBibleNameShort.Size = new System.Drawing.Size(669, 22);
             this.txtBQBibleNameShort.TabIndex = 9;
@@ -1145,7 +1180,7 @@
             // txtBQBibleNameFull
             // 
             this.txtBQBibleNameFull.Location = new System.Drawing.Point(165, 6);
-            this.txtBQBibleNameFull.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBQBibleNameFull.Margin = new System.Windows.Forms.Padding(4);
             this.txtBQBibleNameFull.Name = "txtBQBibleNameFull";
             this.txtBQBibleNameFull.Size = new System.Drawing.Size(669, 22);
             this.txtBQBibleNameFull.TabIndex = 7;
@@ -1174,7 +1209,7 @@
             // 
             this.cboBQCodePage.FormattingEnabled = true;
             this.cboBQCodePage.Location = new System.Drawing.Point(165, 295);
-            this.cboBQCodePage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboBQCodePage.Margin = new System.Windows.Forms.Padding(4);
             this.cboBQCodePage.Name = "cboBQCodePage";
             this.cboBQCodePage.Size = new System.Drawing.Size(512, 24);
             this.cboBQCodePage.TabIndex = 0;
@@ -1183,14 +1218,15 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.cmdSetBookOrder);
             this.groupBox1.Controls.Add(this.cboExt);
             this.groupBox1.Controls.Add(this.txtDir);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cmdGetDir);
             this.groupBox1.Location = new System.Drawing.Point(9, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(911, 86);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
@@ -1200,7 +1236,7 @@
             // 
             this.cboExt.FormattingEnabled = true;
             this.cboExt.Location = new System.Drawing.Point(161, 53);
-            this.cboExt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboExt.Margin = new System.Windows.Forms.Padding(4);
             this.cboExt.Name = "cboExt";
             this.cboExt.Size = new System.Drawing.Size(93, 24);
             this.cboExt.TabIndex = 11;
@@ -1210,9 +1246,9 @@
             this.txtDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDir.Location = new System.Drawing.Point(40, 22);
-            this.txtDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDir.Margin = new System.Windows.Forms.Padding(4);
             this.txtDir.Name = "txtDir";
-            this.txtDir.Size = new System.Drawing.Size(856, 22);
+            this.txtDir.Size = new System.Drawing.Size(649, 22);
             this.txtDir.TabIndex = 2;
             this.txtDir.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDir_KeyDown);
             // 
@@ -1230,7 +1266,7 @@
             // 
             this.cmdGetDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdGetDir.Location = new System.Drawing.Point(7, 20);
-            this.cmdGetDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdGetDir.Margin = new System.Windows.Forms.Padding(4);
             this.cmdGetDir.Name = "cmdGetDir";
             this.cmdGetDir.Size = new System.Drawing.Size(33, 28);
             this.cmdGetDir.TabIndex = 10;
@@ -1263,7 +1299,7 @@
             // cmdAbout
             // 
             this.cmdAbout.Location = new System.Drawing.Point(715, 663);
-            this.cmdAbout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdAbout.Margin = new System.Windows.Forms.Padding(4);
             this.cmdAbout.Name = "cmdAbout";
             this.cmdAbout.Size = new System.Drawing.Size(100, 28);
             this.cmdAbout.TabIndex = 22;
@@ -1271,17 +1307,186 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
-            // chkVerseRangeMarkers
+            // tabPage5
             // 
-            this.chkVerseRangeMarkers.AutoSize = true;
-            this.chkVerseRangeMarkers.Checked = true;
-            this.chkVerseRangeMarkers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVerseRangeMarkers.Location = new System.Drawing.Point(39, 133);
-            this.chkVerseRangeMarkers.Name = "chkVerseRangeMarkers";
-            this.chkVerseRangeMarkers.Size = new System.Drawing.Size(290, 21);
-            this.chkVerseRangeMarkers.TabIndex = 4;
-            this.chkVerseRangeMarkers.Text = "Add in verse range markers (e.g., {4-7})?";
-            this.chkVerseRangeMarkers.UseVisualStyleBackColor = true;
+            this.tabPage5.Controls.Add(this.label23);
+            this.tabPage5.Controls.Add(this.DragAndDropListView1);
+            this.tabPage5.Controls.Add(this.checkBox1);
+            this.tabPage5.Controls.Add(this.panel8);
+            this.tabPage5.Controls.Add(this.label20);
+            this.tabPage5.Controls.Add(this.textBox1);
+            this.tabPage5.Controls.Add(this.textBox2);
+            this.tabPage5.Controls.Add(this.label21);
+            this.tabPage5.Controls.Add(this.textBox3);
+            this.tabPage5.Controls.Add(this.label22);
+            this.tabPage5.Location = new System.Drawing.Point(4, 25);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(912, 545);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Export as ePub";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(590, 88);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(292, 21);
+            this.checkBox1.TabIndex = 40;
+            this.checkBox1.Text = "Swap Characters for HTML friendly codes";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.label3);
+            this.panel8.Controls.Add(this.progressBar2);
+            this.panel8.Controls.Add(this.cmdGenerateEPUB);
+            this.panel8.Location = new System.Drawing.Point(7, 269);
+            this.panel8.Margin = new System.Windows.Forms.Padding(4);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(899, 86);
+            this.panel8.TabIndex = 33;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 58);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 17);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "Exporting To:";
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(5, 36);
+            this.progressBar2.Margin = new System.Windows.Forms.Padding(4);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(884, 18);
+            this.progressBar2.TabIndex = 32;
+            this.progressBar2.Value = 50;
+            // 
+            // cmdGenerateEPUB
+            // 
+            this.cmdGenerateEPUB.Location = new System.Drawing.Point(327, 4);
+            this.cmdGenerateEPUB.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdGenerateEPUB.Name = "cmdGenerateEPUB";
+            this.cmdGenerateEPUB.Size = new System.Drawing.Size(232, 28);
+            this.cmdGenerateEPUB.TabIndex = 29;
+            this.cmdGenerateEPUB.Text = "Generate BQ Export";
+            this.cmdGenerateEPUB.UseVisualStyleBackColor = true;
+            this.cmdGenerateEPUB.Click += new System.EventHandler(this.cmdGenerateEPUB_Click);
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(591, 121);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(150, 17);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "USFM Bookname Tag:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(753, 117);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(52, 22);
+            this.textBox1.TabIndex = 38;
+            this.textBox1.Text = "\\h";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(718, 58);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(132, 22);
+            this.textBox2.TabIndex = 37;
+            this.textBox2.Text = "<vs>";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(589, 62);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(81, 17);
+            this.label21.TabIndex = 36;
+            this.label21.Text = "Verse Sign:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(718, 28);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(132, 22);
+            this.textBox3.TabIndex = 35;
+            this.textBox3.Text = "<h4>";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(594, 32);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(90, 17);
+            this.label22.TabIndex = 34;
+            this.label22.Text = "ChapterSign:";
+            // 
+            // DragAndDropListView1
+            // 
+            this.DragAndDropListView1.AllowDrop = true;
+            this.DragAndDropListView1.AllowReorder = true;
+            this.DragAndDropListView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DragAndDropListView1.CheckBoxes = true;
+            this.DragAndDropListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader4});
+            this.DragAndDropListView1.FullRowSelect = true;
+            this.DragAndDropListView1.GridLines = true;
+            this.DragAndDropListView1.LineColor = System.Drawing.Color.Green;
+            this.DragAndDropListView1.Location = new System.Drawing.Point(8, 23);
+            this.DragAndDropListView1.Name = "DragAndDropListView1";
+            this.DragAndDropListView1.Size = new System.Drawing.Size(551, 239);
+            this.DragAndDropListView1.TabIndex = 41;
+            this.DragAndDropListView1.UseCompatibleStateImageBehavior = false;
+            this.DragAndDropListView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Width = 190;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Width = 244;
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(5, 3);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(295, 17);
+            this.label23.TabIndex = 42;
+            this.label23.Text = "Reorder the books into the correct sequence:";
+            // 
+            // cmdSetBookOrder
+            // 
+            this.cmdSetBookOrder.Location = new System.Drawing.Point(713, 20);
+            this.cmdSetBookOrder.Name = "cmdSetBookOrder";
+            this.cmdSetBookOrder.Size = new System.Drawing.Size(181, 28);
+            this.cmdSetBookOrder.TabIndex = 12;
+            this.cmdSetBookOrder.Text = "Set Book Order";
+            this.cmdSetBookOrder.UseVisualStyleBackColor = true;
+            this.cmdSetBookOrder.Click += new System.EventHandler(this.cmdSetBookOrder_Click);
             // 
             // frmMain
             // 
@@ -1294,7 +1499,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(933, 733);
             this.MinimumSize = new System.Drawing.Size(933, 733);
@@ -1337,6 +1542,10 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1443,6 +1652,23 @@
         private System.Windows.Forms.Label lblReplacement;
         private System.Windows.Forms.TextBox txtReplacemetText;
         private System.Windows.Forms.CheckBox chkVerseRangeMarkers;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.Button cmdGenerateEPUB;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private DragNDrop.DragAndDropListView DragAndDropListView1;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.Button cmdSetBookOrder;
     }
 }
 

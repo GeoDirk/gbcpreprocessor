@@ -78,6 +78,140 @@ namespace GBC_USFM_Preprocessor
             }
         }
 
+        //overload for normal Listview
+        internal ArrayList ExtractBookNames(string[] filePaths, ref System.Windows.Forms.ListView lvOutput, string sEncoding, 
+            string sBookNameTag, ArrayList sFullClipboardText)
+        {
+            lvOutput.Items.Clear();
+            foreach (string item in filePaths)
+            {
+
+                //open each book up and get the bookname (ie. Genesis)
+                FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
+
+                //Set Codepage
+                StreamReader sr;
+                if (sEncoding == "")
+                {
+                    sr = new StreamReader(file, Encoding.UTF8, false);
+                }
+                else
+                {
+                    sEncoding = sEncoding.Substring(0, sEncoding.IndexOf(" -")).Trim();
+                    sr = new StreamReader(file, Encoding.GetEncoding(Convert.ToInt16(sEncoding)), false);
+                }
+                // Create a new stream to read from a file
+                // Read contents of file into a string
+                string line = "";
+                do
+                {
+                    try
+                    {
+                        //read in a line
+                        line = sr.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        //problem with read - set line to null
+                        Console.WriteLine(ex.Message);
+                        line = null;
+                    }
+                    if (line != null)
+                    {
+                        if (line.StartsWith(sBookNameTag + " "))
+                        {
+                            FileInfo fi = new FileInfo(item.ToString());
+
+                            //add to string
+                            sFullClipboardText.Add("//filename:" + fi.Name + "\n");
+                            sFullClipboardText.Add("Book: " + line.Substring(sBookNameTag.Length).Trim() + "\n");
+                            //add to listview
+                            System.Windows.Forms.ListViewItem li = new System.Windows.Forms.ListViewItem();
+                            li.Text = line.Substring(3);
+                            li.SubItems.Add(file.Name.Substring(file.Name.LastIndexOf("\\") + 1));
+                            lvOutput.Items.Add(li);
+                            break;
+                        }
+                    }
+                } while (line != null);
+                // Close StreamReader
+                sr.Close();
+                // Close file
+                file.Close();
+            }
+            return sFullClipboardText;
+        }
+
+        //overload for Drag & Drop Listview
+        internal ArrayList ExtractBookNames(string[] filePaths, ref DragNDrop.DragAndDropListView lvOutput, string sEncoding,
+            string sBookNameTag, ArrayList sFullClipboardText)
+        {
+            lvOutput.Items.Clear();
+            int iCount = 1;
+            foreach (string item in filePaths)
+            {
+
+                //open each book up and get the bookname (ie. Genesis)
+                FileStream file = new FileStream(item, FileMode.OpenOrCreate, FileAccess.Read);
+
+                //Set Codepage
+                StreamReader sr;
+                if (sEncoding == "")
+                {
+                    sr = new StreamReader(file, Encoding.UTF8, false);
+                }
+                else
+                {
+                    sEncoding = sEncoding.Substring(0, sEncoding.IndexOf(" -")).Trim();
+                    sr = new StreamReader(file, Encoding.GetEncoding(Convert.ToInt16(sEncoding)), false);
+                }
+                // Create a new stream to read from a file
+                // Read contents of file into a string
+                string line = "";
+                do
+                {
+                    try
+                    {
+                        //read in a line
+                        line = sr.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        //problem with read - set line to null
+                        Console.WriteLine(ex.Message);
+                        line = null;
+                    }
+                    if (line != null)
+                    {
+                        if (line.StartsWith(sBookNameTag + " "))
+                        {
+                            FileInfo fi = new FileInfo(item.ToString());
+
+                            //add to string
+                            sFullClipboardText.Add("//filename:" + fi.Name + "\n");
+                            sFullClipboardText.Add("Book: " + line.Substring(sBookNameTag.Length).Trim() + "\n");
+                            //add to listview
+                            System.Windows.Forms.ListViewItem li = new System.Windows.Forms.ListViewItem();
+                            li.Text = iCount.ToString();
+                            li.SubItems.Add(line.Substring(3));
+                            li.SubItems.Add(file.Name.Substring(file.Name.LastIndexOf("\\") + 1));
+                            lvOutput.Items.Add(li);
+                            break;
+                        }
+                    }
+                } while (line != null);
+                // Close StreamReader
+                sr.Close();
+                // Close file
+                file.Close();
+                iCount++;
+            }
+            return sFullClipboardText;
+        }
+
+
 
     }
+
+
 }
