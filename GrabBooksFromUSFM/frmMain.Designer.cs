@@ -1158,7 +1158,7 @@
             this.cmdLoadBookOrder.Name = "cmdLoadBookOrder";
             this.cmdLoadBookOrder.Size = new System.Drawing.Size(187, 23);
             this.cmdLoadBookOrder.TabIndex = 43;
-            this.cmdLoadBookOrder.Text = "Load Boooks from book order file";
+            this.cmdLoadBookOrder.Text = "Load Books from book order file";
             this.cmdLoadBookOrder.UseVisualStyleBackColor = true;
             this.cmdLoadBookOrder.Click += new System.EventHandler(this.cmdLoadBookOrder_Click);
             // 

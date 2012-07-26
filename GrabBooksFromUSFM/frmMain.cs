@@ -2952,13 +2952,14 @@ namespace GBC_USFM_Preprocessor
             //find out if \usfm_book_order.....txt file exists in the directory specified in txtDir \
             //and load file order into the DragNDropListView1
             //if not, provide instructions to create it and load it into the listview
+            lvOutput.Items.Clear();
             if (txtDir.Text != "")
             {
                 if (System.IO.File.Exists(txtDir.Text + @"\usfm_book_order." + cboExt.Text + ".txt"))
                 {
                     lblInstructions.Text = "";
                     label23.BringToFront();
-                    label23.Text = label23.Text + ", select the books you want to export if needed by clicking check boxes";
+                    label23.Text = "Reorder the books into the correct sequence, select the books you want to export if needed by clicking check boxes";
                     int iCount = 1;
                     //populate ListView1 using txt tile
                     //open each book up and get the bookname (ie. Genesis)
@@ -3004,12 +3005,15 @@ namespace GBC_USFM_Preprocessor
                             //break;
                         }
                     } while (line != null);
-
+                    sr.Close();
                 }
                 else
                 {
+                    label23.Text = "";
+                    lblInstructions.BringToFront();
                     lblInstructions.Text = "Attention: usfm_book_order." + cboExt.Text + ".txt file does not exist in this location for this file type. Please click [Set Book Order] button above to check book order and create this file. Then click this button again. Or check if you've selected correct file extension.";
                 }
+                
             }
         }
 

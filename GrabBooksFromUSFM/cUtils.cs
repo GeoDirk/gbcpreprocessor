@@ -211,6 +211,63 @@ namespace GBC_USFM_Preprocessor
 
 
 
+
+        internal void LoadBookOrder(ref DragNDrop.DragAndDropListView lvOutput, string sEncoding, string file)
+        {
+            lvOutput.Items.Clear();
+            if (System.IO.File.Exists(file))
+            {
+                
+            
+                //populate ListView1 using txt tile
+                int iCount = 1;
+
+                //Set Codepage
+                StreamReader sr;
+                if (sEncoding == "")
+                {
+                    sr = new StreamReader(file, Encoding.UTF8, false);
+                }
+                else
+                {
+                    sEncoding = sEncoding.Substring(0, sEncoding.IndexOf(" -")).Trim();
+                    sr = new StreamReader(file, Encoding.GetEncoding(Convert.ToInt16(sEncoding)), false);
+                }
+                // Create a new stream to read from a file
+                // Read contents of file into a string
+                string line = "";
+                do
+                {
+                    try
+                    {
+                        //read in a line
+                        line = sr.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        //problem with read - set line to null
+                        Console.WriteLine(ex.Message);
+                        line = null;
+                    }
+                    if (line != null && !line.StartsWith("--"))
+                    {
+                        //add to listview
+                        System.Windows.Forms.ListViewItem li = new System.Windows.Forms.ListViewItem();
+                        li.Text = iCount.ToString();
+                        li.SubItems.Add(line.Substring(0, line.IndexOf("|")));
+                        li.SubItems.Add(line.Substring(line.IndexOf("|") + 1));
+                        lvOutput.Items.Add(li);
+                        iCount++;
+                        //break;
+                    }
+                } while (line != null);
+                sr.Close();
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("File " + file + "doesn't exist");
+            }
+        }
     }
 
 
