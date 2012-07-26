@@ -120,16 +120,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cboBQCodePage = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cboExt = new System.Windows.Forms.ComboBox();
-            this.txtDir = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmdGetDir = new System.Windows.Forms.Button();
-            this.ttGrid = new System.Windows.Forms.ToolTip(this.components);
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.cmdAbout = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.cmdLoadBookOrder = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -141,11 +134,21 @@
             this.label21 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.DragAndDropListView1 = new DragNDrop.DragAndDropListView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmdSetBookOrder = new System.Windows.Forms.Button();
+            this.cboExt = new System.Windows.Forms.ComboBox();
+            this.txtDir = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmdGetDir = new System.Windows.Forms.Button();
+            this.ttGrid = new System.Windows.Forms.ToolTip(this.components);
+            this.lblVersion = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cmdAbout = new System.Windows.Forms.Button();
+            this.lblInstructions = new System.Windows.Forms.Label();
+            this.lvBooks = new DragNDrop.DragAndDropListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label23 = new System.Windows.Forms.Label();
-            this.cmdSetBookOrder = new System.Windows.Forms.Button();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -164,19 +167,18 @@
             this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdClose
             // 
             this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdClose.Location = new System.Drawing.Point(817, 663);
-            this.cmdClose.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdClose.Location = new System.Drawing.Point(613, 539);
             this.cmdClose.Name = "cmdClose";
-            this.cmdClose.Size = new System.Drawing.Size(100, 28);
+            this.cmdClose.Size = new System.Drawing.Size(75, 23);
             this.cmdClose.TabIndex = 1;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
@@ -192,22 +194,20 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Location = new System.Drawing.Point(0, 91);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Location = new System.Drawing.Point(0, 74);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(920, 574);
+            this.tabControl1.Size = new System.Drawing.Size(690, 466);
             this.tabControl1.TabIndex = 20;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(912, 545);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(682, 440);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Standard Utilities";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -222,11 +222,9 @@
             this.groupBox3.Controls.Add(this.cmdConvertToUTF_WithoutBOM);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.txtOutFileExtension);
-            this.groupBox3.Location = new System.Drawing.Point(4, 7);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Location = new System.Drawing.Point(3, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(901, 76);
+            this.groupBox3.Size = new System.Drawing.Size(676, 62);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Convert Files from ANSI Code Page to UTF-8";
@@ -234,10 +232,10 @@
             // ckAddBOM
             // 
             this.ckAddBOM.AutoSize = true;
-            this.ckAddBOM.Location = new System.Drawing.Point(659, 43);
-            this.ckAddBOM.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ckAddBOM.Location = new System.Drawing.Point(494, 35);
+            this.ckAddBOM.Margin = new System.Windows.Forms.Padding(2);
             this.ckAddBOM.Name = "ckAddBOM";
-            this.ckAddBOM.Size = new System.Drawing.Size(171, 21);
+            this.ckAddBOM.Size = new System.Drawing.Size(132, 17);
             this.ckAddBOM.TabIndex = 18;
             this.ckAddBOM.Text = "add BOM to UTF-8 file";
             this.ckAddBOM.UseVisualStyleBackColor = true;
@@ -245,28 +243,25 @@
             // cboEncoding
             // 
             this.cboEncoding.FormattingEnabled = true;
-            this.cboEncoding.Location = new System.Drawing.Point(111, 43);
-            this.cboEncoding.Margin = new System.Windows.Forms.Padding(4);
+            this.cboEncoding.Location = new System.Drawing.Point(83, 35);
             this.cboEncoding.Name = "cboEncoding";
-            this.cboEncoding.Size = new System.Drawing.Size(493, 24);
+            this.cboEncoding.Size = new System.Drawing.Size(371, 21);
             this.cboEncoding.TabIndex = 8;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 20);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(18, 16);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(185, 17);
+            this.label6.Size = new System.Drawing.Size(140, 13);
             this.label6.TabIndex = 17;
             this.label6.Text = "UTF8 Output File Extension:";
             // 
             // cmdConvertToUTF_WithoutBOM
             // 
-            this.cmdConvertToUTF_WithoutBOM.Location = new System.Drawing.Point(621, 10);
-            this.cmdConvertToUTF_WithoutBOM.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdConvertToUTF_WithoutBOM.Location = new System.Drawing.Point(466, 8);
             this.cmdConvertToUTF_WithoutBOM.Name = "cmdConvertToUTF_WithoutBOM";
-            this.cmdConvertToUTF_WithoutBOM.Size = new System.Drawing.Size(247, 28);
+            this.cmdConvertToUTF_WithoutBOM.Size = new System.Drawing.Size(185, 23);
             this.cmdConvertToUTF_WithoutBOM.TabIndex = 13;
             this.cmdConvertToUTF_WithoutBOM.Text = "Convert Files To UTF-8 (no BOM)";
             this.cmdConvertToUTF_WithoutBOM.UseVisualStyleBackColor = true;
@@ -275,19 +270,17 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 48);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(18, 39);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 17);
+            this.label4.Size = new System.Drawing.Size(59, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "Codepage:";
             // 
             // txtOutFileExtension
             // 
-            this.txtOutFileExtension.Location = new System.Drawing.Point(220, 16);
-            this.txtOutFileExtension.Margin = new System.Windows.Forms.Padding(4);
+            this.txtOutFileExtension.Location = new System.Drawing.Point(165, 13);
             this.txtOutFileExtension.Name = "txtOutFileExtension";
-            this.txtOutFileExtension.Size = new System.Drawing.Size(64, 22);
+            this.txtOutFileExtension.Size = new System.Drawing.Size(49, 20);
             this.txtOutFileExtension.TabIndex = 16;
             this.txtOutFileExtension.Text = "utf";
             this.txtOutFileExtension.TextChanged += new System.EventHandler(this.txtOutFileExtension_TextChanged);
@@ -305,11 +298,9 @@
             this.groupBox2.Controls.Add(this.txtBookNameTag);
             this.groupBox2.Controls.Add(this.radioDropComments);
             this.groupBox2.Controls.Add(this.radioKeepComments);
-            this.groupBox2.Location = new System.Drawing.Point(4, 91);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Location = new System.Drawing.Point(3, 74);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(901, 447);
+            this.groupBox2.Size = new System.Drawing.Size(676, 363);
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Grab Booknames for Collections File (source files should be in UTF-8 format and m" +
@@ -318,10 +309,9 @@
             // cmdCopyToClipboard
             // 
             this.cmdCopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdCopyToClipboard.Location = new System.Drawing.Point(13, 410);
-            this.cmdCopyToClipboard.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdCopyToClipboard.Location = new System.Drawing.Point(10, 333);
             this.cmdCopyToClipboard.Name = "cmdCopyToClipboard";
-            this.cmdCopyToClipboard.Size = new System.Drawing.Size(171, 28);
+            this.cmdCopyToClipboard.Size = new System.Drawing.Size(128, 23);
             this.cmdCopyToClipboard.TabIndex = 20;
             this.cmdCopyToClipboard.Text = "Copy to Clipboard";
             this.cmdCopyToClipboard.UseVisualStyleBackColor = true;
@@ -331,10 +321,9 @@
             // 
             this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtOutput.Location = new System.Drawing.Point(8, 23);
-            this.txtOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.txtOutput.Location = new System.Drawing.Point(6, 19);
             this.txtOutput.Name = "txtOutput";
-            this.txtOutput.Size = new System.Drawing.Size(360, 381);
+            this.txtOutput.Size = new System.Drawing.Size(271, 310);
             this.txtOutput.TabIndex = 11;
             this.txtOutput.Text = "";
             // 
@@ -346,10 +335,9 @@
             this.lvOutput.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.lvOutput.Location = new System.Drawing.Point(377, 23);
-            this.lvOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.lvOutput.Location = new System.Drawing.Point(283, 19);
             this.lvOutput.Name = "lvOutput";
-            this.lvOutput.Size = new System.Drawing.Size(508, 381);
+            this.lvOutput.Size = new System.Drawing.Size(382, 310);
             this.lvOutput.TabIndex = 12;
             this.lvOutput.UseCompatibleStateImageBehavior = false;
             this.lvOutput.View = System.Windows.Forms.View.Details;
@@ -367,10 +355,9 @@
             // cmdProcess
             // 
             this.cmdProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdProcess.Location = new System.Drawing.Point(707, 411);
-            this.cmdProcess.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdProcess.Location = new System.Drawing.Point(530, 334);
             this.cmdProcess.Name = "cmdProcess";
-            this.cmdProcess.Size = new System.Drawing.Size(181, 28);
+            this.cmdProcess.Size = new System.Drawing.Size(136, 23);
             this.cmdProcess.TabIndex = 0;
             this.cmdProcess.Text = "Grab Book Names";
             this.cmdProcess.UseVisualStyleBackColor = true;
@@ -380,10 +367,9 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(525, 418);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(394, 340);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(108, 17);
+            this.label5.Size = new System.Drawing.Size(83, 13);
             this.label5.TabIndex = 15;
             this.label5.Text = "Bookname Tag:";
             this.label5.Click += new System.EventHandler(this.label5_Click);
@@ -391,10 +377,9 @@
             // txtBookNameTag
             // 
             this.txtBookNameTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBookNameTag.Location = new System.Drawing.Point(644, 414);
-            this.txtBookNameTag.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBookNameTag.Location = new System.Drawing.Point(483, 336);
             this.txtBookNameTag.Name = "txtBookNameTag";
-            this.txtBookNameTag.Size = new System.Drawing.Size(52, 22);
+            this.txtBookNameTag.Size = new System.Drawing.Size(40, 20);
             this.txtBookNameTag.TabIndex = 14;
             this.txtBookNameTag.Text = "\\h";
             this.txtBookNameTag.TextChanged += new System.EventHandler(this.txtBookNameTag_TextChanged);
@@ -403,10 +388,9 @@
             // 
             this.radioDropComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioDropComments.AutoSize = true;
-            this.radioDropComments.Location = new System.Drawing.Point(192, 425);
-            this.radioDropComments.Margin = new System.Windows.Forms.Padding(4);
+            this.radioDropComments.Location = new System.Drawing.Point(144, 346);
             this.radioDropComments.Name = "radioDropComments";
-            this.radioDropComments.Size = new System.Drawing.Size(117, 21);
+            this.radioDropComments.Size = new System.Drawing.Size(91, 17);
             this.radioDropComments.TabIndex = 22;
             this.radioDropComments.Text = "No Comments";
             this.radioDropComments.UseVisualStyleBackColor = true;
@@ -417,10 +401,9 @@
             this.radioKeepComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioKeepComments.AutoSize = true;
             this.radioKeepComments.Checked = true;
-            this.radioKeepComments.Location = new System.Drawing.Point(192, 405);
-            this.radioKeepComments.Margin = new System.Windows.Forms.Padding(4);
+            this.radioKeepComments.Location = new System.Drawing.Point(144, 329);
             this.radioKeepComments.Name = "radioKeepComments";
-            this.radioKeepComments.Size = new System.Drawing.Size(121, 21);
+            this.radioKeepComments.Size = new System.Drawing.Size(93, 17);
             this.radioKeepComments.TabIndex = 21;
             this.radioKeepComments.TabStop = true;
             this.radioKeepComments.Text = "Full Comments";
@@ -436,11 +419,10 @@
             this.tabPage2.Controls.Add(this.btnProcessExtraTags);
             this.tabPage2.Controls.Add(this.gridExtraTags);
             this.tabPage2.Controls.Add(this.cmdScanTags);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(912, 545);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(682, 440);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Extra Tags Processor";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -448,20 +430,18 @@
             // lblDisplayTag
             // 
             this.lblDisplayTag.AutoSize = true;
-            this.lblDisplayTag.Location = new System.Drawing.Point(739, 43);
-            this.lblDisplayTag.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDisplayTag.Location = new System.Drawing.Point(554, 35);
             this.lblDisplayTag.Name = "lblDisplayTag";
-            this.lblDisplayTag.Size = new System.Drawing.Size(41, 17);
+            this.lblDisplayTag.Size = new System.Drawing.Size(32, 13);
             this.lblDisplayTag.TabIndex = 21;
             this.lblDisplayTag.Text = "Tag: ";
             // 
             // txtDisplayTag
             // 
-            this.txtDisplayTag.Location = new System.Drawing.Point(739, 71);
-            this.txtDisplayTag.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDisplayTag.Location = new System.Drawing.Point(554, 58);
             this.txtDisplayTag.Multiline = true;
             this.txtDisplayTag.Name = "txtDisplayTag";
-            this.txtDisplayTag.Size = new System.Drawing.Size(171, 421);
+            this.txtDisplayTag.Size = new System.Drawing.Size(129, 343);
             this.txtDisplayTag.TabIndex = 20;
             // 
             // lblOutputExtension
@@ -469,10 +449,9 @@
             this.lblOutputExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblOutputExtension.AutoSize = true;
             this.lblOutputExtension.Enabled = false;
-            this.lblOutputExtension.Location = new System.Drawing.Point(135, 502);
-            this.lblOutputExtension.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblOutputExtension.Location = new System.Drawing.Point(101, 408);
             this.lblOutputExtension.Name = "lblOutputExtension";
-            this.lblOutputExtension.Size = new System.Drawing.Size(146, 17);
+            this.lblOutputExtension.Size = new System.Drawing.Size(110, 13);
             this.lblOutputExtension.TabIndex = 19;
             this.lblOutputExtension.Text = "Output File Extension:";
             // 
@@ -480,10 +459,9 @@
             // 
             this.txtOutputTagExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtOutputTagExtension.Enabled = false;
-            this.txtOutputTagExtension.Location = new System.Drawing.Point(283, 498);
-            this.txtOutputTagExtension.Margin = new System.Windows.Forms.Padding(4);
+            this.txtOutputTagExtension.Location = new System.Drawing.Point(212, 405);
             this.txtOutputTagExtension.Name = "txtOutputTagExtension";
-            this.txtOutputTagExtension.Size = new System.Drawing.Size(64, 22);
+            this.txtOutputTagExtension.Size = new System.Drawing.Size(49, 20);
             this.txtOutputTagExtension.TabIndex = 18;
             this.txtOutputTagExtension.Text = "utf";
             this.txtOutputTagExtension.TextChanged += new System.EventHandler(this.txtOutputTagExtension_TextChanged);
@@ -492,10 +470,9 @@
             // 
             this.btnProcessExtraTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnProcessExtraTags.Enabled = false;
-            this.btnProcessExtraTags.Location = new System.Drawing.Point(359, 496);
-            this.btnProcessExtraTags.Margin = new System.Windows.Forms.Padding(4);
+            this.btnProcessExtraTags.Location = new System.Drawing.Point(269, 403);
             this.btnProcessExtraTags.Name = "btnProcessExtraTags";
-            this.btnProcessExtraTags.Size = new System.Drawing.Size(265, 28);
+            this.btnProcessExtraTags.Size = new System.Drawing.Size(199, 23);
             this.btnProcessExtraTags.TabIndex = 2;
             this.btnProcessExtraTags.Text = "Process Tags and Create New Files";
             this.btnProcessExtraTags.UseVisualStyleBackColor = true;
@@ -509,21 +486,19 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridExtraTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridExtraTags.Location = new System.Drawing.Point(13, 43);
-            this.gridExtraTags.Margin = new System.Windows.Forms.Padding(4);
+            this.gridExtraTags.Location = new System.Drawing.Point(10, 35);
             this.gridExtraTags.Name = "gridExtraTags";
             this.gridExtraTags.RowTemplate.Height = 24;
             this.gridExtraTags.ShowCellToolTips = false;
-            this.gridExtraTags.Size = new System.Drawing.Size(717, 450);
+            this.gridExtraTags.Size = new System.Drawing.Size(538, 366);
             this.gridExtraTags.TabIndex = 1;
             this.gridExtraTags.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridExtraTags_CellMouseEnter);
             // 
             // cmdScanTags
             // 
-            this.cmdScanTags.Location = new System.Drawing.Point(8, 7);
-            this.cmdScanTags.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdScanTags.Location = new System.Drawing.Point(6, 6);
             this.cmdScanTags.Name = "cmdScanTags";
-            this.cmdScanTags.Size = new System.Drawing.Size(468, 28);
+            this.cmdScanTags.Size = new System.Drawing.Size(351, 23);
             this.cmdScanTags.TabIndex = 0;
             this.cmdScanTags.Text = "Scan for Tags that will not be Processed by GBC (UTF-8 Files Only)";
             this.cmdScanTags.UseVisualStyleBackColor = true;
@@ -533,11 +508,10 @@
             // 
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Controls.Add(this.groupBox4);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(912, 545);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(682, 440);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Check For Consistency";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -549,11 +523,9 @@
             this.groupBox5.Controls.Add(this.lblReplacement);
             this.groupBox5.Controls.Add(this.cmdReportAndFix);
             this.groupBox5.Controls.Add(this.cmdVersificationFind);
-            this.groupBox5.Location = new System.Drawing.Point(376, 11);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox5.Location = new System.Drawing.Point(282, 9);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox5.Size = new System.Drawing.Size(372, 168);
+            this.groupBox5.Size = new System.Drawing.Size(279, 136);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Look for Versification Issues";
@@ -563,9 +535,10 @@
             this.chkVerseRangeMarkers.AutoSize = true;
             this.chkVerseRangeMarkers.Checked = true;
             this.chkVerseRangeMarkers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVerseRangeMarkers.Location = new System.Drawing.Point(39, 133);
+            this.chkVerseRangeMarkers.Location = new System.Drawing.Point(29, 108);
+            this.chkVerseRangeMarkers.Margin = new System.Windows.Forms.Padding(2);
             this.chkVerseRangeMarkers.Name = "chkVerseRangeMarkers";
-            this.chkVerseRangeMarkers.Size = new System.Drawing.Size(290, 21);
+            this.chkVerseRangeMarkers.Size = new System.Drawing.Size(217, 17);
             this.chkVerseRangeMarkers.TabIndex = 4;
             this.chkVerseRangeMarkers.Text = "Add in verse range markers (e.g., {4-7})?";
             this.chkVerseRangeMarkers.UseVisualStyleBackColor = true;
@@ -573,10 +546,9 @@
             // txtReplacemetText
             // 
             this.txtReplacemetText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtReplacemetText.Location = new System.Drawing.Point(215, 97);
-            this.txtReplacemetText.Margin = new System.Windows.Forms.Padding(4);
+            this.txtReplacemetText.Location = new System.Drawing.Point(161, 79);
             this.txtReplacemetText.Name = "txtReplacemetText";
-            this.txtReplacemetText.Size = new System.Drawing.Size(117, 26);
+            this.txtReplacemetText.Size = new System.Drawing.Size(89, 22);
             this.txtReplacemetText.TabIndex = 3;
             this.txtReplacemetText.Text = ". .";
             this.txtReplacemetText.TextChanged += new System.EventHandler(this.txtReplacemetText_TextChanged);
@@ -584,19 +556,17 @@
             // lblReplacement
             // 
             this.lblReplacement.AutoSize = true;
-            this.lblReplacement.Location = new System.Drawing.Point(21, 103);
-            this.lblReplacement.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReplacement.Location = new System.Drawing.Point(16, 84);
             this.lblReplacement.Name = "lblReplacement";
-            this.lblReplacement.Size = new System.Drawing.Size(183, 17);
+            this.lblReplacement.Size = new System.Drawing.Size(139, 13);
             this.lblReplacement.TabIndex = 2;
             this.lblReplacement.Text = "Replace Empty Verses With";
             // 
             // cmdReportAndFix
             // 
-            this.cmdReportAndFix.Location = new System.Drawing.Point(53, 62);
-            this.cmdReportAndFix.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdReportAndFix.Location = new System.Drawing.Point(40, 50);
             this.cmdReportAndFix.Name = "cmdReportAndFix";
-            this.cmdReportAndFix.Size = new System.Drawing.Size(280, 28);
+            this.cmdReportAndFix.Size = new System.Drawing.Size(210, 23);
             this.cmdReportAndFix.TabIndex = 1;
             this.cmdReportAndFix.Text = "Report Versification and Fix the Files";
             this.cmdReportAndFix.UseVisualStyleBackColor = true;
@@ -604,10 +574,9 @@
             // 
             // cmdVersificationFind
             // 
-            this.cmdVersificationFind.Location = new System.Drawing.Point(53, 23);
-            this.cmdVersificationFind.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdVersificationFind.Location = new System.Drawing.Point(40, 19);
             this.cmdVersificationFind.Name = "cmdVersificationFind";
-            this.cmdVersificationFind.Size = new System.Drawing.Size(280, 28);
+            this.cmdVersificationFind.Size = new System.Drawing.Size(210, 23);
             this.cmdVersificationFind.TabIndex = 0;
             this.cmdVersificationFind.Text = "Search for Versification";
             this.cmdVersificationFind.UseVisualStyleBackColor = true;
@@ -620,21 +589,18 @@
             this.groupBox4.Controls.Add(this.cmdFindAllLongWords);
             this.groupBox4.Controls.Add(this.rbWordsAndPunctuation);
             this.groupBox4.Controls.Add(this.rbWordsOnly);
-            this.groupBox4.Location = new System.Drawing.Point(11, 7);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox4.Location = new System.Drawing.Point(8, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(357, 135);
+            this.groupBox4.Size = new System.Drawing.Size(268, 110);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Check for Long Words";
             // 
             // updownLongWords
             // 
-            this.updownLongWords.Location = new System.Drawing.Point(8, 23);
-            this.updownLongWords.Margin = new System.Windows.Forms.Padding(4);
+            this.updownLongWords.Location = new System.Drawing.Point(6, 19);
             this.updownLongWords.Name = "updownLongWords";
-            this.updownLongWords.Size = new System.Drawing.Size(63, 22);
+            this.updownLongWords.Size = new System.Drawing.Size(47, 20);
             this.updownLongWords.TabIndex = 1;
             this.updownLongWords.Value = new decimal(new int[] {
             15,
@@ -645,20 +611,18 @@
             // rbWordsAndHyphens
             // 
             this.rbWordsAndHyphens.AutoSize = true;
-            this.rbWordsAndHyphens.Location = new System.Drawing.Point(8, 81);
-            this.rbWordsAndHyphens.Margin = new System.Windows.Forms.Padding(4);
+            this.rbWordsAndHyphens.Location = new System.Drawing.Point(6, 66);
             this.rbWordsAndHyphens.Name = "rbWordsAndHyphens";
-            this.rbWordsAndHyphens.Size = new System.Drawing.Size(186, 21);
+            this.rbWordsAndHyphens.Size = new System.Drawing.Size(143, 17);
             this.rbWordsAndHyphens.TabIndex = 4;
             this.rbWordsAndHyphens.Text = "Words only with hyphens";
             this.rbWordsAndHyphens.UseVisualStyleBackColor = true;
             // 
             // cmdFindAllLongWords
             // 
-            this.cmdFindAllLongWords.Location = new System.Drawing.Point(79, 20);
-            this.cmdFindAllLongWords.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdFindAllLongWords.Location = new System.Drawing.Point(59, 16);
             this.cmdFindAllLongWords.Name = "cmdFindAllLongWords";
-            this.cmdFindAllLongWords.Size = new System.Drawing.Size(211, 28);
+            this.cmdFindAllLongWords.Size = new System.Drawing.Size(158, 23);
             this.cmdFindAllLongWords.TabIndex = 0;
             this.cmdFindAllLongWords.Text = "Find All Long Words";
             this.cmdFindAllLongWords.UseVisualStyleBackColor = true;
@@ -667,10 +631,9 @@
             // rbWordsAndPunctuation
             // 
             this.rbWordsAndPunctuation.AutoSize = true;
-            this.rbWordsAndPunctuation.Location = new System.Drawing.Point(8, 106);
-            this.rbWordsAndPunctuation.Margin = new System.Windows.Forms.Padding(4);
+            this.rbWordsAndPunctuation.Location = new System.Drawing.Point(6, 86);
             this.rbWordsAndPunctuation.Name = "rbWordsAndPunctuation";
-            this.rbWordsAndPunctuation.Size = new System.Drawing.Size(321, 21);
+            this.rbWordsAndPunctuation.Size = new System.Drawing.Size(246, 17);
             this.rbWordsAndPunctuation.TabIndex = 3;
             this.rbWordsAndPunctuation.Text = "Words with hyphens and attached punctuation";
             this.rbWordsAndPunctuation.UseVisualStyleBackColor = true;
@@ -679,10 +642,9 @@
             // 
             this.rbWordsOnly.AutoSize = true;
             this.rbWordsOnly.Checked = true;
-            this.rbWordsOnly.Location = new System.Drawing.Point(8, 55);
-            this.rbWordsOnly.Margin = new System.Windows.Forms.Padding(4);
+            this.rbWordsOnly.Location = new System.Drawing.Point(6, 45);
             this.rbWordsOnly.Name = "rbWordsOnly";
-            this.rbWordsOnly.Size = new System.Drawing.Size(282, 21);
+            this.rbWordsOnly.Size = new System.Drawing.Size(213, 17);
             this.rbWordsOnly.TabIndex = 2;
             this.rbWordsOnly.TabStop = true;
             this.rbWordsOnly.Text = "Words only - no punctuation or hyphens";
@@ -721,11 +683,10 @@
             this.tabPage4.Controls.Add(this.label7);
             this.tabPage4.Controls.Add(this.label2);
             this.tabPage4.Controls.Add(this.cboBQCodePage);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Size = new System.Drawing.Size(912, 545);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(682, 440);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Export to BQ/DigiStudy Format";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -733,10 +694,9 @@
             // chkCharacterReplacement
             // 
             this.chkCharacterReplacement.AutoSize = true;
-            this.chkCharacterReplacement.Location = new System.Drawing.Point(17, 412);
-            this.chkCharacterReplacement.Margin = new System.Windows.Forms.Padding(4);
+            this.chkCharacterReplacement.Location = new System.Drawing.Point(13, 335);
             this.chkCharacterReplacement.Name = "chkCharacterReplacement";
-            this.chkCharacterReplacement.Size = new System.Drawing.Size(292, 21);
+            this.chkCharacterReplacement.Size = new System.Drawing.Size(223, 17);
             this.chkCharacterReplacement.TabIndex = 32;
             this.chkCharacterReplacement.Text = "Swap Characters for HTML friendly codes";
             this.chkCharacterReplacement.UseVisualStyleBackColor = true;
@@ -748,37 +708,33 @@
             this.panel7.Controls.Add(this.lblExportTo);
             this.panel7.Controls.Add(this.progressBar1);
             this.panel7.Controls.Add(this.cmdGenerateBQExport);
-            this.panel7.Location = new System.Drawing.Point(8, 441);
-            this.panel7.Margin = new System.Windows.Forms.Padding(4);
+            this.panel7.Location = new System.Drawing.Point(6, 358);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(899, 86);
+            this.panel7.Size = new System.Drawing.Size(675, 70);
             this.panel7.TabIndex = 22;
             // 
             // lblExportTo
             // 
             this.lblExportTo.AutoSize = true;
-            this.lblExportTo.Location = new System.Drawing.Point(8, 58);
-            this.lblExportTo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblExportTo.Location = new System.Drawing.Point(6, 47);
             this.lblExportTo.Name = "lblExportTo";
-            this.lblExportTo.Size = new System.Drawing.Size(92, 17);
+            this.lblExportTo.Size = new System.Drawing.Size(70, 13);
             this.lblExportTo.TabIndex = 33;
             this.lblExportTo.Text = "Exporting To:";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(5, 36);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
+            this.progressBar1.Location = new System.Drawing.Point(4, 29);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(884, 18);
+            this.progressBar1.Size = new System.Drawing.Size(663, 15);
             this.progressBar1.TabIndex = 32;
             this.progressBar1.Value = 50;
             // 
             // cmdGenerateBQExport
             // 
-            this.cmdGenerateBQExport.Location = new System.Drawing.Point(327, 4);
-            this.cmdGenerateBQExport.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdGenerateBQExport.Location = new System.Drawing.Point(245, 3);
             this.cmdGenerateBQExport.Name = "cmdGenerateBQExport";
-            this.cmdGenerateBQExport.Size = new System.Drawing.Size(232, 28);
+            this.cmdGenerateBQExport.Size = new System.Drawing.Size(174, 23);
             this.cmdGenerateBQExport.TabIndex = 29;
             this.cmdGenerateBQExport.Text = "Generate BQ Export";
             this.cmdGenerateBQExport.UseVisualStyleBackColor = true;
@@ -788,106 +744,95 @@
             // 
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(679, 395);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Location = new System.Drawing.Point(509, 321);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(150, 17);
+            this.label19.Size = new System.Drawing.Size(116, 13);
             this.label19.TabIndex = 31;
             this.label19.Text = "USFM Bookname Tag:";
             // 
             // txtBQ_BooknameTag
             // 
             this.txtBQ_BooknameTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBQ_BooknameTag.Location = new System.Drawing.Point(841, 391);
-            this.txtBQ_BooknameTag.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQ_BooknameTag.Location = new System.Drawing.Point(631, 318);
             this.txtBQ_BooknameTag.Name = "txtBQ_BooknameTag";
-            this.txtBQ_BooknameTag.Size = new System.Drawing.Size(52, 22);
+            this.txtBQ_BooknameTag.Size = new System.Drawing.Size(40, 20);
             this.txtBQ_BooknameTag.TabIndex = 30;
             this.txtBQ_BooknameTag.Text = "\\h";
             // 
             // txtBQVerseSign
             // 
-            this.txtBQVerseSign.Location = new System.Drawing.Point(461, 362);
-            this.txtBQVerseSign.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQVerseSign.Location = new System.Drawing.Point(346, 294);
             this.txtBQVerseSign.Name = "txtBQVerseSign";
-            this.txtBQVerseSign.Size = new System.Drawing.Size(132, 22);
+            this.txtBQVerseSign.Size = new System.Drawing.Size(100, 20);
             this.txtBQVerseSign.TabIndex = 28;
             this.txtBQVerseSign.Text = "<vs>";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(332, 366);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Location = new System.Drawing.Point(249, 297);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(81, 17);
+            this.label18.Size = new System.Drawing.Size(61, 13);
             this.label18.TabIndex = 27;
             this.label18.Text = "Verse Sign:";
             // 
             // txtBQChapterSign
             // 
-            this.txtBQChapterSign.Location = new System.Drawing.Point(165, 362);
-            this.txtBQChapterSign.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQChapterSign.Location = new System.Drawing.Point(124, 294);
             this.txtBQChapterSign.Name = "txtBQChapterSign";
-            this.txtBQChapterSign.Size = new System.Drawing.Size(132, 22);
+            this.txtBQChapterSign.Size = new System.Drawing.Size(100, 20);
             this.txtBQChapterSign.TabIndex = 26;
             this.txtBQChapterSign.Text = "<h4>";
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(41, 366);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Location = new System.Drawing.Point(31, 297);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(90, 17);
+            this.label17.Size = new System.Drawing.Size(68, 13);
             this.label17.TabIndex = 25;
             this.label17.Text = "ChapterSign:";
             // 
             // cboBQFontCharSet
             // 
             this.cboBQFontCharSet.FormattingEnabled = true;
-            this.cboBQFontCharSet.Location = new System.Drawing.Point(165, 329);
-            this.cboBQFontCharSet.Margin = new System.Windows.Forms.Padding(4);
+            this.cboBQFontCharSet.Location = new System.Drawing.Point(124, 267);
             this.cboBQFontCharSet.Name = "cboBQFontCharSet";
-            this.cboBQFontCharSet.Size = new System.Drawing.Size(512, 24);
+            this.cboBQFontCharSet.Size = new System.Drawing.Size(385, 21);
             this.cboBQFontCharSet.TabIndex = 24;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(17, 332);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Location = new System.Drawing.Point(13, 270);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(148, 17);
+            this.label16.Size = new System.Drawing.Size(111, 13);
             this.label16.TabIndex = 23;
             this.label16.Text = "Desired Font CharSet:";
             // 
             // txtBQAlphabet
             // 
-            this.txtBQAlphabet.Location = new System.Drawing.Point(165, 263);
-            this.txtBQAlphabet.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQAlphabet.Location = new System.Drawing.Point(124, 214);
             this.txtBQAlphabet.Name = "txtBQAlphabet";
-            this.txtBQAlphabet.Size = new System.Drawing.Size(648, 22);
+            this.txtBQAlphabet.Size = new System.Drawing.Size(487, 20);
             this.txtBQAlphabet.TabIndex = 22;
             this.txtBQAlphabet.Text = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(17, 272);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Location = new System.Drawing.Point(13, 221);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(68, 17);
+            this.label15.Size = new System.Drawing.Size(52, 13);
             this.label15.TabIndex = 21;
             this.label15.Text = "Alphabet:";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(444, 197);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Location = new System.Drawing.Point(333, 160);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(59, 17);
+            this.label14.Size = new System.Drawing.Size(45, 13);
             this.label14.TabIndex = 20;
             this.label14.Text = "Greek?:";
             // 
@@ -896,20 +841,18 @@
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.rbBQGreek_N);
             this.panel6.Controls.Add(this.rbBQGreek_Y);
-            this.panel6.Location = new System.Drawing.Point(592, 191);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4);
+            this.panel6.Location = new System.Drawing.Point(444, 155);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(158, 30);
+            this.panel6.Size = new System.Drawing.Size(119, 25);
             this.panel6.TabIndex = 19;
             // 
             // rbBQGreek_N
             // 
             this.rbBQGreek_N.AutoSize = true;
             this.rbBQGreek_N.Checked = true;
-            this.rbBQGreek_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQGreek_N.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQGreek_N.Location = new System.Drawing.Point(70, 3);
             this.rbBQGreek_N.Name = "rbBQGreek_N";
-            this.rbBQGreek_N.Size = new System.Drawing.Size(47, 21);
+            this.rbBQGreek_N.Size = new System.Drawing.Size(39, 17);
             this.rbBQGreek_N.TabIndex = 1;
             this.rbBQGreek_N.TabStop = true;
             this.rbBQGreek_N.Text = "No";
@@ -918,10 +861,9 @@
             // rbBQGreek_Y
             // 
             this.rbBQGreek_Y.AutoSize = true;
-            this.rbBQGreek_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQGreek_Y.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQGreek_Y.Location = new System.Drawing.Point(3, 3);
             this.rbBQGreek_Y.Name = "rbBQGreek_Y";
-            this.rbBQGreek_Y.Size = new System.Drawing.Size(53, 21);
+            this.rbBQGreek_Y.Size = new System.Drawing.Size(43, 17);
             this.rbBQGreek_Y.TabIndex = 0;
             this.rbBQGreek_Y.Text = "Yes";
             this.rbBQGreek_Y.UseVisualStyleBackColor = true;
@@ -929,10 +871,9 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(444, 159);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Location = new System.Drawing.Point(333, 129);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(88, 17);
+            this.label13.Size = new System.Drawing.Size(67, 13);
             this.label13.TabIndex = 18;
             this.label13.Text = "Apocrypha?:";
             // 
@@ -941,20 +882,18 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.rbBQApocrypha_N);
             this.panel3.Controls.Add(this.rbBQApocrypha_Y);
-            this.panel3.Location = new System.Drawing.Point(592, 153);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4);
+            this.panel3.Location = new System.Drawing.Point(444, 124);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(158, 30);
+            this.panel3.Size = new System.Drawing.Size(119, 25);
             this.panel3.TabIndex = 17;
             // 
             // rbBQApocrypha_N
             // 
             this.rbBQApocrypha_N.AutoSize = true;
             this.rbBQApocrypha_N.Checked = true;
-            this.rbBQApocrypha_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQApocrypha_N.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQApocrypha_N.Location = new System.Drawing.Point(70, 3);
             this.rbBQApocrypha_N.Name = "rbBQApocrypha_N";
-            this.rbBQApocrypha_N.Size = new System.Drawing.Size(47, 21);
+            this.rbBQApocrypha_N.Size = new System.Drawing.Size(39, 17);
             this.rbBQApocrypha_N.TabIndex = 1;
             this.rbBQApocrypha_N.TabStop = true;
             this.rbBQApocrypha_N.Text = "No";
@@ -963,10 +902,9 @@
             // rbBQApocrypha_Y
             // 
             this.rbBQApocrypha_Y.AutoSize = true;
-            this.rbBQApocrypha_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQApocrypha_Y.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQApocrypha_Y.Location = new System.Drawing.Point(3, 3);
             this.rbBQApocrypha_Y.Name = "rbBQApocrypha_Y";
-            this.rbBQApocrypha_Y.Size = new System.Drawing.Size(53, 21);
+            this.rbBQApocrypha_Y.Size = new System.Drawing.Size(43, 17);
             this.rbBQApocrypha_Y.TabIndex = 0;
             this.rbBQApocrypha_Y.Text = "Yes";
             this.rbBQApocrypha_Y.UseVisualStyleBackColor = true;
@@ -976,19 +914,17 @@
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.rbBQ_NT_N);
             this.panel4.Controls.Add(this.rbBQ_NT_Y);
-            this.panel4.Location = new System.Drawing.Point(165, 225);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4);
+            this.panel4.Location = new System.Drawing.Point(124, 183);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(158, 30);
+            this.panel4.Size = new System.Drawing.Size(119, 25);
             this.panel4.TabIndex = 17;
             // 
             // rbBQ_NT_N
             // 
             this.rbBQ_NT_N.AutoSize = true;
-            this.rbBQ_NT_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQ_NT_N.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQ_NT_N.Location = new System.Drawing.Point(70, 3);
             this.rbBQ_NT_N.Name = "rbBQ_NT_N";
-            this.rbBQ_NT_N.Size = new System.Drawing.Size(47, 21);
+            this.rbBQ_NT_N.Size = new System.Drawing.Size(39, 17);
             this.rbBQ_NT_N.TabIndex = 1;
             this.rbBQ_NT_N.Text = "No";
             this.rbBQ_NT_N.UseVisualStyleBackColor = true;
@@ -997,10 +933,9 @@
             // 
             this.rbBQ_NT_Y.AutoSize = true;
             this.rbBQ_NT_Y.Checked = true;
-            this.rbBQ_NT_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQ_NT_Y.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQ_NT_Y.Location = new System.Drawing.Point(3, 3);
             this.rbBQ_NT_Y.Name = "rbBQ_NT_Y";
-            this.rbBQ_NT_Y.Size = new System.Drawing.Size(53, 21);
+            this.rbBQ_NT_Y.Size = new System.Drawing.Size(43, 17);
             this.rbBQ_NT_Y.TabIndex = 0;
             this.rbBQ_NT_Y.TabStop = true;
             this.rbBQ_NT_Y.Text = "Yes";
@@ -1011,19 +946,17 @@
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.rbBQ_OT_N);
             this.panel5.Controls.Add(this.rbBQ_OT_Y);
-            this.panel5.Location = new System.Drawing.Point(165, 187);
-            this.panel5.Margin = new System.Windows.Forms.Padding(4);
+            this.panel5.Location = new System.Drawing.Point(124, 152);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(158, 30);
+            this.panel5.Size = new System.Drawing.Size(119, 25);
             this.panel5.TabIndex = 17;
             // 
             // rbBQ_OT_N
             // 
             this.rbBQ_OT_N.AutoSize = true;
-            this.rbBQ_OT_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQ_OT_N.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQ_OT_N.Location = new System.Drawing.Point(70, 3);
             this.rbBQ_OT_N.Name = "rbBQ_OT_N";
-            this.rbBQ_OT_N.Size = new System.Drawing.Size(47, 21);
+            this.rbBQ_OT_N.Size = new System.Drawing.Size(39, 17);
             this.rbBQ_OT_N.TabIndex = 1;
             this.rbBQ_OT_N.Text = "No";
             this.rbBQ_OT_N.UseVisualStyleBackColor = true;
@@ -1032,10 +965,9 @@
             // 
             this.rbBQ_OT_Y.AutoSize = true;
             this.rbBQ_OT_Y.Checked = true;
-            this.rbBQ_OT_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQ_OT_Y.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQ_OT_Y.Location = new System.Drawing.Point(3, 3);
             this.rbBQ_OT_Y.Name = "rbBQ_OT_Y";
-            this.rbBQ_OT_Y.Size = new System.Drawing.Size(53, 21);
+            this.rbBQ_OT_Y.Size = new System.Drawing.Size(43, 17);
             this.rbBQ_OT_Y.TabIndex = 0;
             this.rbBQ_OT_Y.TabStop = true;
             this.rbBQ_OT_Y.Text = "Yes";
@@ -1046,19 +978,17 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.rbBQIsBible_N);
             this.panel2.Controls.Add(this.rbBQIsBible_Y);
-            this.panel2.Location = new System.Drawing.Point(165, 149);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4);
+            this.panel2.Location = new System.Drawing.Point(124, 121);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 30);
+            this.panel2.Size = new System.Drawing.Size(119, 25);
             this.panel2.TabIndex = 16;
             // 
             // rbBQIsBible_N
             // 
             this.rbBQIsBible_N.AutoSize = true;
-            this.rbBQIsBible_N.Location = new System.Drawing.Point(93, 4);
-            this.rbBQIsBible_N.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQIsBible_N.Location = new System.Drawing.Point(70, 3);
             this.rbBQIsBible_N.Name = "rbBQIsBible_N";
-            this.rbBQIsBible_N.Size = new System.Drawing.Size(47, 21);
+            this.rbBQIsBible_N.Size = new System.Drawing.Size(39, 17);
             this.rbBQIsBible_N.TabIndex = 1;
             this.rbBQIsBible_N.Text = "No";
             this.rbBQIsBible_N.UseVisualStyleBackColor = true;
@@ -1067,10 +997,9 @@
             // 
             this.rbBQIsBible_Y.AutoSize = true;
             this.rbBQIsBible_Y.Checked = true;
-            this.rbBQIsBible_Y.Location = new System.Drawing.Point(4, 4);
-            this.rbBQIsBible_Y.Margin = new System.Windows.Forms.Padding(4);
+            this.rbBQIsBible_Y.Location = new System.Drawing.Point(3, 3);
             this.rbBQIsBible_Y.Name = "rbBQIsBible_Y";
-            this.rbBQIsBible_Y.Size = new System.Drawing.Size(53, 21);
+            this.rbBQIsBible_Y.Size = new System.Drawing.Size(43, 17);
             this.rbBQIsBible_Y.TabIndex = 0;
             this.rbBQIsBible_Y.TabStop = true;
             this.rbBQIsBible_Y.Text = "Yes";
@@ -1079,30 +1008,27 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 234);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(13, 190);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(118, 17);
+            this.label10.Size = new System.Drawing.Size(91, 13);
             this.label10.TabIndex = 15;
             this.label10.Text = "New Testament?:";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(17, 193);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(13, 157);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(113, 17);
+            this.label11.Size = new System.Drawing.Size(85, 13);
             this.label11.TabIndex = 14;
             this.label11.Text = "Old Testament?:";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(17, 155);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(13, 126);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 17);
+            this.label12.Size = new System.Drawing.Size(50, 13);
             this.label12.TabIndex = 13;
             this.label12.Text = "Is Bible?:";
             // 
@@ -1111,19 +1037,17 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.rbR2L);
             this.panel1.Controls.Add(this.rbL2R);
-            this.panel1.Location = new System.Drawing.Point(165, 102);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Location = new System.Drawing.Point(124, 83);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(398, 39);
+            this.panel1.Size = new System.Drawing.Size(299, 32);
             this.panel1.TabIndex = 12;
             // 
             // rbR2L
             // 
             this.rbR2L.AutoSize = true;
-            this.rbR2L.Location = new System.Drawing.Point(223, 11);
-            this.rbR2L.Margin = new System.Windows.Forms.Padding(4);
+            this.rbR2L.Location = new System.Drawing.Point(167, 9);
             this.rbR2L.Name = "rbR2L";
-            this.rbR2L.Size = new System.Drawing.Size(144, 21);
+            this.rbR2L.Size = new System.Drawing.Size(111, 17);
             this.rbR2L.TabIndex = 3;
             this.rbR2L.Text = "Right-To-Left Text";
             this.rbR2L.UseVisualStyleBackColor = true;
@@ -1132,10 +1056,9 @@
             // 
             this.rbL2R.AutoSize = true;
             this.rbL2R.Checked = true;
-            this.rbL2R.Location = new System.Drawing.Point(16, 11);
-            this.rbL2R.Margin = new System.Windows.Forms.Padding(4);
+            this.rbL2R.Location = new System.Drawing.Point(12, 9);
             this.rbL2R.Name = "rbL2R";
-            this.rbL2R.Size = new System.Drawing.Size(139, 21);
+            this.rbL2R.Size = new System.Drawing.Size(107, 17);
             this.rbL2R.TabIndex = 2;
             this.rbL2R.TabStop = true;
             this.rbL2R.Text = "Left-to-Right Text";
@@ -1143,76 +1066,211 @@
             // 
             // txtBQCopyright
             // 
-            this.txtBQCopyright.Location = new System.Drawing.Point(165, 70);
-            this.txtBQCopyright.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQCopyright.Location = new System.Drawing.Point(124, 57);
             this.txtBQCopyright.Name = "txtBQCopyright";
-            this.txtBQCopyright.Size = new System.Drawing.Size(669, 22);
+            this.txtBQCopyright.Size = new System.Drawing.Size(503, 20);
             this.txtBQCopyright.TabIndex = 11;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 79);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(13, 64);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 17);
+            this.label9.Size = new System.Drawing.Size(54, 13);
             this.label9.TabIndex = 10;
             this.label9.Text = "Copyright:";
             // 
             // txtBQBibleNameShort
             // 
-            this.txtBQBibleNameShort.Location = new System.Drawing.Point(165, 38);
-            this.txtBQBibleNameShort.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQBibleNameShort.Location = new System.Drawing.Point(124, 31);
             this.txtBQBibleNameShort.Name = "txtBQBibleNameShort";
-            this.txtBQBibleNameShort.Size = new System.Drawing.Size(669, 22);
+            this.txtBQBibleNameShort.Size = new System.Drawing.Size(503, 20);
             this.txtBQBibleNameShort.TabIndex = 9;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(17, 47);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Location = new System.Drawing.Point(13, 38);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(122, 17);
+            this.label8.Size = new System.Drawing.Size(92, 13);
             this.label8.TabIndex = 8;
             this.label8.Text = "Bible Name Short:";
             // 
             // txtBQBibleNameFull
             // 
-            this.txtBQBibleNameFull.Location = new System.Drawing.Point(165, 6);
-            this.txtBQBibleNameFull.Margin = new System.Windows.Forms.Padding(4);
+            this.txtBQBibleNameFull.Location = new System.Drawing.Point(124, 5);
             this.txtBQBibleNameFull.Name = "txtBQBibleNameFull";
-            this.txtBQBibleNameFull.Size = new System.Drawing.Size(669, 22);
+            this.txtBQBibleNameFull.Size = new System.Drawing.Size(503, 20);
             this.txtBQBibleNameFull.TabIndex = 7;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 15);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(13, 12);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(110, 17);
+            this.label7.Size = new System.Drawing.Size(83, 13);
             this.label7.TabIndex = 6;
             this.label7.Text = "Bible Name Full:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 299);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(13, 243);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 17);
+            this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "CodePage:";
             // 
             // cboBQCodePage
             // 
             this.cboBQCodePage.FormattingEnabled = true;
-            this.cboBQCodePage.Location = new System.Drawing.Point(165, 295);
-            this.cboBQCodePage.Margin = new System.Windows.Forms.Padding(4);
+            this.cboBQCodePage.Location = new System.Drawing.Point(124, 240);
             this.cboBQCodePage.Name = "cboBQCodePage";
-            this.cboBQCodePage.Size = new System.Drawing.Size(512, 24);
+            this.cboBQCodePage.Size = new System.Drawing.Size(385, 21);
             this.cboBQCodePage.TabIndex = 0;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.lvBooks);
+            this.tabPage5.Controls.Add(this.lblInstructions);
+            this.tabPage5.Controls.Add(this.cmdLoadBookOrder);
+            this.tabPage5.Controls.Add(this.label23);
+            this.tabPage5.Controls.Add(this.checkBox1);
+            this.tabPage5.Controls.Add(this.panel8);
+            this.tabPage5.Controls.Add(this.label20);
+            this.tabPage5.Controls.Add(this.textBox1);
+            this.tabPage5.Controls.Add(this.textBox2);
+            this.tabPage5.Controls.Add(this.label21);
+            this.tabPage5.Controls.Add(this.textBox3);
+            this.tabPage5.Controls.Add(this.label22);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage5.Size = new System.Drawing.Size(682, 440);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Export as ePub";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // cmdLoadBookOrder
+            // 
+            this.cmdLoadBookOrder.Location = new System.Drawing.Point(6, 14);
+            this.cmdLoadBookOrder.Name = "cmdLoadBookOrder";
+            this.cmdLoadBookOrder.Size = new System.Drawing.Size(187, 23);
+            this.cmdLoadBookOrder.TabIndex = 43;
+            this.cmdLoadBookOrder.Text = "Load Boooks from book order file";
+            this.cmdLoadBookOrder.UseVisualStyleBackColor = true;
+            this.cmdLoadBookOrder.Click += new System.EventHandler(this.cmdLoadBookOrder_Click);
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label23.Location = new System.Drawing.Point(5, 42);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(571, 14);
+            this.label23.TabIndex = 42;
+            this.label23.Text = "Reorder the books into the correct sequence";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(442, 109);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(223, 17);
+            this.checkBox1.TabIndex = 40;
+            this.checkBox1.Text = "Swap Characters for HTML friendly codes";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.label3);
+            this.panel8.Controls.Add(this.progressBar2);
+            this.panel8.Controls.Add(this.cmdGenerateEPUB);
+            this.panel8.Location = new System.Drawing.Point(3, 341);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(675, 70);
+            this.panel8.TabIndex = 33;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 47);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "Exporting To:";
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(4, 29);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(663, 15);
+            this.progressBar2.TabIndex = 32;
+            this.progressBar2.Value = 50;
+            // 
+            // cmdGenerateEPUB
+            // 
+            this.cmdGenerateEPUB.Location = new System.Drawing.Point(245, 3);
+            this.cmdGenerateEPUB.Name = "cmdGenerateEPUB";
+            this.cmdGenerateEPUB.Size = new System.Drawing.Size(174, 23);
+            this.cmdGenerateEPUB.TabIndex = 29;
+            this.cmdGenerateEPUB.Text = "Generate BQ Export";
+            this.cmdGenerateEPUB.UseVisualStyleBackColor = true;
+            this.cmdGenerateEPUB.Click += new System.EventHandler(this.cmdGenerateEPUB_Click);
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(443, 135);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(116, 13);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "USFM Bookname Tag:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(565, 132);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(40, 20);
+            this.textBox1.TabIndex = 38;
+            this.textBox1.Text = "\\h";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(538, 84);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 37;
+            this.textBox2.Text = "<vs>";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(442, 87);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(61, 13);
+            this.label21.TabIndex = 36;
+            this.label21.Text = "Verse Sign:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(538, 60);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 35;
+            this.textBox3.Text = "<h4>";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(446, 63);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(68, 13);
+            this.label22.TabIndex = 34;
+            this.label22.Text = "ChapterSign:";
             // 
             // groupBox1
             // 
@@ -1223,52 +1281,57 @@
             this.groupBox1.Controls.Add(this.txtDir);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cmdGetDir);
-            this.groupBox1.Location = new System.Drawing.Point(9, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(7, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(911, 86);
+            this.groupBox1.Size = new System.Drawing.Size(683, 70);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Source USFM Files Directory:";
             // 
+            // cmdSetBookOrder
+            // 
+            this.cmdSetBookOrder.Location = new System.Drawing.Point(535, 16);
+            this.cmdSetBookOrder.Margin = new System.Windows.Forms.Padding(2);
+            this.cmdSetBookOrder.Name = "cmdSetBookOrder";
+            this.cmdSetBookOrder.Size = new System.Drawing.Size(136, 23);
+            this.cmdSetBookOrder.TabIndex = 12;
+            this.cmdSetBookOrder.Text = "Set Book Order";
+            this.cmdSetBookOrder.UseVisualStyleBackColor = true;
+            this.cmdSetBookOrder.Click += new System.EventHandler(this.cmdSetBookOrder_Click);
+            // 
             // cboExt
             // 
             this.cboExt.FormattingEnabled = true;
-            this.cboExt.Location = new System.Drawing.Point(161, 53);
-            this.cboExt.Margin = new System.Windows.Forms.Padding(4);
+            this.cboExt.Location = new System.Drawing.Point(121, 43);
             this.cboExt.Name = "cboExt";
-            this.cboExt.Size = new System.Drawing.Size(93, 24);
+            this.cboExt.Size = new System.Drawing.Size(71, 21);
             this.cboExt.TabIndex = 11;
             // 
             // txtDir
             // 
             this.txtDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDir.Location = new System.Drawing.Point(40, 22);
-            this.txtDir.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDir.Location = new System.Drawing.Point(30, 18);
             this.txtDir.Name = "txtDir";
-            this.txtDir.Size = new System.Drawing.Size(649, 22);
+            this.txtDir.Size = new System.Drawing.Size(488, 20);
             this.txtDir.TabIndex = 2;
             this.txtDir.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDir_KeyDown);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 58);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(7, 47);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(141, 17);
+            this.label1.Size = new System.Drawing.Size(108, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "USFM File Extension:";
             // 
             // cmdGetDir
             // 
             this.cmdGetDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdGetDir.Location = new System.Drawing.Point(7, 20);
-            this.cmdGetDir.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdGetDir.Location = new System.Drawing.Point(5, 16);
             this.cmdGetDir.Name = "cmdGetDir";
-            this.cmdGetDir.Size = new System.Drawing.Size(33, 28);
+            this.cmdGetDir.Size = new System.Drawing.Size(25, 23);
             this.cmdGetDir.TabIndex = 10;
             this.cmdGetDir.Text = "...";
             this.cmdGetDir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1285,10 +1348,9 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(5, 670);
-            this.lblVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblVersion.Location = new System.Drawing.Point(4, 544);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(64, 17);
+            this.lblVersion.Size = new System.Drawing.Size(48, 13);
             this.lblVersion.TabIndex = 21;
             this.lblVersion.Text = "Version: ";
             // 
@@ -1298,211 +1360,74 @@
             // 
             // cmdAbout
             // 
-            this.cmdAbout.Location = new System.Drawing.Point(715, 663);
-            this.cmdAbout.Margin = new System.Windows.Forms.Padding(4);
+            this.cmdAbout.Location = new System.Drawing.Point(536, 539);
             this.cmdAbout.Name = "cmdAbout";
-            this.cmdAbout.Size = new System.Drawing.Size(100, 28);
+            this.cmdAbout.Size = new System.Drawing.Size(75, 23);
             this.cmdAbout.TabIndex = 22;
             this.cmdAbout.Text = "About";
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
-            // tabPage5
+            // lblInstructions
             // 
-            this.tabPage5.Controls.Add(this.label23);
-            this.tabPage5.Controls.Add(this.DragAndDropListView1);
-            this.tabPage5.Controls.Add(this.checkBox1);
-            this.tabPage5.Controls.Add(this.panel8);
-            this.tabPage5.Controls.Add(this.label20);
-            this.tabPage5.Controls.Add(this.textBox1);
-            this.tabPage5.Controls.Add(this.textBox2);
-            this.tabPage5.Controls.Add(this.label21);
-            this.tabPage5.Controls.Add(this.textBox3);
-            this.tabPage5.Controls.Add(this.label22);
-            this.tabPage5.Location = new System.Drawing.Point(4, 25);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(912, 545);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Export as ePub";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInstructions.Location = new System.Drawing.Point(246, 10);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(409, 44);
+            this.lblInstructions.TabIndex = 44;
             // 
-            // checkBox1
+            // lvBooks
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(590, 88);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(292, 21);
-            this.checkBox1.TabIndex = 40;
-            this.checkBox1.Text = "Swap Characters for HTML friendly codes";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // panel8
-            // 
-            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.label3);
-            this.panel8.Controls.Add(this.progressBar2);
-            this.panel8.Controls.Add(this.cmdGenerateEPUB);
-            this.panel8.Location = new System.Drawing.Point(7, 269);
-            this.panel8.Margin = new System.Windows.Forms.Padding(4);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(899, 86);
-            this.panel8.TabIndex = 33;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 58);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(92, 17);
-            this.label3.TabIndex = 33;
-            this.label3.Text = "Exporting To:";
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.Location = new System.Drawing.Point(5, 36);
-            this.progressBar2.Margin = new System.Windows.Forms.Padding(4);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(884, 18);
-            this.progressBar2.TabIndex = 32;
-            this.progressBar2.Value = 50;
-            // 
-            // cmdGenerateEPUB
-            // 
-            this.cmdGenerateEPUB.Location = new System.Drawing.Point(327, 4);
-            this.cmdGenerateEPUB.Margin = new System.Windows.Forms.Padding(4);
-            this.cmdGenerateEPUB.Name = "cmdGenerateEPUB";
-            this.cmdGenerateEPUB.Size = new System.Drawing.Size(232, 28);
-            this.cmdGenerateEPUB.TabIndex = 29;
-            this.cmdGenerateEPUB.Text = "Generate BQ Export";
-            this.cmdGenerateEPUB.UseVisualStyleBackColor = true;
-            this.cmdGenerateEPUB.Click += new System.EventHandler(this.cmdGenerateEPUB_Click);
-            // 
-            // label20
-            // 
-            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(591, 121);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(150, 17);
-            this.label20.TabIndex = 39;
-            this.label20.Text = "USFM Bookname Tag:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(753, 117);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(52, 22);
-            this.textBox1.TabIndex = 38;
-            this.textBox1.Text = "\\h";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(718, 58);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(132, 22);
-            this.textBox2.TabIndex = 37;
-            this.textBox2.Text = "<vs>";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(589, 62);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(81, 17);
-            this.label21.TabIndex = 36;
-            this.label21.Text = "Verse Sign:";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(718, 28);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(132, 22);
-            this.textBox3.TabIndex = 35;
-            this.textBox3.Text = "<h4>";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(594, 32);
-            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(90, 17);
-            this.label22.TabIndex = 34;
-            this.label22.Text = "ChapterSign:";
-            // 
-            // DragAndDropListView1
-            // 
-            this.DragAndDropListView1.AllowDrop = true;
-            this.DragAndDropListView1.AllowReorder = true;
-            this.DragAndDropListView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lvBooks.AllowDrop = true;
+            this.lvBooks.AllowReorder = true;
+            this.lvBooks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DragAndDropListView1.CheckBoxes = true;
-            this.DragAndDropListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvBooks.CheckBoxes = true;
+            this.lvBooks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
-            this.columnHeader4});
-            this.DragAndDropListView1.FullRowSelect = true;
-            this.DragAndDropListView1.GridLines = true;
-            this.DragAndDropListView1.LineColor = System.Drawing.Color.Green;
-            this.DragAndDropListView1.Location = new System.Drawing.Point(8, 23);
-            this.DragAndDropListView1.Name = "DragAndDropListView1";
-            this.DragAndDropListView1.Size = new System.Drawing.Size(551, 239);
-            this.DragAndDropListView1.TabIndex = 41;
-            this.DragAndDropListView1.UseCompatibleStateImageBehavior = false;
-            this.DragAndDropListView1.View = System.Windows.Forms.View.Details;
+            this.columnHeader4,
+            this.columnHeader5});
+            this.lvBooks.FullRowSelect = true;
+            this.lvBooks.GridLines = true;
+            this.lvBooks.LineColor = System.Drawing.Color.Green;
+            this.lvBooks.Location = new System.Drawing.Point(6, 60);
+            this.lvBooks.Margin = new System.Windows.Forms.Padding(2);
+            this.lvBooks.Name = "lvBooks";
+            this.lvBooks.Size = new System.Drawing.Size(431, 276);
+            this.lvBooks.TabIndex = 45;
+            this.lvBooks.UseCompatibleStateImageBehavior = false;
+            this.lvBooks.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Width = 190;
+            this.columnHeader3.Text = "Original Order";
+            this.columnHeader3.Width = 100;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Width = 244;
+            this.columnHeader4.Text = "Title";
+            this.columnHeader4.Width = 185;
             // 
-            // label23
+            // columnHeader5
             // 
-            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(5, 3);
-            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(295, 17);
-            this.label23.TabIndex = 42;
-            this.label23.Text = "Reorder the books into the correct sequence:";
-            // 
-            // cmdSetBookOrder
-            // 
-            this.cmdSetBookOrder.Location = new System.Drawing.Point(713, 20);
-            this.cmdSetBookOrder.Name = "cmdSetBookOrder";
-            this.cmdSetBookOrder.Size = new System.Drawing.Size(181, 28);
-            this.cmdSetBookOrder.TabIndex = 12;
-            this.cmdSetBookOrder.Text = "Set Book Order";
-            this.cmdSetBookOrder.UseVisualStyleBackColor = true;
-            this.cmdSetBookOrder.Click += new System.EventHandler(this.cmdSetBookOrder_Click);
+            this.columnHeader5.Text = "Filename";
+            this.columnHeader5.Width = 357;
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(915, 688);
+            this.ClientSize = new System.Drawing.Size(688, 565);
             this.Controls.Add(this.cmdAbout);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.cmdClose);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(933, 733);
-            this.MinimumSize = new System.Drawing.Size(933, 733);
+            this.MaximumSize = new System.Drawing.Size(704, 603);
+            this.MinimumSize = new System.Drawing.Size(704, 603);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GoBibleCreator USFM Preprocessor";
@@ -1539,13 +1464,13 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1665,10 +1590,13 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
-        private DragNDrop.DragAndDropListView DragAndDropListView1;
+        private System.Windows.Forms.Button cmdSetBookOrder;
+        private System.Windows.Forms.Button cmdLoadBookOrder;
+        private System.Windows.Forms.Label lblInstructions;
+        private DragNDrop.DragAndDropListView lvBooks;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.Button cmdSetBookOrder;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
     }
 }
 

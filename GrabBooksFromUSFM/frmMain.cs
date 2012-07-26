@@ -172,6 +172,8 @@ namespace GBC_USFM_Preprocessor
             {
                 lblExportTo.Text = "Exporting To: " + _sDigiStudyPath;
             }
+
+            
         }
 
 
@@ -2944,6 +2946,73 @@ namespace GBC_USFM_Preprocessor
             frmSetBookOrder f = new frmSetBookOrder(this);
             f.Show();
         }
+
+        private void cmdLoadBookOrder_Click(object sender, EventArgs e)
+        {
+            //find out if \usfm_book_order.....txt file exists in the directory specified in txtDir \
+            //and load file order into the DragNDropListView1
+            //if not, provide instructions to create it and load it into the listview
+            if (txtDir.Text != "")
+            {
+                if (System.IO.File.Exists(txtDir.Text + @"\usfm_book_order." + cboExt.Text + ".txt"))
+                {
+                    lblInstructions.Text = "";
+                    label23.BringToFront();
+                    label23.Text = label23.Text + ", select the books you want to export if needed by clicking check boxes";
+                    int iCount = 1;
+                    //populate ListView1 using txt tile
+                    //open each book up and get the bookname (ie. Genesis)
+                    FileStream file = new FileStream(txtDir.Text + @"\usfm_book_order." + cboExt.Text + ".txt", FileMode.OpenOrCreate, FileAccess.Read);
+
+                    //Set Codepage
+                    StreamReader sr;
+                    string sEncoding = this.USFM_FilesEncoding;
+                    if (sEncoding == "")
+                    {
+                        sr = new StreamReader(file, Encoding.UTF8, false);
+                    }
+                    else
+                    {
+                        sEncoding = sEncoding.Substring(0, sEncoding.IndexOf(" -")).Trim();
+                        sr = new StreamReader(file, Encoding.GetEncoding(Convert.ToInt16(sEncoding)), false);
+                    }
+                    // Create a new stream to read from a file
+                    // Read contents of file into a string
+                    string line = "";
+                    do
+                    {
+                        try
+                        {
+                            //read in a line
+                            line = sr.ReadLine();
+                        }
+                        catch (Exception ex)
+                        {
+                            //problem with read - set line to null
+                            Console.WriteLine(ex.Message);
+                            line = null;
+                        }
+                        if (line != null && !line.StartsWith("--"))
+                        {
+                            //add to listview
+                            System.Windows.Forms.ListViewItem li = new System.Windows.Forms.ListViewItem();
+                            li.Text = iCount.ToString();
+                            li.SubItems.Add(line.Substring(0, line.IndexOf("|")));
+                            li.SubItems.Add(line.Substring(line.IndexOf("|") + 1));
+                            lvBooks.Items.Add(li);
+                            iCount++;
+                            //break;
+                        }
+                    } while (line != null);
+
+                }
+                else
+                {
+                    lblInstructions.Text = "Attention: usfm_book_order." + cboExt.Text + ".txt file does not exist in this location for this file type. Please click [Set Book Order] button above to check book order and create this file. Then click this button again. Or check if you've selected correct file extension.";
+                }
+            }
+        }
+
 
 
 

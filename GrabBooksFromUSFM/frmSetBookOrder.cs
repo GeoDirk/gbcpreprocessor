@@ -44,10 +44,11 @@ namespace GBC_USFM_Preprocessor
                 writer.WriteLine("--GBC_USFM_Preprocessor Book Order File--");
                 for (int i = 0; i < lvOutput.Items.Count; i++)
                 {
-                    writer.WriteLine(lvOutput.Items[i].SubItems[2].Text);
+                    writer.WriteLine(lvOutput.Items[i].SubItems[2].Text + "|" + lvOutput.Items[i].SubItems[2].Text);
                 }
             }
-
+            MessageBox.Show("The order of the books was saved to " + _fMain.USFM_FilesPath + @"\usfm_book_order." + _fMain.USFM_FilesExt + ".txt");
+            this.Close();
  
         }
     }
