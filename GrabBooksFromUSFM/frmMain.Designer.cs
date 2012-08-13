@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.cmdClose = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -121,6 +124,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboBQCodePage = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.lvBooks = new DragNDrop.DragAndDropListView();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblInstructions = new System.Windows.Forms.Label();
             this.cmdLoadBookOrder = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -144,11 +152,10 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
-            this.lblInstructions = new System.Windows.Forms.Label();
-            this.lvBooks = new DragNDrop.DragAndDropListView();
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label24 = new System.Windows.Forms.Label();
+            this.txtLang = new System.Windows.Forms.TextBox();
+            this.txtFullName = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -485,9 +492,33 @@
             this.gridExtraTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridExtraTags.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridExtraTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridExtraTags.DefaultCellStyle = dataGridViewCellStyle2;
             this.gridExtraTags.Location = new System.Drawing.Point(10, 35);
             this.gridExtraTags.Name = "gridExtraTags";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridExtraTags.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridExtraTags.RowTemplate.Height = 24;
             this.gridExtraTags.ShowCellToolTips = false;
             this.gridExtraTags.Size = new System.Drawing.Size(538, 366);
@@ -1131,6 +1162,10 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.txtFullName);
+            this.tabPage5.Controls.Add(this.label25);
+            this.tabPage5.Controls.Add(this.label24);
+            this.tabPage5.Controls.Add(this.txtLang);
             this.tabPage5.Controls.Add(this.lvBooks);
             this.tabPage5.Controls.Add(this.lblInstructions);
             this.tabPage5.Controls.Add(this.cmdLoadBookOrder);
@@ -1151,6 +1186,53 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Export as ePub";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // lvBooks
+            // 
+            this.lvBooks.AllowDrop = true;
+            this.lvBooks.AllowReorder = true;
+            this.lvBooks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvBooks.CheckBoxes = true;
+            this.lvBooks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+            this.lvBooks.FullRowSelect = true;
+            this.lvBooks.GridLines = true;
+            this.lvBooks.LineColor = System.Drawing.Color.Green;
+            this.lvBooks.Location = new System.Drawing.Point(6, 60);
+            this.lvBooks.Margin = new System.Windows.Forms.Padding(2);
+            this.lvBooks.Name = "lvBooks";
+            this.lvBooks.Size = new System.Drawing.Size(431, 276);
+            this.lvBooks.TabIndex = 45;
+            this.lvBooks.UseCompatibleStateImageBehavior = false;
+            this.lvBooks.View = System.Windows.Forms.View.Details;
+            this.lvBooks.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvBooks_ColumnClick);
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Original Order";
+            this.columnHeader3.Width = 100;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Title";
+            this.columnHeader4.Width = 185;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Filename";
+            this.columnHeader5.Width = 357;
+            // 
+            // lblInstructions
+            // 
+            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInstructions.Location = new System.Drawing.Point(246, 10);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(409, 44);
+            this.lblInstructions.TabIndex = 44;
             // 
             // cmdLoadBookOrder
             // 
@@ -1368,51 +1450,40 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
-            // lblInstructions
+            // label24
             // 
-            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblInstructions.Location = new System.Drawing.Point(246, 10);
-            this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(409, 44);
-            this.lblInstructions.TabIndex = 44;
+            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(445, 249);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(55, 13);
+            this.label24.TabIndex = 47;
+            this.label24.Text = "Language";
             // 
-            // lvBooks
+            // txtLang
             // 
-            this.lvBooks.AllowDrop = true;
-            this.lvBooks.AllowReorder = true;
-            this.lvBooks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvBooks.CheckBoxes = true;
-            this.lvBooks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
-            this.lvBooks.FullRowSelect = true;
-            this.lvBooks.GridLines = true;
-            this.lvBooks.LineColor = System.Drawing.Color.Green;
-            this.lvBooks.Location = new System.Drawing.Point(6, 60);
-            this.lvBooks.Margin = new System.Windows.Forms.Padding(2);
-            this.lvBooks.Name = "lvBooks";
-            this.lvBooks.Size = new System.Drawing.Size(431, 276);
-            this.lvBooks.TabIndex = 45;
-            this.lvBooks.UseCompatibleStateImageBehavior = false;
-            this.lvBooks.View = System.Windows.Forms.View.Details;
+            this.txtLang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLang.Location = new System.Drawing.Point(567, 246);
+            this.txtLang.Name = "txtLang";
+            this.txtLang.Size = new System.Drawing.Size(40, 20);
+            this.txtLang.TabIndex = 46;
+            this.txtLang.Text = "ru";
             // 
-            // columnHeader3
+            // txtFullName
             // 
-            this.columnHeader3.Text = "Original Order";
-            this.columnHeader3.Width = 100;
+            this.txtFullName.Location = new System.Drawing.Point(446, 220);
+            this.txtFullName.Name = "txtFullName";
+            this.txtFullName.Size = new System.Drawing.Size(218, 20);
+            this.txtFullName.TabIndex = 49;
             // 
-            // columnHeader4
+            // label25
             // 
-            this.columnHeader4.Text = "Title";
-            this.columnHeader4.Width = 185;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Filename";
-            this.columnHeader5.Width = 357;
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(443, 204);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(83, 13);
+            this.label25.TabIndex = 48;
+            this.label25.Text = "Bible Name Full:";
             // 
             // frmMain
             // 
@@ -1597,6 +1668,10 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox txtLang;
+        private System.Windows.Forms.TextBox txtFullName;
+        private System.Windows.Forms.Label label25;
     }
 }
 

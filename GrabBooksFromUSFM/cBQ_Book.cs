@@ -118,11 +118,31 @@ namespace GBC_USFM_Preprocessor
         }
         /// <summary>
         /// Add in a new footnote
+        /// //find if the verse has a footnote, strip it out, and return a clean verse
         /// </summary>
         /// <param name="s"></param>
-        public void AddFootnote(string s)
+        public string AddFootnote(string s)
         {
-            _footnotes.Add(s);
+            string sVerse = "";
+            string sFootnt = "";
+            if (s.Contains("<n>"))
+            {
+                do
+                {
+                    sVerse = s.Substring(0, s.IndexOf("<n>"));
+                    s = s.Substring(s.IndexOf("<n>") + 4);
+                    sVerse = sVerse + " " + s.Substring(s.IndexOf("</n>")+5);
+                    sFootnt = "<p>" + s.Substring(0, s.IndexOf("</n>"))+ "</p>";
+                    _footnotes.Add(sFootnt);
+                    s = sVerse;
+                } while (s.Contains("<n>"));
+            }
+            else
+            {
+                sVerse = s;
+            }
+            
+            return sVerse;
         }
     }
 

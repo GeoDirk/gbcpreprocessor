@@ -389,7 +389,101 @@ namespace GBC_USFM_Preprocessor
             }
             return sVerse;
         }
+
+
+        /*
+         * Drop the verse number from the start of the verse string
+         */
+        public string RemoveVerseNumberingEPUB(string sVerse, ref bool bDDTag)
+        {
+            //find the first verse and remove everything before that
+            int iStart = sVerse.IndexOf(" ");
+            if (iStart == -1)
+            {
+                //there is no space after the verse number which happens when
+                //there are multiline verses and somebody is putting in blank
+                //verse lines
+                if (sVerse.Substring(0, 3) == "\\pi")
+                {
+                    sVerse = sVerse.Replace("\\pi", "<blockquote> ");
+                }
+                else if (sVerse.Substring(0, 2) == "\\p" || sVerse.Substring(0, 3) == "\\q1" || sVerse.Substring(0, 3) == "\\q2" || sVerse.Substring(0, 3) == "\\q3")
+                {
+                    //catch an empty p tag line or li or q tag
+                    //because the next line should be indented
+                    sVerse = "p";
+                }
+                else if (sVerse.Substring(0, 4) == "\\li1")
+                {
+                    //sVerse = "<dt>";
+                    sVerse = "";
+                }
+                else if (sVerse.Substring(0, 4) == "\\li2")
+                {
+                    //sVerse = "<dd>";
+                    sVerse = "";
+
+                }
+                else
+                {
+                    sVerse = "";
+                }
+
+            }
+            //plop in sup if first tag is not \\v
+            //so that the first word doesn't look funny
+
+            //if if's a paragraph start, or a quote1 or a list of the 1st level, add first level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart) == "\\q1")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<p class=\"speech\">" + sVerse.Substring(iStart) + "</p>";
+            }
+            //if it's a list or a quote of the second level add second level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\q2")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<p class=\"speech2\">" + sVerse.Substring(iStart) + "</p>";
+            }
+            //if it's a list or a quote of the second level add second level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\pi")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<blockquote><p>" + sVerse.Substring(iStart) + "</p>";
+            }
+            //if it's a quote of the third level - add third level of indentation
+            else if (sVerse.Substring(0, iStart) == "\\q3")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                //sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
+                sVerse = sVerse.Substring(iStart);
+            }
+            else if (sVerse.Substring(0, iStart) == "\\li1")
+            {
+                //sVerse = " <dt>" + sVerse.Substring(iStart) + "</dt>";
+                sVerse = sVerse.Substring(iStart);
+            }
+            else if (sVerse.Substring(0, iStart) == "\\li2")
+            {
+                //sVerse = " <dd>" + sVerse.Substring(iStart);
+                sVerse = sVerse.Substring(iStart);
+                bDDTag = true;
+            }
+            //if it only has a footnote or a selah then do nothing
+            else if (sVerse.Substring(0, iStart) == "\\f" || sVerse.Substring(0, iStart) == "\\qs" || sVerse.Substring(0, iStart) == "\\pi")
+            {
+                //do nothing if the line starts with a footnote
+            }
+            //if it's something else (mostly all verse number \v tags and \s tags) 
+            //just get rid of it including the white space after it
+            else
+            {
+                sVerse = sVerse.Substring(iStart + 1);
+            }
+            return sVerse;
+        }
         
+
         public string ProcessOtherTags(string sTmp)
         {
             //deal with footnote tags
