@@ -474,6 +474,10 @@ namespace GBC_USFM_Preprocessor
             {
                 //do nothing if the line starts with a footnote
             }
+            else if (sVerse.Substring(0, iStart) == "\\restore")
+            {
+                sVerse = ""; 
+            }
             //if it's something else (mostly all verse number \v tags and \s tags) 
             //just get rid of it including the white space after it
             else

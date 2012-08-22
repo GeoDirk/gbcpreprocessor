@@ -1980,10 +1980,10 @@ namespace GBC_USFM_Preprocessor
         private string ParseVerseTagsEPUB(string sVerse)
         {
             cUSFM_Utilities Util = new cUSFM_Utilities();
-            if (!Util.CheckIfWeKeepLine(sVerse))
-            {
-                return "";
-            }
+            //if (!Util.CheckIfWeKeepLine(sVerse))
+            //{
+            //    return "";
+            //}
             sVerse = Util.RemoveDoubleMarkerTags(sVerse);
             sVerse = Util.RemoveDoubleMarkerTagsFull(sVerse);
             sVerse = Util.RemoveSingularMarkerTags(sVerse);
@@ -2587,10 +2587,14 @@ namespace GBC_USFM_Preprocessor
                                 //grab all the \ip lines of text
                                 try
                                 {
+                                    int iExceptionIndent = 0;
+                                    string sExtraHeader = "";
+                                    int iIndent = 0;
                                     Regex regexObj = new Regex(@"^.*((\\ip ).*$\r?\n?)|((\\io[0-9] ).*$\r?\n?)", RegexOptions.Multiline);
                                     Match matchResults = regexObj.Match(sSection);
                                     while (matchResults.Success)
                                     {
+                                        
                                         if (matchResults.Value.Substring(0, 3) == @"\ip")
                                         {
                                             oChap.AddVerse("<p class=\"intro\">" + ParseHeaderTagsEPUB(matchResults.Value) + "</p>");
@@ -2601,10 +2605,36 @@ namespace GBC_USFM_Preprocessor
                                         {
                                             //make table of contents for chapter 0 of each book
                                             int iIndentPrev = 0;
+                                            //do this for complex TOC like in 1Ki
+                                            if (iExceptionIndent > 0)
+                                            {
+                                                iIndentPrev = iExceptionIndent;
+                                            }
                                             while (matchResults.Success)
                                             {
+                                                if (matchResults.Value.Substring(0, 3) == @"\ip")
+                                                {
+                                                    sExtraHeader = "<p class=\"intro\">" + ParseHeaderTagsEPUB(matchResults.Value) + "</p>";
+
+                                                    matchResults = matchResults.NextMatch();
+                                                    iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
+                                                    //slap in needed </ol> and </li> accroding to this next level of indent 
+                                                    oChap.AddVerse("</li>");
+                                                    for (int j = 0; j < iIndent-iIndentPrev; j++)
+                                                    {
+                                                        oChap.AddVerse("</ol></li>");
+                                                    }
+                                                    if ((iIndent-iIndentPrev)>0)
+                                                    {
+                                                        oChap.AddVerse("</ol>");
+                                                    }
+                                                    oChap.AddVerse(sExtraHeader);
+                                                    iExceptionIndent = iIndentPrev;
+                                                    break;
+                                                }
                                                 //check this line versus previous
-                                                int iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
+                                                iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
+
                                                 //if it's a deeper level slap <ol> at the end of the previous verse
                                                 
                                                 if (iIndent > iIndentPrev)
@@ -2614,13 +2644,28 @@ namespace GBC_USFM_Preprocessor
                                                 //if it's previous level slap "</ol>" at the end of the previous verse
                                                 else if (iIndent < iIndentPrev)
                                                 {
-                                                    oChap.AddVerse("</li></ol></li>");
-                                                    
+                                                    oChap.AddVerse("</li>");
+                                                    for (int j = 0; j < iIndentPrev-iIndent; j++)
+                                                    {
+                                                        oChap.AddVerse("</ol></li>");
+                                                    }
+                                                    //oChap.AddVerse("</ol>");
+                                                    //oChap.AddVerse("</li></ol></li>");
+
                                                 }
                                                 //do nothing if it's the same level
                                                 else
                                                 {
-                                                    oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</li>";
+                                                    if (iExceptionIndent == 0)
+                                                    {
+                                                        oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</li>";
+                                                    }
+                                                    else
+                                                    {
+                                                        //oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</p>";
+                                                        iExceptionIndent = 0; //set it back to 0, so that the ending of the list is not messed up
+                                                    }
+                                                    
                                                 }
 
                                                 //process the level
@@ -2661,14 +2706,17 @@ namespace GBC_USFM_Preprocessor
                                                 //set the variable for current indentation level
                                                 iIndentPrev = iIndent;
 
-
                                             }
-                                            oChap.AddVerse("</li>");
-                                            for (int j = 1; j < iIndentPrev; j++)
+                                            if (iExceptionIndent == 0)//do this for chapters like 1Ki, where there is a comlex table of contents
                                             {
-                                                oChap.AddVerse("</ol></li>");
+                                                oChap.AddVerse("</li>");
+                                                for (int j = 1; j < iIndentPrev; j++)
+                                                {
+                                                    oChap.AddVerse("</ol></li>");
+                                                }
+                                                oChap.AddVerse("</ol>");
                                             }
-                                            oChap.AddVerse("</ol>");
+                                            
                                         }
 
                                     }
@@ -2830,6 +2878,7 @@ namespace GBC_USFM_Preprocessor
                                         //add a blockquote line
                                         //oChap.AddVerse("<blockquote>");
                                         //add actual text
+                                        s = oChap.AddFootnote(s);
                                         oChap.AddVerse(s);
                                     }
                                     else
@@ -2933,7 +2982,7 @@ namespace GBC_USFM_Preprocessor
 
                                     }
                                     matchResults = matchResults.NextMatch();
-                                    if (matchResults.Value.Contains("Таков был надел Вениамина, по его кланам"))
+                                    if (matchResults.Value.Contains("возвещая повеления царя"))
                                     {
                                         
                                     }
@@ -2992,7 +3041,7 @@ namespace GBC_USFM_Preprocessor
 
 
             //put in the epub
-            Epub epub = new Epub(sExportPath, TocOptions.ByFilename);
+            Epub epub = new Epub(sExportPath, TocOptions.ByTitleTag);
             epub.Metadata.Creator = "Creator";
             epub.Metadata.Language = txtLang.Text;
             epub.Metadata.Title = txtFullName.Text;
@@ -3026,8 +3075,8 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("<body>");
             sb.AppendLine("<h1>" + oBook.sBookName + "</h1>");
 
-            string sChapTagStart = txtBQChapterSign.Text;
-            string sChapTagEnd = "</" + txtBQChapterSign.Text.Substring(1);
+            string sChapTagStart = txtEPUBChapterSign.Text;
+            string sChapTagEnd = "</" + txtEPUBChapterSign.Text.Substring(1);
             string sVerseStart = "";
             string sVerseEnd = "";
 
@@ -3036,7 +3085,16 @@ namespace GBC_USFM_Preprocessor
             {
                 int iCount = 0;
                 //chapter number header
-                sb.AppendLine(sChapTagStart + oBook.sBookName + " " + c.sChapterNumber + sChapTagEnd);
+                string chNumber = c.sChapterNumber;
+                if (chNumber == "0")
+                {
+                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\">" + txtIntroName.Text + "</a>" + sChapTagEnd);
+                }
+                else
+                {
+                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\">" + oBook.sBookName + " " + c.sChapterNumber + "</a>" + sChapTagEnd);
+                }
+                
 
                 //append each verse
                 ArrayList oVerse = c.Verses;
