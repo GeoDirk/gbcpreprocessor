@@ -2615,7 +2615,7 @@ namespace GBC_USFM_Preprocessor
                                                 if (matchResults.Value.Substring(0, 3) == @"\ip")
                                                 {
                                                     sExtraHeader = "<p class=\"intro\">" + ParseHeaderTagsEPUB(matchResults.Value) + "</p>";
-
+                                                    //grab next line to see what level it will be
                                                     matchResults = matchResults.NextMatch();
                                                     iIndent = GetLevelOfIndentation(matchResults.Value, iIndentPrev);//gets current level, needs iPrev to catch ip's
                                                     //slap in needed </ol> and </li> accroding to this next level of indent 
@@ -2628,6 +2628,7 @@ namespace GBC_USFM_Preprocessor
                                                     {
                                                         oChap.AddVerse("</ol>");
                                                     }
+                                                    //only then insert extra header section
                                                     oChap.AddVerse(sExtraHeader);
                                                     iExceptionIndent = iIndentPrev;
                                                     break;
@@ -2685,21 +2686,21 @@ namespace GBC_USFM_Preprocessor
                                                     oChap.AddVerse(Regex.Replace(sValue, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
                                                 }
                                                 //in case it has ip's in the middle of io's check how deep was the list
-                                                else
-                                                {
-                                                    //if deeper than 1 then close ol tag
-                                                    if (iIndentPrev - iIndent > 2)
-                                                    {
-                                                        oChap.AddVerse("</ol>");
-                                                        oChap.AddVerse("</ol>");
-                                                    }
-                                                    else
-                                                    {
-                                                        oChap.AddVerse("</ol>");
-                                                    }
-                                                    //insert actual line surrounded by breaks
-                                                    oChap.AddVerse(ParseHeaderTagsEPUB(matchResults.Value));
-                                                }
+                                                //else
+                                                //{
+                                                //    //if deeper than 1 then close ol tag
+                                                //    if (iIndentPrev - iIndent > 2)
+                                                //    {
+                                                //        oChap.AddVerse("</ol>");
+                                                //        oChap.AddVerse("</ol>");
+                                                //    }
+                                                //    else
+                                                //    {
+                                                //        oChap.AddVerse("</ol>");
+                                                //    }
+                                                //    //insert actual line surrounded by breaks
+                                                //    oChap.AddVerse(ParseHeaderTagsEPUB(matchResults.Value));
+                                                //}
 
                                                 matchResults = matchResults.NextMatch();
 
@@ -2707,7 +2708,8 @@ namespace GBC_USFM_Preprocessor
                                                 iIndentPrev = iIndent;
 
                                             }
-                                            if (iExceptionIndent == 0)//do this for chapters like 1Ki, where there is a comlex table of contents
+                                            //don't do it if it was a complex outline like 1Ki, 1Sa, Jn
+                                            if (iExceptionIndent == 0)
                                             {
                                                 oChap.AddVerse("</li>");
                                                 for (int j = 1; j < iIndentPrev; j++)
@@ -3088,7 +3090,11 @@ namespace GBC_USFM_Preprocessor
                 string chNumber = c.sChapterNumber;
                 if (chNumber == "0")
                 {
-                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\">" + txtIntroName.Text + "</a>" + sChapTagEnd);
+                    if (c.Verses.Count>0)
+                    {
+                        sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\">" + txtIntroName.Text + "</a>" + sChapTagEnd);
+                    }
+                    
                 }
                 else
                 {
