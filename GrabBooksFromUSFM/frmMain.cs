@@ -21,6 +21,7 @@ using System.IO;
 using System.Collections;
 using System.Text.RegularExpressions;
 using SharpEpub;
+using System.Globalization;
 
 namespace GBC_USFM_Preprocessor
 {
@@ -118,6 +119,7 @@ namespace GBC_USFM_Preprocessor
 
             //reset the progress bar to zero
             progressBar1.Value = 0;
+            progressBar2.Value = 0;
 
             //add in the BibleQuote Export dropdown information
             InitializeCodePageLists();
@@ -164,6 +166,28 @@ namespace GBC_USFM_Preprocessor
                     break;
                 }
             }
+            DataTable dtLangs = new DataTable();
+            DataColumn dcLangCode = new DataColumn("DisplayName");
+            DataColumn dcLangName = new DataColumn("Code");
+            dtLangs.Columns.Add(dcLangCode);
+            dtLangs.Columns.Add(dcLangName);
+            //populate language codes for EPUB
+            foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+            {
+                dtLangs.Rows.Add(ci.EnglishName.ToString(),ci.TwoLetterISOLanguageName.ToString());
+            }
+            //sort datatable
+            if (dtLangs.Rows.Count > 0)
+            {
+                //convert DataTable to DataView  
+                DataView dv = dtLangs.DefaultView; 
+                dv.Sort = "DisplayName";
+                //save our newly ordered results back into our datatable  
+                dtLangs = dv.ToTable();
+            }  
+            cboEpubLanguage.DataSource = dtLangs;
+            cboEpubLanguage.DisplayMember = "DisplayName";
+            cboEpubLanguage.ValueMember = "Code";
 
 
             //find out if DigiStudy has been installed on this computer and get its path from
@@ -186,6 +210,7 @@ namespace GBC_USFM_Preprocessor
             cboBQCodePage.DataSource = cConvertCodePages.ConstructCodePageArray();
             cboBQCodePage.DisplayMember = "DisplayName";
             cboBQCodePage.ValueMember = "CodePageNum";
+            
         }
 
 
@@ -1664,7 +1689,7 @@ namespace GBC_USFM_Preprocessor
 
                 //iterate the progress bar
                 progressBar1.Value++;
-                this.Refresh();
+                progressBar1.Refresh();
             }
             if (bOverwriteSetupFile)
             {
@@ -2454,6 +2479,12 @@ namespace GBC_USFM_Preprocessor
 
         private void cmdGenerateEPUB_Click(object sender, EventArgs e)
         {
+            //check to see if all the fields have been filled in
+            if (EPUBExportValidation() == true)
+            {
+                MessageBox.Show("Please fill in required fields");
+                return;
+            }
             //show the export path to the user
             string sExportPath = sExportPath = txtDir.Text;
 
@@ -2488,8 +2519,8 @@ namespace GBC_USFM_Preprocessor
 
             //calculate the number of files we are going to parse so we can set
             //the progress bar max
-            progressBar1.Value = 0;
-            progressBar1.Maximum = lvBooks.CheckedItems.Count;
+            progressBar2.Value = 0;
+            progressBar2.Maximum = lvBooks.CheckedItems.Count;
 
             //iterate through each file
             foreach (System.Windows.Forms.ListViewItem item in lvBooks.CheckedItems)
@@ -2775,14 +2806,10 @@ namespace GBC_USFM_Preprocessor
                                         //check if dt or dd was open and close it
                                         if (bDTtag)
                                         {
-                                            //oChap.AddVerse("<br/>");
-                                            //oChap.AddVerse("</dt>");
                                             bDTtag = false;
                                         }
                                         else if (bDDtag)
                                         {
-                                            //oChap.AddVerse("<br/>");
-                                            //oChap.AddVerse("</dd><dt></dt>");
                                             bDDtag = false;
                                         }
 
@@ -2968,9 +2995,9 @@ namespace GBC_USFM_Preprocessor
                 sr.Close();
                 // Close file
                 file.Close();
-
+                
                 //dump out the book to a file
-                ExportToEPUBFile(sFileOutName, oBook, txtLang.Text);
+                ExportToEPUBFile(sFileOutName, oBook, cboEpubLanguage.Text);
 
                 //create a new ini entry
                 cBQ_IniStructure oIni = new cBQ_IniStructure();
@@ -2983,15 +3010,15 @@ namespace GBC_USFM_Preprocessor
                 oIniFile.Add(oIni);
 
                 //iterate the progress bar
-                progressBar1.Value++;
-                this.Refresh();
+                progressBar2.Value++;
+                progressBar2.Refresh();
             }
 
 
             //put in the epub
             Epub epub = new Epub(sExportPath, TocOptions.ByTitleTag);
             epub.Metadata.Creator = "Creator";
-            epub.Metadata.Language = txtLang.Text;
+            epub.Metadata.Language = cboEpubLanguage.Text;
             epub.Metadata.Title = txtFullName.Text;
             epub.Metadata.Date = DateTime.Now.ToShortDateString();
             epub.Structure.Directories.ImageFolder = "Image";
@@ -3005,6 +3032,11 @@ namespace GBC_USFM_Preprocessor
         //    //check for DigiStudy's existance
 
 
+        }
+
+        private bool EPUBExportValidation()
+        {
+            throw new NotImplementedException();
         }
 
         private void ExportToEPUBFile(string sFileOutName, cBQ_Book oBook, string sLang)
