@@ -2650,8 +2650,6 @@ namespace GBC_USFM_Preprocessor
                                                     {
                                                         oChap.AddVerse("</ol></li>");
                                                     }
-                                                    //oChap.AddVerse("</ol>");
-                                                    //oChap.AddVerse("</li></ol></li>");
 
                                                 }
                                                 //do nothing if it's the same level
@@ -2662,8 +2660,7 @@ namespace GBC_USFM_Preprocessor
                                                         oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</li>";
                                                     }
                                                     else
-                                                    {
-                                                        //oChap.Verses[oChap.Verses.Count - 1] = oChap.Verses[oChap.Verses.Count - 1] + "</p>";
+                                                    {                                                        
                                                         iExceptionIndent = 0; //set it back to 0, so that the ending of the list is not messed up
                                                     }
                                                     
@@ -2685,22 +2682,6 @@ namespace GBC_USFM_Preprocessor
                                                     }
                                                     oChap.AddVerse(Regex.Replace(sValue, @"\\io" + iIndent + " ", "<li>", RegexOptions.None));
                                                 }
-                                                //in case it has ip's in the middle of io's check how deep was the list
-                                                //else
-                                                //{
-                                                //    //if deeper than 1 then close ol tag
-                                                //    if (iIndentPrev - iIndent > 2)
-                                                //    {
-                                                //        oChap.AddVerse("</ol>");
-                                                //        oChap.AddVerse("</ol>");
-                                                //    }
-                                                //    else
-                                                //    {
-                                                //        oChap.AddVerse("</ol>");
-                                                //    }
-                                                //    //insert actual line surrounded by breaks
-                                                //    oChap.AddVerse(ParseHeaderTagsEPUB(matchResults.Value));
-                                                //}
 
                                                 matchResults = matchResults.NextMatch();
 
@@ -2739,7 +2720,6 @@ namespace GBC_USFM_Preprocessor
                             else //if chapter 0 is empty like in 2Sam, 2Ki, and 2Chron
                             {
                                 cBQ_Chapter oChap = new cBQ_Chapter(0);
-                                //oChap.AddVerse("<br/>");
                                 bChapterZero = true;
                                 oBook.AddChapter(oChap);
                             }
@@ -2792,12 +2772,6 @@ namespace GBC_USFM_Preprocessor
                                             sPrevVerse = oChap.Verses[oChap.Verses.Count - 1].ToString();
                                         }
 
-                                        //if previous verse does not end with <h2> (if it's not a header) then add some breaks
-                                        if (!sPrevVerse.EndsWith("</h2>"))
-                                        {
-                                            //oChap.AddVerse("<br/>");
-                                            //oChap.AddVerse("<br/>");
-                                        }
                                         //check if dt or dd was open and close it
                                         if (bDTtag)
                                         {
@@ -2814,7 +2788,6 @@ namespace GBC_USFM_Preprocessor
 
                                         sTemp = oChap.AddFootnote(sTemp);
                                         oChap.AddVerse("! <h5>" + sTemp + "</h5>");
-                                        //oChap.AddVerse("<br/>");
 
                                     }
                                     //if it's a parallel ref
@@ -2826,7 +2799,6 @@ namespace GBC_USFM_Preprocessor
                                         sTemp = sTemp.Replace(@"\r", "").Trim();
                                         //put in extra breaks
                                         oChap.AddVerse("! <p><i>" + sTemp + "</i></p>");
-                                        //oChap.AddVerse("<br/>");
 
                                     }
                                     else if (matchResults.Value.Substring(0, 3) == @"\ms")
@@ -2835,7 +2807,6 @@ namespace GBC_USFM_Preprocessor
                                         string sTemp = matchResults.Value;
                                         sTemp = sTemp.Replace(@"\ms", "").Trim();
                                         //put in extra breaks
-                                        //oChap.AddVerse("<br/>");
                                         oChap.AddVerse("! <h2>" + sTemp + "</h2>");
 
                                     }
@@ -2851,10 +2822,8 @@ namespace GBC_USFM_Preprocessor
                                             {
                                                 if (bDDtag)
                                                 {
-                                                    //oChap.AddVerse("</dd><dt></dt>");
                                                     bDDtag = false;
                                                 }
-                                                //s = "<p>" + s + "</p>";
                                                 bNewParagraph = false;
                                             }
                                             s = oChap.AddFootnote(s);
@@ -2874,11 +2843,7 @@ namespace GBC_USFM_Preprocessor
                                         //indicate that you're openning one
                                         bPI = true;
                                         //parse the string, should come back the same
-                                        string s = ParseVerseTagsEPUB(matchResults.Value);
-                                        //then replace the \pi in the beginning
-                                        //s = s.Replace(@"\pi", "").Trim();
-                                        //add a blockquote line
-                                        //oChap.AddVerse("<blockquote>");
+                                        string s = ParseVerseTagsEPUB(matchResults.Value);                                       
                                         //add actual text
                                         s = oChap.AddFootnote(s);
                                         oChap.AddVerse(s);
@@ -2894,22 +2859,17 @@ namespace GBC_USFM_Preprocessor
                                             if (s == "p")
                                             {
                                                 bNewParagraph = true;
-                                                //oChap.AddVerse("<br/>");
-
                                             }
                                             else if (s == "<dt>")
                                             {
                                                 if (bDTtag)
                                                 {
-                                                    //oChap.AddVerse("</dt>");
                                                     bDTtag = false;
                                                 }
                                                 else if (bDDtag)
                                                 {
-                                                    //oChap.AddVerse("</dd><dt></dt>");
                                                     bDDtag = false;
                                                 }
-                                                //oChap.AddVerse("<br/>");
                                                 s = oChap.AddFootnote(s);
                                                 oChap.AddVerse("<p>" + s + "</p>");
                                                 bDTtag = true;
@@ -2919,15 +2879,12 @@ namespace GBC_USFM_Preprocessor
                                             {
                                                 if (bDTtag)
                                                 {
-                                                    //oChap.AddVerse("</dt>");
                                                     bDTtag = false;
                                                 }
                                                 else if (bDDtag)
                                                 {
-                                                    //oChap.AddVerse("</dd><dt></dt>");
                                                     bDDtag = false;
                                                 }
-                                                //oChap.AddVerse("<br/>");
                                                 s = oChap.AddFootnote(s);
                                                 oChap.AddVerse("<p>" + s + "</p>");
                                                 bDDtag = true;
@@ -2936,25 +2893,22 @@ namespace GBC_USFM_Preprocessor
                                             {
                                                 if (bDTtag)
                                                 {
-                                                    //oChap.AddVerse("</dt>");
                                                     bDTtag = false;
                                                 }
                                                 else if (bDDtag)
                                                 {
-                                                    //oChap.AddVerse("</dd><dt></dt>");
                                                     bDDtag = false;
                                                 }
                                                 //mostly non-empty \p tags
-                                                //oChap.AddVerse("<br/>");
                                                 if (s.StartsWith("<p"))
                                                 {
                                                     s = oChap.AddFootnote(s);
-                                                    oChap.AddVerse(s);
+                                                    oChap.AddVerse(s.Trim());
                                                 }
                                                 else
                                                 {
                                                     s = oChap.AddFootnote(s);
-                                                    oChap.AddVerse("<p>" + s + "</p>");
+                                                    oChap.AddVerse("<p>" + s.Trim() + "</p>");
                                                 }
                                                 
                                             }
@@ -2971,10 +2925,7 @@ namespace GBC_USFM_Preprocessor
                                                 bPI = false;
                                                 //there is no need for a <br> tag because blockquote takes some extra space before and after
                                             }
-                                            else if (!bDDtag)
-                                            {
 
-                                            }
                                             else
                                             {
                                                 oChap.AddVerse("<p></p>");
@@ -2984,10 +2935,6 @@ namespace GBC_USFM_Preprocessor
 
                                     }
                                     matchResults = matchResults.NextMatch();
-                                    if (matchResults.Value.Contains("возвещая повеления царя"))
-                                    {
-                                        
-                                    }
                                 }
                                 if (bPI)
                                 {
@@ -3004,8 +2951,7 @@ namespace GBC_USFM_Preprocessor
                                 throw;
                             }
                             #endregion
-                            //add in the chapter to the book object
-                           
+                            //add in the chapter to the book object                           
                             oBook.AddChapter(oChap);
                         }
                     }
@@ -3126,35 +3072,35 @@ namespace GBC_USFM_Preprocessor
                                 sb.AppendLine(sVerseStart + sVerseEnd + sTmp.Substring(2));
                                 iCount = 0;
                             }
-                            else if (sTmp == "<br/>")
-                            {
-                                //keep track of the <br/> tags, and don't let there be more than 2
-                                iCount++;
-                                if (iCount < 3)
-                                {
-                                    sb.AppendLine("<br/>");
-                                }
+                            //else if (sTmp == "<br/>")
+                            //{
+                            //    //keep track of the <br/> tags, and don't let there be more than 2
+                            //    iCount++;
+                            //    if (iCount < 3)
+                            //    {
+                            //        sb.AppendLine("<br/>");
+                            //    }
 
-                            }
+                            //}
                             else if (sTmp.StartsWith("<"))
                             {
                                 sb.AppendLine(sTmp);
                             }
-                            else
-                            {
-                                //when it's a normal verse
-                                try
-                                {
-                                    //will error out if missing any verse text, if there is just a tag without text following it
-                                    string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
-                                    sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length).TrimStart());
-                                    iCount = 0;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine("ERROR: " + ex.Message);
-                                }
-                            }
+                            ////else
+                            ////{
+                            ////    //when it's a normal verse
+                            ////    try
+                            ////    {
+                            ////        //will error out if missing any verse text, if there is just a tag without text following it
+                            ////        string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
+                            ////        sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length).TrimStart());
+                            ////        iCount = 0;
+                            ////    }
+                            ////    catch (Exception ex)
+                            ////    {
+                            ////        Console.WriteLine("ERROR: " + ex.Message);
+                            ////    }
+                            ////}
                         }
 
 
@@ -3165,26 +3111,7 @@ namespace GBC_USFM_Preprocessor
                 for (int i = 0; i < oFtnote.Count; i++)
                 {
 
-                    string sFTmp = oFtnote[i].ToString().Trim();
-                    //pull out the verse number from the front of the verse
-                    //if (sFTmp != String.Empty)
-                    //{
-
-                    //    try
-                    //    {
-                    //        //will error out if missing any verse text, if there is just a tag without text following it
-                    //        string sVerseNum = sFTmp.Substring(9);
-                    //        sVerseNum = sVerseNum.Substring(0, sVerseNum.IndexOf(@"\"));
-                    //        sb.AppendLine(sVerseStart + sVerseEnd + "<b>" + sVerseNum + "</b>" + sFTmp.Substring(sFTmp.IndexOf("*") + 1) + "<br/>");
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        sb.AppendLine("");
-                    //        Console.WriteLine("ERROR: " + ex.Message);
-                    //        //throw;
-                    //    }
-
-                    //}
+                    string sFTmp = oFtnote[i].ToString().Trim();                    
                     sb.AppendLine(sFTmp);
                 }
 

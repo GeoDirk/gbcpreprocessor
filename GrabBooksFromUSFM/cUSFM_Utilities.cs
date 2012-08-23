@@ -437,7 +437,7 @@ namespace GBC_USFM_Preprocessor
             else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart) == "\\q1")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = "<p class=\"speech\">" + sVerse.Substring(iStart) + "</p>";
+                sVerse = "<p class=\"speech\">" + sVerse.Substring(iStart).Trim() + "</p>";
             }
             //if it's a list or a quote of the second level add second level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q2")
@@ -449,7 +449,7 @@ namespace GBC_USFM_Preprocessor
             else if (sVerse.Substring(0, iStart) == "\\pi")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
-                sVerse = "<blockquote><p>" + sVerse.Substring(iStart) + "</p>";
+                sVerse = "<blockquote><p>" + sVerse.Substring(iStart).Trim() + "</p>";
             }
             //if it's a quote of the third level - add third level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q3")
