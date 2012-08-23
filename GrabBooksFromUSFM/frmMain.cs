@@ -3036,7 +3036,9 @@ namespace GBC_USFM_Preprocessor
 
         private bool EPUBExportValidation()
         {
-            throw new NotImplementedException();
+            bool bRet = false;
+            bRet = true;
+            return bRet;
         }
 
         private void ExportToEPUBFile(string sFileOutName, cBQ_Book oBook, string sLang)
