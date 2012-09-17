@@ -138,7 +138,7 @@
             this.cmdLoadBookOrder = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblExport = new System.Windows.Forms.Label();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.cmdGenerateEPUB = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
@@ -157,6 +157,7 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
+            this.chbParagraphMode = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1163,6 +1164,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.chbParagraphMode);
             this.tabPage5.Controls.Add(this.txtTitlePageInfo);
             this.tabPage5.Controls.Add(this.label21);
             this.tabPage5.Controls.Add(this.cboEpubLanguage);
@@ -1194,7 +1196,7 @@
             this.txtTitlePageInfo.Location = new System.Drawing.Point(379, 164);
             this.txtTitlePageInfo.Multiline = true;
             this.txtTitlePageInfo.Name = "txtTitlePageInfo";
-            this.txtTitlePageInfo.Size = new System.Drawing.Size(293, 196);
+            this.txtTitlePageInfo.Size = new System.Drawing.Size(293, 173);
             this.txtTitlePageInfo.TabIndex = 52;
             this.txtTitlePageInfo.Text = "The Bible";
             // 
@@ -1312,7 +1314,7 @@
             // panel8
             // 
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.label3);
+            this.panel8.Controls.Add(this.lblExport);
             this.panel8.Controls.Add(this.progressBar2);
             this.panel8.Controls.Add(this.cmdGenerateEPUB);
             this.panel8.Location = new System.Drawing.Point(3, 366);
@@ -1320,14 +1322,14 @@
             this.panel8.Size = new System.Drawing.Size(675, 70);
             this.panel8.TabIndex = 33;
             // 
-            // label3
+            // lblExport
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 47);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 13);
-            this.label3.TabIndex = 33;
-            this.label3.Text = "Exporting To:";
+            this.lblExport.AutoSize = true;
+            this.lblExport.Location = new System.Drawing.Point(6, 47);
+            this.lblExport.Name = "lblExport";
+            this.lblExport.Size = new System.Drawing.Size(70, 13);
+            this.lblExport.TabIndex = 33;
+            this.lblExport.Text = "Exporting To:";
             // 
             // progressBar2
             // 
@@ -1496,6 +1498,16 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
+            // chbParagraphMode
+            // 
+            this.chbParagraphMode.AutoSize = true;
+            this.chbParagraphMode.Location = new System.Drawing.Point(383, 346);
+            this.chbParagraphMode.Name = "chbParagraphMode";
+            this.chbParagraphMode.Size = new System.Drawing.Size(104, 17);
+            this.chbParagraphMode.TabIndex = 53;
+            this.chbParagraphMode.Text = "Paragraph mode";
+            this.chbParagraphMode.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1661,7 +1673,7 @@
         private System.Windows.Forms.CheckBox chkVerseRangeMarkers;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblExport;
         private System.Windows.Forms.ProgressBar progressBar2;
         private System.Windows.Forms.Button cmdGenerateEPUB;
         private System.Windows.Forms.Label label20;
@@ -1684,6 +1696,7 @@
         private System.Windows.Forms.ComboBox cboEpubLanguage;
         private System.Windows.Forms.TextBox txtTitlePageInfo;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.CheckBox chbParagraphMode;
     }
 }
 

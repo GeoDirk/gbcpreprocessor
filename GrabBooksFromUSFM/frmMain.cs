@@ -2510,7 +2510,9 @@ namespace GBC_USFM_Preprocessor
             {
                 sExportPath += @"\";
             }
-            lblExportTo.Text = "Exporting To: " + sExportPath;
+            lblExport.Text = "Exporting To: " + sExportPath;
+
+            bool bParagraphMode = chbParagraphMode.Checked;
 
             //create directory if it doesn't exist
             if (!Directory.Exists(sExportPath))
@@ -2863,16 +2865,35 @@ namespace GBC_USFM_Preprocessor
                                         if (s != String.Empty)
                                         {
                                             //check if it's a new paragraph
-                                            if (bNewParagraph)
-                                            {
-                                                if (bDDtag)
-                                                {
-                                                    bDDtag = false;
-                                                }
-                                                bNewParagraph = false;
-                                            }
+                                            //if (bNewParagraph)
+                                            //{
+                                            //    if (bDDtag)
+                                            //    {
+                                            //        bDDtag = false;
+                                            //    }
+                                            //    bNewParagraph = false;
+                                            //}
                                             s = oChap.AddFootnote(s);
-                                            oChap.AddVerse("<p>" + s + "</p>");
+                                            if (bParagraphMode)
+                                            {
+                                                //paragraph
+                                                if (!bNewParagraph)
+                                                {
+                                                    oChap.AddVerse("! " + s);    
+                                                }
+                                                else
+                                                {
+                                                    oChap.AddVerse("<p/>" + s);
+                                                    bNewParagraph = false;
+                                                }
+                                                
+                                            }
+                                            else
+                                            {
+                                                //line-by-line
+                                                oChap.AddVerse("<p>" + s + "</p>");
+                                            } 
+                                            
 
                                         }
 
