@@ -52,9 +52,6 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>ThirdPartyDlls\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Include="SharpEpub">
-      <HintPath>ThirdPartyDlls\SharpEpub.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -141,6 +138,12 @@
     <Content Include="TagList.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharpEpub\SharpEpub\SharpEpub.csproj">
+      <Project>{8F73F5E4-A96E-45CF-B552-1BAA17085AF3}</Project>
+      <Name>SharpEpub</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

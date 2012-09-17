@@ -124,6 +124,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboBQCodePage = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.txtTitlePageInfo = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.cboEpubLanguage = new System.Windows.Forms.ComboBox();
             this.txtFullName = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -134,7 +137,6 @@
             this.lblInstructions = new System.Windows.Forms.Label();
             this.cmdLoadBookOrder = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
@@ -155,7 +157,6 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
-            this.cboEpubLanguage = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1162,6 +1163,8 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.txtTitlePageInfo);
+            this.tabPage5.Controls.Add(this.label21);
             this.tabPage5.Controls.Add(this.cboEpubLanguage);
             this.tabPage5.Controls.Add(this.txtFullName);
             this.tabPage5.Controls.Add(this.label25);
@@ -1170,7 +1173,6 @@
             this.tabPage5.Controls.Add(this.lblInstructions);
             this.tabPage5.Controls.Add(this.cmdLoadBookOrder);
             this.tabPage5.Controls.Add(this.label23);
-            this.tabPage5.Controls.Add(this.checkBox1);
             this.tabPage5.Controls.Add(this.panel8);
             this.tabPage5.Controls.Add(this.label20);
             this.tabPage5.Controls.Add(this.textBox1);
@@ -1187,17 +1189,45 @@
             this.tabPage5.Text = "Export as ePub";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // txtTitlePageInfo
+            // 
+            this.txtTitlePageInfo.Location = new System.Drawing.Point(379, 164);
+            this.txtTitlePageInfo.Multiline = true;
+            this.txtTitlePageInfo.Name = "txtTitlePageInfo";
+            this.txtTitlePageInfo.Size = new System.Drawing.Size(293, 196);
+            this.txtTitlePageInfo.TabIndex = 52;
+            this.txtTitlePageInfo.Text = "The Bible";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(376, 148);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(79, 13);
+            this.label21.TabIndex = 51;
+            this.label21.Text = "Title Page Info:";
+            // 
+            // cboEpubLanguage
+            // 
+            this.cboEpubLanguage.FormattingEnabled = true;
+            this.cboEpubLanguage.Location = new System.Drawing.Point(469, 76);
+            this.cboEpubLanguage.Name = "cboEpubLanguage";
+            this.cboEpubLanguage.Size = new System.Drawing.Size(107, 21);
+            this.cboEpubLanguage.TabIndex = 50;
+            this.cboEpubLanguage.Text = "Selelect language";
+            // 
             // txtFullName
             // 
-            this.txtFullName.Location = new System.Drawing.Point(445, 76);
+            this.txtFullName.Location = new System.Drawing.Point(376, 75);
             this.txtFullName.Name = "txtFullName";
-            this.txtFullName.Size = new System.Drawing.Size(218, 20);
+            this.txtFullName.Size = new System.Drawing.Size(78, 20);
             this.txtFullName.TabIndex = 49;
+            this.txtFullName.Text = "bible";
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(442, 60);
+            this.label25.Location = new System.Drawing.Point(373, 59);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(81, 13);
             this.label25.TabIndex = 48;
@@ -1207,7 +1237,7 @@
             // 
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(442, 113);
+            this.label24.Location = new System.Drawing.Point(466, 60);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(55, 13);
             this.label24.TabIndex = 47;
@@ -1231,7 +1261,7 @@
             this.lvBooks.Location = new System.Drawing.Point(6, 60);
             this.lvBooks.Margin = new System.Windows.Forms.Padding(2);
             this.lvBooks.Name = "lvBooks";
-            this.lvBooks.Size = new System.Drawing.Size(431, 276);
+            this.lvBooks.Size = new System.Drawing.Size(365, 301);
             this.lvBooks.TabIndex = 45;
             this.lvBooks.UseCompatibleStateImageBehavior = false;
             this.lvBooks.View = System.Windows.Forms.View.Details;
@@ -1240,12 +1270,12 @@
             // columnHeader3
             // 
             this.columnHeader3.Text = "Original Order";
-            this.columnHeader3.Width = 100;
+            this.columnHeader3.Width = 77;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Title";
-            this.columnHeader4.Width = 185;
+            this.columnHeader4.Width = 129;
             // 
             // columnHeader5
             // 
@@ -1279,23 +1309,13 @@
             this.label23.TabIndex = 42;
             this.label23.Text = "Reorder the books into the correct sequence";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(441, 197);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(223, 17);
-            this.checkBox1.TabIndex = 40;
-            this.checkBox1.Text = "Swap Characters for HTML friendly codes";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // panel8
             // 
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel8.Controls.Add(this.label3);
             this.panel8.Controls.Add(this.progressBar2);
             this.panel8.Controls.Add(this.cmdGenerateEPUB);
-            this.panel8.Location = new System.Drawing.Point(3, 341);
+            this.panel8.Location = new System.Drawing.Point(3, 366);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(675, 70);
             this.panel8.TabIndex = 33;
@@ -1331,7 +1351,7 @@
             // 
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(442, 223);
+            this.label20.Location = new System.Drawing.Point(466, 107);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(116, 13);
             this.label20.TabIndex = 39;
@@ -1340,7 +1360,7 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(564, 220);
+            this.textBox1.Location = new System.Drawing.Point(469, 123);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(40, 20);
             this.textBox1.TabIndex = 38;
@@ -1348,16 +1368,16 @@
             // 
             // txtIntroName
             // 
-            this.txtIntroName.Location = new System.Drawing.Point(537, 172);
+            this.txtIntroName.Location = new System.Drawing.Point(588, 75);
             this.txtIntroName.Name = "txtIntroName";
-            this.txtIntroName.Size = new System.Drawing.Size(100, 20);
+            this.txtIntroName.Size = new System.Drawing.Size(84, 20);
             this.txtIntroName.TabIndex = 37;
             this.txtIntroName.Text = "Введение";
             // 
             // lblIntroName
             // 
             this.lblIntroName.AutoSize = true;
-            this.lblIntroName.Location = new System.Drawing.Point(445, 175);
+            this.lblIntroName.Location = new System.Drawing.Point(587, 59);
             this.lblIntroName.Name = "lblIntroName";
             this.lblIntroName.Size = new System.Drawing.Size(59, 13);
             this.lblIntroName.TabIndex = 36;
@@ -1365,16 +1385,16 @@
             // 
             // txtEPUBChapterSign
             // 
-            this.txtEPUBChapterSign.Location = new System.Drawing.Point(537, 148);
+            this.txtEPUBChapterSign.Location = new System.Drawing.Point(379, 123);
             this.txtEPUBChapterSign.Name = "txtEPUBChapterSign";
-            this.txtEPUBChapterSign.Size = new System.Drawing.Size(100, 20);
+            this.txtEPUBChapterSign.Size = new System.Drawing.Size(75, 20);
             this.txtEPUBChapterSign.TabIndex = 35;
             this.txtEPUBChapterSign.Text = "<h4>";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(445, 151);
+            this.label22.Location = new System.Drawing.Point(376, 107);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(68, 13);
             this.label22.TabIndex = 34;
@@ -1475,14 +1495,6 @@
             this.cmdAbout.Text = "About";
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
-            // 
-            // cboEpubLanguage
-            // 
-            this.cboEpubLanguage.FormattingEnabled = true;
-            this.cboEpubLanguage.Location = new System.Drawing.Point(504, 110);
-            this.cboEpubLanguage.Name = "cboEpubLanguage";
-            this.cboEpubLanguage.Size = new System.Drawing.Size(160, 21);
-            this.cboEpubLanguage.TabIndex = 50;
             // 
             // frmMain
             // 
@@ -1648,7 +1660,6 @@
         private System.Windows.Forms.TextBox txtReplacemetText;
         private System.Windows.Forms.CheckBox chkVerseRangeMarkers;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar2;
@@ -1671,6 +1682,8 @@
         private System.Windows.Forms.TextBox txtFullName;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ComboBox cboEpubLanguage;
+        private System.Windows.Forms.TextBox txtTitlePageInfo;
+        private System.Windows.Forms.Label label21;
     }
 }
 

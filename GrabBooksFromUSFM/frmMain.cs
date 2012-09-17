@@ -172,6 +172,7 @@ namespace GBC_USFM_Preprocessor
             dtLangs.Columns.Add(dcLangCode);
             dtLangs.Columns.Add(dcLangName);
             //populate language codes for EPUB
+            
             foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
                 dtLangs.Rows.Add(ci.EnglishName.ToString(),ci.TwoLetterISOLanguageName.ToString());
@@ -184,11 +185,14 @@ namespace GBC_USFM_Preprocessor
                 dv.Sort = "DisplayName";
                 //save our newly ordered results back into our datatable  
                 dtLangs = dv.ToTable();
-            }  
+            }
+            DataRow dr = dtLangs.NewRow();
+            dr[0] = "Select Language";
+            dr[1] = "";
+            dtLangs.Rows.InsertAt(dr, 0);
             cboEpubLanguage.DataSource = dtLangs;
             cboEpubLanguage.DisplayMember = "DisplayName";
             cboEpubLanguage.ValueMember = "Code";
-
 
             //find out if DigiStudy has been installed on this computer and get its path from
             //the registry
@@ -198,7 +202,20 @@ namespace GBC_USFM_Preprocessor
                 lblExportTo.Text = "Exporting To: " + _sDigiStudyPath;
             }
 
-            
+            this.columnHeader3.Text = "Select All";
+            lvBooks.Enabled = false;
+
+            //fill out template for EPUB title page
+            txtTitlePageInfo.Text = "<title>Cover Page Title here</title>"
+                                + "</head>"
+                                + "<body style=\"background-image: url(\'image/uzor.gif\'); background-repeat:no-repeat\">"
+                                + "<div class=\"booktitle\"><h1>Bible Name here</h1></div>"
+                                + "<div class=\"tpDescription\">Description here</div>"
+                                + "<div class=\"tpPublisher\">Publisher's Name here</div>"
+                                + "<div class=\"tpPublisher\">Year here</div>"
+                                + "<div class=\"tpISBN\">ISBN here</div>"
+                                + "<div class=\"tpISBN\">Optional Publishing Info here</div>"
+                                + "<div class=\"tpWebsite\"><a href=\"http://www.youraddress.com\">www.youraddress.com</a></div>";
         }
 
 
@@ -2521,6 +2538,7 @@ namespace GBC_USFM_Preprocessor
             //the progress bar max
             progressBar2.Value = 0;
             progressBar2.Maximum = lvBooks.CheckedItems.Count;
+            int iOrder = 10;
 
             //iterate through each file
             foreach (System.Windows.Forms.ListViewItem item in lvBooks.CheckedItems)
@@ -2535,8 +2553,8 @@ namespace GBC_USFM_Preprocessor
                 FileStream file = new FileStream(sExportPath + item.SubItems[2].Text, FileMode.OpenOrCreate, FileAccess.Read);
                 FileInfo fi = new FileInfo(file.Name);
                 string sFilename = item.SubItems[2].Text;
-                string sFileOutName = sExportPath + sFilename.Substring(0, sFilename.LastIndexOf(".")) + ".html";
-
+                string sFileOutName = sExportPath + iOrder.ToString() + sFilename.Substring(0, sFilename.LastIndexOf(".")) + ".html";
+                iOrder++;
                 //get the bookname before swapping out the replacement characters as we need
                 //it for the DigiView listbox
                 string line;
@@ -2825,7 +2843,7 @@ namespace GBC_USFM_Preprocessor
                                         string sTemp = ParseVerseTagsEPUB(matchResults.Value);
                                         sTemp = sTemp.Replace(@"\r", "").Trim();
                                         //put in extra breaks
-                                        oChap.AddVerse("! <p><i>" + sTemp + "</i></p>");
+                                        oChap.AddVerse("! <h6>" + sTemp + "</h6>");
 
                                     }
                                     else if (matchResults.Value.Substring(0, 3) == @"\ms")
@@ -2997,7 +3015,7 @@ namespace GBC_USFM_Preprocessor
                 file.Close();
                 
                 //dump out the book to a file
-                ExportToEPUBFile(sFileOutName, oBook, cboEpubLanguage.Text);
+                ExportToEPUBFile(sFileOutName, oBook, cboEpubLanguage.SelectedValue.ToString());
 
                 //create a new ini entry
                 cBQ_IniStructure oIni = new cBQ_IniStructure();
@@ -3014,35 +3032,49 @@ namespace GBC_USFM_Preprocessor
                 progressBar2.Refresh();
             }
 
-
+            CreateEpubTitlePage(sExportPath, cboEpubLanguage.SelectedValue.ToString());
             //put in the epub
             Epub epub = new Epub(sExportPath, TocOptions.ByTitleTag);
             epub.Metadata.Creator = "Creator";
             epub.Metadata.Language = cboEpubLanguage.Text;
             epub.Metadata.Title = txtFullName.Text;
             epub.Metadata.Date = DateTime.Now.ToShortDateString();
-            epub.Structure.Directories.ImageFolder = "Image";
-            epub.Structure.Directories.CssFolder = "Css";
+            epub.Structure.Directories.ImageFolder = "image";
+            epub.Structure.Directories.CssFolder = "css";
             epub.DirectorySearchOption = SearchOption.AllDirectories;
             epub.BuildToFile(sExportPath + txtFullName.Text + ".epub");
 
             //reset the cursor
             this.Cursor = Cursors.Default;
-
-        //    //check for DigiStudy's existance
-
-
+            MessageBox.Show("The file is done");
         }
 
         private bool EPUBExportValidation()
         {
             bool bRet = false;
-            bRet = true;
+
+            errorProvider1.Clear();
+            if (!lvBooks.Enabled)
+            {
+                errorProvider1.SetError(lvBooks, "Load in book list");
+                bRet = true;
+            }
+            if (txtFullName.Text == string.Empty)
+            {
+                errorProvider1.SetError(txtFullName, "Need value");
+                bRet = true;
+            }
+            if (cboEpubLanguage.Text == "Select Language")
+            {
+                errorProvider1.SetError(cboEpubLanguage, "Need value");
+                bRet = true;
+            }
             return bRet;
         }
 
         private void ExportToEPUBFile(string sFileOutName, cBQ_Book oBook, string sLang)
         {
+            
             StringBuilder sb = new StringBuilder();
             List<cBQ_Chapter> oChapters = oBook.oChapters;
             sb.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"");
@@ -3051,10 +3083,16 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("<head>");
             sb.AppendLine("<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=utf-8\"/>");
             sb.AppendLine("<link rel=\"stylesheet\" href=\"css\\common.css\" type=\"text/css\"/>");
-            //sb.AppendLine("<link href=\"directory.css\" type=text/css rel=stylesheet>");
             sb.AppendLine("<title>" + oBook.sBookName + "</title>");
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
+            sb.Append("<div class=\"chapterJump\">");//jump to chapter
+            //add chapter links in the beginning of the book
+            for (int i = 1; i < oChapters.Count; i++)
+            {
+                sb.Append("<a href=\"#chapter" + i + "\">" + i + "</a> ");
+            }
+            sb.Append("</div>");
             sb.AppendLine("<h1>" + oBook.sBookName + "</h1>");
 
             string sChapTagStart = txtEPUBChapterSign.Text;
@@ -3072,13 +3110,13 @@ namespace GBC_USFM_Preprocessor
                 {
                     if (c.Verses.Count>0)
                     {
-                        sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\">" + txtIntroName.Text + "</a>" + sChapTagEnd);
+                        sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\"></a>" + txtIntroName.Text +  sChapTagEnd);
                     }
                     
                 }
                 else
                 {
-                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\">" + oBook.sBookName + " " + c.sChapterNumber + "</a>" + sChapTagEnd);
+                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\"></a>" + oBook.sBookName + " " + c.sChapterNumber + sChapTagEnd);
                 }
                 
 
@@ -3139,14 +3177,20 @@ namespace GBC_USFM_Preprocessor
 
 
                     }
+                    
                 }
                 //insert footnotes at the end of each chapter
+                
                 ArrayList oFtnote = c.Footnotes;
+                if (oFtnote.Count > 0)
+                {
+                    sb.AppendLine("<hr></hr>");
+                }
                 for (int i = 0; i < oFtnote.Count; i++)
                 {
 
                     string sFTmp = oFtnote[i].ToString().Trim();                    
-                    sb.AppendLine(sFTmp);
+                    sb.AppendLine("<div class=\"ftnt\">" + sFTmp +"</div>");
                 }
 
             }
@@ -3166,6 +3210,28 @@ namespace GBC_USFM_Preprocessor
             //convert file to correct codepage
             //cConvertCodePages.ConvertFileToCodePageFile(Application.StartupPath + @"\tmp.txt", sFileOutName, 65001, (int)cboBQCodePage.SelectedValue);
 
+        }
+
+        private void CreateEpubTitlePage(string filePath, string sLang)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"");
+            sb.AppendLine("\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
+            sb.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"" + sLang + "\">");
+            sb.AppendLine("<head>");
+            sb.AppendLine("<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=utf-8\"/>");
+            sb.AppendLine("<link rel=\"stylesheet\" href=\"css\\common.css\" type=\"text/css\"/>");
+            sb.AppendLine(txtTitlePageInfo.Text);
+            //closing tags
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+            //write out the BQ page to a UTF8 temp file
+            using (StreamWriter sw = new StreamWriter(filePath + "00title.html", false, Encoding.UTF8))
+            {
+                sw.Write(sb);
+                sw.Flush();
+                sw.Close();
+            }
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -3189,7 +3255,8 @@ namespace GBC_USFM_Preprocessor
             //find out if \usfm_book_order.....txt file exists in the directory specified in txtDir \
             //and load file order into the DragNDropListView1
             //if not, provide instructions to create it and load it into the listview
-            lvOutput.Items.Clear();
+            lvBooks.Items.Clear();
+            lvBooks.Enabled = true;
             if (txtDir.Text != "")
             {
                 if (System.IO.File.Exists(txtDir.Text + @"\usfm_book_order." + cboExt.Text + ".txt"))
@@ -3258,20 +3325,30 @@ namespace GBC_USFM_Preprocessor
         {
             if (e.Column.ToString() == "0")
             {
-                if (lvBooks.Items[0].Checked == false)
+                try
                 {
-                    foreach (ListViewItem item in lvBooks.Items)
+                    if (lvBooks.Items[0].Checked == false)
                     {
-                        item.Checked = true;
+                        columnHeader3.Text = "Unselect All";
+                        foreach (ListViewItem item in lvBooks.Items)
+                        {
+                            item.Checked = true;
+                        }
+                    }
+                    else
+                    {
+                        columnHeader3.Text = "Select All";
+                        foreach (ListViewItem item in lvBooks.Items)
+                        {
+                            item.Checked = false;
+                        }
                     }
                 }
-                else
+                catch (Exception)
                 {
-                    foreach (ListViewItem item in lvBooks.Items)
-                    {
-                        item.Checked = false;
-                    }
+                    
                 }
+                
                 
             }
         }

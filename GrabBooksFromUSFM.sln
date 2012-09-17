@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBC_USFM_Preprocessor", "GrabBooksFromUSFM\GBC_USFM_Preprocessor.csproj", "{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpEpub", "..\SharpEpub\SharpEpub\SharpEpub.csproj", "{8F73F5E4-A96E-45CF-B552-1BAA17085AF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13D01DFA-1F6F-4034-9D14-41B1ABCEAE4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F73F5E4-A96E-45CF-B552-1BAA17085AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F73F5E4-A96E-45CF-B552-1BAA17085AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F73F5E4-A96E-45CF-B552-1BAA17085AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F73F5E4-A96E-45CF-B552-1BAA17085AF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
