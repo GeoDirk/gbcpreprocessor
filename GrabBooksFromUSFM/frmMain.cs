@@ -2551,6 +2551,9 @@ namespace GBC_USFM_Preprocessor
                 //create a book object to hold the chapters / verses
                 cBQ_Book oBook = new cBQ_Book();
 
+                string sVerseStart = txtEPUBVerseTag.Text;
+                string sVerseEnd = "</" + txtEPUBVerseTag.Text.Substring(1);
+
                 //open each book up and get the bookname (ie. Genesis)
                 FileStream file = new FileStream(sExportPath + item.SubItems[2].Text, FileMode.OpenOrCreate, FileAccess.Read);
                 FileInfo fi = new FileInfo(file.Name);
@@ -2879,11 +2882,13 @@ namespace GBC_USFM_Preprocessor
                                                 //paragraph
                                                 if (!bNewParagraph)
                                                 {
-                                                    oChap.AddVerse("! " + s);    
+                                                    s = WrapVerse(sVerseStart, sVerseEnd, s);
+                                                    oChap.AddVerse(s);    
                                                 }
                                                 else
                                                 {
-                                                    oChap.AddVerse("<p/>" + s);
+                                                    s = WrapVerse(sVerseStart, sVerseEnd, s);
+                                                    oChap.AddVerse("<p class=\"prgr\">" + s);
                                                     bNewParagraph = false;
                                                 }
                                                 
@@ -2891,6 +2896,7 @@ namespace GBC_USFM_Preprocessor
                                             else
                                             {
                                                 //line-by-line
+                                                s = WrapVerse(sVerseStart, sVerseEnd, s);
                                                 oChap.AddVerse("<p>" + s + "</p>");
                                             } 
                                             
@@ -3070,6 +3076,23 @@ namespace GBC_USFM_Preprocessor
             MessageBox.Show("The file is done");
         }
 
+        private static string WrapVerse(string sVerseStart, string sVerseEnd, string s)
+        {
+            string sVerseNum = "";
+            try
+            {
+                sVerseNum = s.Substring(0, s.IndexOf(" "));
+            }
+            catch (Exception)
+            {
+                sVerseNum = s.Trim();
+            }
+
+            s = s.Substring(sVerseNum.Length + 1);
+            s = sVerseStart + sVerseNum + sVerseEnd + " " + s;
+            return s;
+        }
+
         private bool EPUBExportValidation()
         {
             bool bRet = false;
@@ -3118,13 +3141,11 @@ namespace GBC_USFM_Preprocessor
 
             string sChapTagStart = txtEPUBChapterSign.Text;
             string sChapTagEnd = "</" + txtEPUBChapterSign.Text.Substring(1);
-            string sVerseStart = "";
-            string sVerseEnd = "";
+            
 
             //process the chapters and verses
             foreach (cBQ_Chapter c in oChapters)
             {
-                int iCount = 0;
                 //chapter number header
                 string chNumber = c.sChapterNumber;
                 if (chNumber == "0")
@@ -3149,7 +3170,7 @@ namespace GBC_USFM_Preprocessor
                     if (c.sChapterNumber == "0")
                     {
                         //chapter information section
-                        sb.AppendLine(sVerseStart + sVerseEnd + oVerse[i].ToString());
+                        sb.AppendLine(oVerse[i].ToString());
                     }
                     else
                     {
@@ -3162,38 +3183,34 @@ namespace GBC_USFM_Preprocessor
                             if (sTmp.Substring(0, 1) == "!")
                             {
                                 //this is a section header \s or referece \r
-                                sb.AppendLine(sVerseStart + sVerseEnd + sTmp.Substring(2));
-                                iCount = 0;
+                                sb.AppendLine(sTmp.Substring(2));
                             }
-                            //else if (sTmp == "<br/>")
-                            //{
-                            //    //keep track of the <br/> tags, and don't let there be more than 2
-                            //    iCount++;
-                            //    if (iCount < 3)
-                            //    {
-                            //        sb.AppendLine("<br/>");
-                            //    }
-
-                            //}
-                            else if (sTmp.StartsWith("<"))
+                            else
                             {
-                                sb.AppendLine(sTmp);
+                                //when it's a normal verse
+                                try
+                                {
+                                    //will error out if missing any verse text, if there is just a tag without text following it
+                                    //string sFirstTag = sTmp.Substring(0, sTmp.IndexOf(">") + 1);
+                                    //sTmp = sTmp.Substring(sFirstTag.Length);
+                                    //string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
+                                    //int num;
+                                    //bool isNumeric = int.TryParse(sVerseNum, out num);
+                                    //if (isNumeric)
+                                    //{
+                                    //    sb.AppendLine(sFirstTag + sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length).TrimStart());
+                                    //}
+                                    //else
+                                    //{
+                                    //    sb.AppendLine(sFirstTag + sTmp);
+                                    //}
+                                    sb.AppendLine(sTmp);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("ERROR: " + ex.Message);
+                                }
                             }
-                            ////else
-                            ////{
-                            ////    //when it's a normal verse
-                            ////    try
-                            ////    {
-                            ////        //will error out if missing any verse text, if there is just a tag without text following it
-                            ////        string sVerseNum = sTmp.Substring(0, sTmp.IndexOf(" "));
-                            ////        sb.AppendLine(sVerseStart + sVerseNum + sVerseEnd + sTmp.Substring(sVerseNum.Length, sTmp.Length - sVerseNum.Length).TrimStart());
-                            ////        iCount = 0;
-                            ////    }
-                            ////    catch (Exception ex)
-                            ////    {
-                            ////        Console.WriteLine("ERROR: " + ex.Message);
-                            ////    }
-                            ////}
                         }
 
 

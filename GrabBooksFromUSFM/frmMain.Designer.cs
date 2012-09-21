@@ -158,6 +158,8 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
             this.chbParagraphMode = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtEPUBVerseTag = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1164,6 +1166,8 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.label3);
+            this.tabPage5.Controls.Add(this.txtEPUBVerseTag);
             this.tabPage5.Controls.Add(this.chbParagraphMode);
             this.tabPage5.Controls.Add(this.txtTitlePageInfo);
             this.tabPage5.Controls.Add(this.label21);
@@ -1508,6 +1512,25 @@
             this.chbParagraphMode.Text = "Paragraph mode";
             this.chbParagraphMode.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(585, 107);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.TabIndex = 55;
+            this.label3.Text = "Verse Tag";
+            // 
+            // txtEPUBVerseTag
+            // 
+            this.txtEPUBVerseTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEPUBVerseTag.Location = new System.Drawing.Point(588, 123);
+            this.txtEPUBVerseTag.Name = "txtEPUBVerseTag";
+            this.txtEPUBVerseTag.Size = new System.Drawing.Size(40, 20);
+            this.txtEPUBVerseTag.TabIndex = 54;
+            this.txtEPUBVerseTag.Text = "<sup>";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1697,6 +1720,8 @@
         private System.Windows.Forms.TextBox txtTitlePageInfo;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.CheckBox chbParagraphMode;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtEPUBVerseTag;
     }
 }
 

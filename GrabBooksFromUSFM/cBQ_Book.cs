@@ -131,7 +131,7 @@ namespace GBC_USFM_Preprocessor
                 {
                     sVerse = s.Substring(0, s.IndexOf("<n>"));
                     s = s.Substring(s.IndexOf("<n>") + 4);
-                    sVerse = sVerse + " " + s.Substring(s.IndexOf("</n>")+5);
+                    sVerse = sVerse + s.Substring(s.IndexOf("</n>") + 4);
                     sFootnt = "<p>" + s.Substring(0, s.IndexOf("</n>"))+ "</p>";
                     _footnotes.Add(sFootnt);
                     s = sVerse;
