@@ -393,7 +393,6 @@
             this.txtBookNameTag.Size = new System.Drawing.Size(40, 20);
             this.txtBookNameTag.TabIndex = 14;
             this.txtBookNameTag.Text = "\\h";
-            this.txtBookNameTag.TextChanged += new System.EventHandler(this.txtBookNameTag_TextChanged);
             // 
             // radioDropComments
             // 

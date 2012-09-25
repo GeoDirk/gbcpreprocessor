@@ -394,7 +394,7 @@ namespace GBC_USFM_Preprocessor
         /*
          * Drop the verse number from the start of the verse string
          */
-        public string RemoveVerseNumberingEPUB(string sVerse, ref bool bDDTag)
+        public string RemoveVerseNumberingEPUB(string sVerse)
         {
             //find the first verse and remove everything before that
             int iStart = sVerse.IndexOf(" ");
@@ -415,14 +415,11 @@ namespace GBC_USFM_Preprocessor
                 }
                 else if (sVerse.Substring(0, 4) == "\\li1")
                 {
-                    //sVerse = "<dt>";
-                    sVerse = "";
+                    sVerse = "<p class=\"speech\"/>";
                 }
                 else if (sVerse.Substring(0, 4) == "\\li2")
                 {
-                    //sVerse = "<dd>";
-                    sVerse = "";
-
+                    sVerse = "<p class=\"speech2\"/>";
                 }
                 else
                 {
@@ -461,13 +458,13 @@ namespace GBC_USFM_Preprocessor
             else if (sVerse.Substring(0, iStart) == "\\li1")
             {
                 //sVerse = " <dt>" + sVerse.Substring(iStart) + "</dt>";
-                sVerse = sVerse.Substring(iStart);
+                sVerse = "<p class=\"speech\">" + sVerse.Substring(iStart) + "</p>";
             }
             else if (sVerse.Substring(0, iStart) == "\\li2")
             {
                 //sVerse = " <dd>" + sVerse.Substring(iStart);
-                sVerse = sVerse.Substring(iStart);
-                bDDTag = true;
+                sVerse = "<p class=\"speech2\">" + sVerse.Substring(iStart) + "</p>";
+                //bDDTag = true;
             }
             //if it only has a footnote or a selah then do nothing
             else if (sVerse.Substring(0, iStart) == "\\f" || sVerse.Substring(0, iStart) == "\\qs" || sVerse.Substring(0, iStart) == "\\pi")
