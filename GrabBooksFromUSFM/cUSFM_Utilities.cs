@@ -415,11 +415,11 @@ namespace GBC_USFM_Preprocessor
                 }
                 else if (sVerse.Substring(0, 4) == "\\li1")
                 {
-                    sVerse = "<p class=\"speech\"/>";
+                    sVerse = "<p class=\"speech\">";
                 }
                 else if (sVerse.Substring(0, 4) == "\\li2")
                 {
-                    sVerse = "<p class=\"speech2\"/>";
+                    sVerse = "<p class=\"speech2\">";
                 }
                 else
                 {

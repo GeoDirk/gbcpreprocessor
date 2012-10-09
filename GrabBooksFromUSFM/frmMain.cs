@@ -2903,7 +2903,7 @@ namespace GBC_USFM_Preprocessor
                                             else
                                             {
                                                 //mostly non-empty \p tags
-                                                if (s.StartsWith("<p"))
+                                                if (s.StartsWith("<p") || s.StartsWith("<div"))
                                                 {
                                                     s = oChap.AddFootnote(s);
                                                     oChap.AddVerse(s.Trim());
