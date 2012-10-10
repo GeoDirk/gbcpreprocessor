@@ -500,13 +500,35 @@ namespace GBC_USFM_Preprocessor
                             //    sMatch = sMatch.Substring(0,sMatch.IndexOf("*"));
                             //}
 
-                            //remove numbers or * characters
-                            sMatch = sMatch.Replace("*", "");
+                            
                             //replace the numbers
                             for (int i = 0; i < 10; i++)
                             {
                                 sMatch = sMatch.Replace(i.ToString(), "");
                             }
+
+                            //check sMatch to see if it has a star
+                            if (sMatch.Contains("*"))
+                            {
+                                bool bHasStar = false;
+                                //function that checks if normal list also has a star for this tag
+                                foreach (var tg in sNormalTags)
+                                {
+                                    if (tg.ToString() == sMatch.ToString())
+                                    {
+                                        bHasStar = true;
+                                        break;
+                                    }
+                                }
+                                if (!bHasStar)
+                                {
+                                    //add to error list
+                                    AddToExceptionList(ref oTags, sMatch, fi.Name);
+                                }
+                            }
+
+                            //remove * characters
+                            sMatch = sMatch.Replace("*", "");
 
                             if (!CheckTagType(sNormalTags, sMatch))
                             {
@@ -753,7 +775,11 @@ namespace GBC_USFM_Preprocessor
         {
             for (int i = 0; i < sNormalTags.Count; i++)
             {
-                if (sTagToCheck == sNormalTags[i].ToString())
+                //if (sNormalTags[i].ToString().Contains("*"))
+                //{
+                //    sNormalTags[i].ToString().Replace("*", "");
+                //}
+                if (sTagToCheck == sNormalTags[i].ToString().Replace("*",""))
                 {
                     //standard USFM tag
                     return true;
