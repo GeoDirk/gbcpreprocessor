@@ -72,6 +72,7 @@
             this.lvOutput.TabIndex = 43;
             this.lvOutput.UseCompatibleStateImageBehavior = false;
             this.lvOutput.View = System.Windows.Forms.View.Details;
+            //this.lvOutput.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvOutput_ColumnClick);
             // 
             // columnHeader1
             // 

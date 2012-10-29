@@ -69,6 +69,13 @@ namespace GBC_USFM_Preprocessor
         private ArrayList _verses = new ArrayList();
         private string _sChapterNumber = "";
         private ArrayList _footnotes = new ArrayList();
+        private ArrayList _crossrefs = new ArrayList();
+
+        public ArrayList Crossrefs
+        {
+            get { return _crossrefs; }
+            set { _crossrefs = value; }
+        }
 
         public ArrayList Footnotes
         {
@@ -121,7 +128,7 @@ namespace GBC_USFM_Preprocessor
         /// //find if the verse has a footnote, strip it out, and return a clean verse
         /// </summary>
         /// <param name="s"></param>
-        public string AddFootnote(string s)
+        public string AddFootnote(string s, ref int fnum)
         {
             string sVerse = "";
             string sFootnt = "";
@@ -131,10 +138,25 @@ namespace GBC_USFM_Preprocessor
                 {
                     sVerse = s.Substring(0, s.IndexOf("<n>"));
                     s = s.Substring(s.IndexOf("<n>") + 4);
-                    sVerse = sVerse + s.Substring(s.IndexOf("</n>") + 4);
+                    sVerse = sVerse + "<ftnt>" + s.Substring(s.IndexOf("</n>") + 4);
                     sFootnt = "<p>" + s.Substring(0, s.IndexOf("</n>"))+ "</p>";
-                    _footnotes.Add(sFootnt);
+                    //find place to insert closing </b> tag
+                    string sTmp = sFootnt.Substring(6);
+                    int iIns = sTmp.IndexOf(" ") + 6;
+                    sFootnt = sFootnt.Insert(iIns, "</b>");
+                    
+                    //replace <ftnt> with the link to footnote
+                    //find the position of text between <b> tags in the sFootnt
+                    sTmp = sFootnt.Substring(sFootnt.IndexOf("b>") + 2);
+                    sTmp = sTmp.Substring(0, sTmp.IndexOf("</b"));
+
+                    sVerse = sVerse.Replace("<ftnt>", "<a id=\"vrs" + sTmp + "\"></a><a href=\"#ftnt" + sTmp + "\"><b> <sup>" + fnum + "</sup></b></a>");
                     s = sVerse;
+                    //add anchor and link to footnote
+                    sFootnt = sFootnt.Replace("</b>", "</a></b><a id=\"ftnt" + sTmp + "\"></a>");
+                    sFootnt = sFootnt.Replace("<b>", "<a href=\"#vrs" + sTmp + "\"><sup>" + fnum + "</sup> ");
+                    _footnotes.Add(sFootnt);
+                    fnum++;
                 } while (s.Contains("<n>"));
             }
             else
@@ -144,7 +166,46 @@ namespace GBC_USFM_Preprocessor
             
             return sVerse;
         }
+
+        public string AddCrossRef(string s, ref int ltr, int chnum)
+        {
+            string sVerse = "";
+            string sCrsrf = "";
+            if (s.Contains("<c>"))
+            {
+                do
+                {
+                    sVerse = s.Substring(0, s.IndexOf("<c>"));
+                    s = s.Substring(s.IndexOf("<c>") + 4);
+                    sVerse = sVerse + "<crltr>" + s.Substring(s.IndexOf("</c>") + 5);
+                    sCrsrf = "<p>" + s.Substring(0, s.IndexOf("</c>")) + "</p>";
+                    //find place to insert closing </b> tag
+                    string sTmp = sCrsrf.Substring(6);                    
+                    int iIns = sTmp.IndexOf(" ") + 6;
+                    sCrsrf = sCrsrf.Insert(iIns, "</a></b><a id=\"crrf" + chnum.ToString() + Convert.ToChar(ltr).ToString() + "\"></a>");
+                    sCrsrf = sCrsrf.Insert(6, "<a href=\"#vrs" + chnum.ToString() + Convert.ToChar(ltr).ToString() + "\"><sup>" + Convert.ToChar(ltr).ToString() + "</sup> ");
+                    _crossrefs.Add(sCrsrf);
+                    //replace <crltr> with the link to footnote
+                    sVerse = sVerse.Replace("<crltr>", "<a id=\"vrs" + chnum.ToString() + Convert.ToChar(ltr).ToString() + "\"></a><a href=\"#crrf" + chnum.ToString() + Convert.ToChar(ltr).ToString().ToLower() + "\"><sup>" + Convert.ToChar(ltr).ToString() + "</sup></a>");
+                    ltr++;
+                    if (ltr > 97+25)
+                    {
+                        ltr = 65;
+                    }
+                    s = sVerse;
+                } while (s.Contains("<c>"));
+            }
+            else
+            {
+                sVerse = s;
+            }
+
+            return sVerse;
+        }
     }
+
+
+    
 
     /// <summary>
     /// Structure to hold the BibleQuotes INI file

@@ -95,6 +95,7 @@
     <Compile Include="frmSetBookOrder.Designer.cs">
       <DependentUpon>frmSetBookOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAbout.resx">

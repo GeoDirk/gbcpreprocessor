@@ -987,12 +987,26 @@ namespace GBC_USFM_Preprocessor
         /// <returns></returns>
         private string ProcessSingularTag(string line, string sTag)
         {
+            if (sTag.EndsWith("*"))
+            {
+                //make it regex complatible
+                sTag = sTag.Substring(0, sTag.Length - 1) + @"\*";
+            }
+            //add in needed start slash for regex
+            sTag = @"\" + sTag;
+
             //removes start tag with number and trailing space
-            Regex reg = new Regex(@"\" + sTag + @"[0-9]\s");
-            line = reg.Replace(line, "");
+            line = Regex.Replace(line, sTag + @"[0-9]\s", "", RegexOptions.IgnoreCase);
+
             //removes start tag with number
-            reg = new Regex(@"\" + sTag + @"[0-9]");
-            line = reg.Replace(line, "");
+            line = Regex.Replace(line, sTag + @"[0-9]", "", RegexOptions.IgnoreCase);
+
+            //removes start tag without number and trailing space
+            //line = Regex.Replace(line, sTag + @"\s", "", RegexOptions.IgnoreCase);
+
+            //removes start tag without number and withoug trailing space
+            line = Regex.Replace(line, sTag , "", RegexOptions.IgnoreCase);
+
             return line;
         }
 
@@ -2803,7 +2817,8 @@ namespace GBC_USFM_Preprocessor
                         {
                             #region normal bible chapters
                             cBQ_Chapter oChap = new cBQ_Chapter(i);
-                            
+                            int ltr = 97;
+                            int fnum = 1;
                             //grab all the \ip lines of text
                             try
                             {                                
@@ -2821,7 +2836,7 @@ namespace GBC_USFM_Preprocessor
                                 //todo add in the \s tag processing
                                 Regex regexObj = new Regex(@"^.*((\\[a-z][0-9]).*$\r?\n?)|((\\[a-z]).*$\r?\n?)", RegexOptions.Multiline);
                                 Match matchResults = regexObj.Match(sSection);
-                                
+
                                 while (matchResults.Success)
                                 {                                    
                                     //if it's a heading
@@ -2845,7 +2860,8 @@ namespace GBC_USFM_Preprocessor
                                             sPrevVerse = oChap.Verses[oChap.Verses.Count - 1].ToString();
                                         }
 
-                                        sTemp = oChap.AddFootnote(sTemp);
+                                        sTemp = oChap.AddFootnote(sTemp, ref fnum);
+                                        sTemp = oChap.AddCrossRef(sTemp, ref ltr, i);
                                         oChap.AddVerse("! <h5>" + sTemp + "</h5>");
                                     }
                                     //if it's a parallel ref
@@ -2872,7 +2888,8 @@ namespace GBC_USFM_Preprocessor
                                         string s = ParseVerseTagsEPUB(matchResults.Value);
                                         if (s != String.Empty)
                                         {
-                                            s = oChap.AddFootnote(s);
+                                            s = oChap.AddFootnote(s, ref fnum);
+                                            s = oChap.AddCrossRef(s, ref ltr, i);
                                             if (bParagraphMode)
                                             {
                                                 //paragraph
@@ -2911,7 +2928,8 @@ namespace GBC_USFM_Preprocessor
                                         //parse the string, should come back the same
                                         string s = ParseVerseTagsEPUB(matchResults.Value);                                       
                                         //add actual text
-                                        s = oChap.AddFootnote(s);
+                                        s = oChap.AddFootnote(s, ref fnum);
+                                        s = oChap.AddCrossRef(s, ref ltr, i);
                                         oChap.AddVerse(s);
                                     }
                                     else
@@ -2931,12 +2949,14 @@ namespace GBC_USFM_Preprocessor
                                                 //mostly non-empty \p tags
                                                 if (s.StartsWith("<p") || s.StartsWith("<div"))
                                                 {
-                                                    s = oChap.AddFootnote(s);
+                                                    s = oChap.AddFootnote(s, ref fnum);
+                                                    s = oChap.AddCrossRef(s, ref ltr, i);
                                                     oChap.AddVerse(s.Trim());
                                                 }
                                                 else
                                                 {
-                                                    s = oChap.AddFootnote(s);
+                                                    s = oChap.AddFootnote(s, ref fnum);
+                                                    s = oChap.AddCrossRef(s, ref ltr, i);
                                                     oChap.AddVerse("<p>" + s.Trim() + "</p>");
                                                 }                                                
                                             }
@@ -3163,6 +3183,18 @@ namespace GBC_USFM_Preprocessor
                 {
                     string sFTmp = oFtnote[i].ToString().Trim();                    
                     sb.AppendLine("<div class=\"ftnt\">" + sFTmp +"</div>");
+                }
+
+                //insert cross references at the end of each chapter                
+                ArrayList oCrossRefs = c.Crossrefs;
+                if (oCrossRefs.Count > 0)
+                {
+                    sb.AppendLine("<hr></hr>");
+                }
+                for (int i = 0; i < oCrossRefs.Count; i++)
+                {
+                    string sCTmp = oCrossRefs[i].ToString().Trim();
+                    sb.AppendLine("<div class=\"ftnt\">" + sCTmp + "</div>");
                 }
             }
             //closing tags

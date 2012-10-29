@@ -492,14 +492,27 @@ namespace GBC_USFM_Preprocessor
             sTmp = sTmp.Replace("\\f +", "<n>");
             sTmp = sTmp.Replace("\\f -", "<n>");
             sTmp = sTmp.Replace("\\f ?", "<n>");
-            sTmp = sTmp.Replace("\\f *", "<n>");
-            sTmp = sTmp.Replace("\\fr*", "</b>");
+            sTmp = sTmp.Replace("\\f *", "</n>");
+            //sTmp = sTmp.Replace("\\fr*", "</b>");
+            sTmp = sTmp.Replace("\\fr ", "<b>");
             sTmp = sTmp.Replace("\\fr", "<b>");
             sTmp = sTmp.Replace("\\fv*", "</sup> ");
             sTmp = sTmp.Replace("\\fv ", "<sup>");
             sTmp = sTmp.Replace("\\ft ", "");
             sTmp = sTmp.Replace("\\bdit*", "</i></b>");
             sTmp = sTmp.Replace("\\bdit", "<b><i>(");
+            //cross references
+            sTmp = sTmp.Replace("\\x*", "</c>");
+            sTmp = sTmp.Replace("\\x +", "<c>");
+            sTmp = sTmp.Replace("\\x -", "<c>");
+            sTmp = sTmp.Replace("\\x ?", "<c>");
+            sTmp = sTmp.Replace("\\x *", "</c>");
+            sTmp = sTmp.Replace("\\xo ", "<b>");
+            sTmp = sTmp.Replace("\\xo", "<b>");
+            sTmp = sTmp.Replace("\\xt ", "");
+            //deal with translator's additions
+            sTmp = sTmp.Replace(" \\add* ", "</i>");
+            sTmp = sTmp.Replace("\\add ", "<i>");
             //deal with transliterations
             sTmp = sTmp.Replace("\\tl*", "</i>");
             sTmp = sTmp.Replace("\\tl ", "<i>");
@@ -507,7 +520,8 @@ namespace GBC_USFM_Preprocessor
             sTmp = sTmp.Replace("\\qs*", "</i>");
             sTmp = sTmp.Replace("\\qs", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>");
             sTmp = sTmp.Replace("\\pi ", "<blockquote> ");
-            
+            sTmp = sTmp.Replace("\\w*", "</i>");
+            sTmp = sTmp.Replace("\\w ", "<i>");
             return sTmp;
         }
 
