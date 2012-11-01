@@ -1,0 +1,84 @@
+	body {font-family: Arial; font-size: 12pt; background-repeat: repeat-x}
+    h1 {text-align:center}
+	h2 {font-family: Arial;text-align:center;font-size: 18pt}
+	h3 {font-family: Arial;text-align:center;font-size: 14pt}
+	h4 {font-family: Arial;text-align:center;background-color:#EEEEEE;font-size: 14pt}
+	h5 {font-family: Arial;color: #004400; font-size: 12pt; font-style:italic; text-align:center;}
+	h6 {font-family: Arial;color: #000000; font-size: 10pt; font-style:italic; text-align:center;}
+    p {text-indent:0px; margin: 1em;}
+
+
+
+
+	.Index {font-size: 18pt;font-weight:bold;color:blue}
+	.Greek {font-family: OLBGRK;font-size: 14pt}
+	.Hebrew {font-family: OLBHEB;font-size: 14pt}
+	.Indented {margin-left:50pt}
+	.Poetry {margin-left:50pt;font-style: italic;color:#000066}
+	.Epigraph {margin-left:150pt;font-style: italic}
+	.FN {margin-left:50pt;color:#006600}
+	.FNRef {color:#00AA00; vertical-align: super;font-weight: bold}
+	.ScriptRef {color:#AA0000;text-decoration:none;font-weight: bold}
+	a { text-decoration: none }
+	a:hover {color:#FF0000;background-color: #EEEEEE}
+
+	.ftnt p{font-size: 10pt; text-indent:0px;}
+    .speech{padding-left: 20px;  margin: 0em;}
+    .speech2 {padding-left: 40px;  margin: 0em;}
+    .speech3 {padding-left: 60px;  margin: 0em;}
+    .list1{margin: 0em; padding-left: 20px}
+    .list2 {margin: 0em; padding-left: 50px}
+    .prgr {text-indent:20px;  margin: 1em;}
+
+    hr
+    {
+      margin-bottom: 30pt;
+      margin-top: 20pt;
+      color: #000;
+      background-color: #000;
+      height: 1px;
+      border: 0;
+    }
+
+    .chapterJump a
+    {
+      text-decoration: none;
+      color: #004400;
+    }
+
+    .booktitle h1
+    {
+        padding-bottom: 80pt;
+        padding-top: 130pt;
+        text-align:center;
+    }
+
+   .tpDescription
+   {
+        text-align:center;
+        padding-bottom: 30pt;
+        padding-top: 10pt;
+        font-size: 18pt;
+   }
+
+   .tpPublisher
+   {
+        text-align:center;
+        padding-top: 10pt;
+        font-size: 14pt;
+   }
+
+   .tpISBN
+   {
+        text-align:center;
+        padding-top: 10pt;
+        font-size: 12pt;
+   }
+
+    .tpWebsite
+    {
+        text-align:center;
+        padding-top: 14pt;
+        font-size: 12pt;
+        text-decoration: none;
+    }
