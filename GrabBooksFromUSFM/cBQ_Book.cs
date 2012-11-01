@@ -24,6 +24,13 @@ namespace GBC_USFM_Preprocessor
     {
         private string _sBookName = "";
         private List<cBQ_Chapter> _oChapters = new List<cBQ_Chapter>();
+        private string _sChLabels = "";
+
+        public string sChLabels
+        {
+            get { return _sChLabels; }
+            set { _sChLabels = value; }
+        }
 
         /// <summary>
         /// Set/Get the book chapters

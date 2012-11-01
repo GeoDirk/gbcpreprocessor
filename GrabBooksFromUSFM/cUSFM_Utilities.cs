@@ -407,7 +407,8 @@ namespace GBC_USFM_Preprocessor
                 {
                     sVerse = sVerse.Replace("\\pi", "<blockquote> ");
                 }
-                else if (sVerse.Substring(0, 2) == "\\p" || sVerse.Substring(0, 3) == "\\q1" || sVerse.Substring(0, 3) == "\\q2" || sVerse.Substring(0, 3) == "\\q3")
+                else if (sVerse.Substring(0, 2) == "\\p")
+                //else if (sVerse.Substring(0, 2) == "\\p" || sVerse.Substring(0, 3) == "\\q1" || sVerse.Substring(0, 3) == "\\q2")
                 {
                     //catch an empty p tag line or li or q tag
                     //because the next line should be indented
@@ -415,11 +416,23 @@ namespace GBC_USFM_Preprocessor
                 }
                 else if (sVerse.Substring(0, 4) == "\\li1")
                 {
-                    sVerse = "<p class=\"speech\">";
+                    sVerse = "<p class=\"list1\">";
                 }
                 else if (sVerse.Substring(0, 4) == "\\li2")
                 {
+                    sVerse = "<p class=\"list2\">";
+                }
+                else if (sVerse.Substring(0, 3) == "\\q1")
+                {
+                    sVerse = "<p class=\"speech\">";
+                }
+                else if (sVerse.Substring(0, 3) == "\\q2")
+                {
                     sVerse = "<p class=\"speech2\">";
+                }
+                else if (sVerse.Substring(0, 3) == "\\q3")
+                {
+                    sVerse = "<p class=\"speech3\">";
                 }
                 else
                 {
@@ -431,10 +444,15 @@ namespace GBC_USFM_Preprocessor
             //so that the first word doesn't look funny
 
             //if if's a paragraph start, or a quote1 or a list of the 1st level, add first level of indentation
-            else if (sVerse.Substring(0, iStart) == "\\p" || sVerse.Substring(0, iStart) == "\\q1")
+            else if (sVerse.Substring(0, iStart) == "\\q1")
             {
                 //this will also indent any dialogs, paragraph beginnings or lists
                 sVerse = "<p class=\"speech\">" + sVerse.Substring(iStart).Trim() + "</p>";
+            }
+            else if (sVerse.Substring(0, iStart) == "\\p")
+            {
+                //this will also indent any dialogs, paragraph beginnings or lists
+                sVerse = "<p class=\"prgr\">" + sVerse.Substring(iStart).Trim();
             }
             //if it's a list or a quote of the second level add second level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q2")
@@ -451,19 +469,18 @@ namespace GBC_USFM_Preprocessor
             //if it's a quote of the third level - add third level of indentation
             else if (sVerse.Substring(0, iStart) == "\\q3")
             {
-                //this will also indent any dialogs, paragraph beginnings or lists
-                //sVerse = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sVerse.Substring(iStart);
-                sVerse = sVerse.Substring(iStart);
+                //this will also indent any dialogs, paragraph beginnings or list
+                sVerse = "<p class=\"speech3\">" + sVerse.Substring(iStart) + "</p>";
             }
             else if (sVerse.Substring(0, iStart) == "\\li1")
             {
                 //sVerse = " <dt>" + sVerse.Substring(iStart) + "</dt>";
-                sVerse = "<p class=\"speech\">" + sVerse.Substring(iStart) + "</p>";
+                sVerse = "<p class=\"list1\">" + sVerse.Substring(iStart) + "</p>";
             }
             else if (sVerse.Substring(0, iStart) == "\\li2")
             {
                 //sVerse = " <dd>" + sVerse.Substring(iStart);
-                sVerse = "<p class=\"speech2\">" + sVerse.Substring(iStart) + "</p>";
+                sVerse = "<p class=\"list2\">" + sVerse.Substring(iStart) + "</p>";
                 //bDDTag = true;
             }
             //if it only has a footnote or a selah then do nothing

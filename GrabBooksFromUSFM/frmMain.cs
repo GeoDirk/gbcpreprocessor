@@ -208,7 +208,7 @@ namespace GBC_USFM_Preprocessor
             //fill out template for EPUB title page
             txtTitlePageInfo.Text = "<title>Cover Page Title here</title>"
                                 + "</head>"
-                                + "<body style=\"background-image: url(\'image/uzor.gif\'); background-repeat:no-repeat\">"
+                                + "<body style=\"background-image: url(\'image/uzor.gif\'); background-repeat:repeat-x\">"
                                 + "<div class=\"booktitle\"><h1>Bible Name here</h1></div>"
                                 + "<div class=\"tpDescription\">Description here</div>"
                                 + "<div class=\"tpPublisher\">Publisher's Name here</div>"
@@ -2655,6 +2655,8 @@ namespace GBC_USFM_Preprocessor
                         string sSection = sChapters[i];
                         if (i == 0)
                         {
+                            
+
                             //prechapter text that could be in the introduction
 
                             //get the bible header
@@ -2666,13 +2668,31 @@ namespace GBC_USFM_Preprocessor
                                 iEnd = sSection.IndexOf("\r\n", iStart);
                                 if (iEnd > iStart)
                                 {
-                                    oBook.sBookName = sSection.Substring(iStart, iEnd - iStart);
+                                    oBook.sBookName = sSection.Substring(iStart, iEnd - iStart).Trim();
                                 }
+                            }
+
+                            //check psalms for cl tag
+                            if (sSection.IndexOf("\\cl ") > 0)
+                            {
+                                iStart = sSection.IndexOf("\\cl");
+                                iStart += 3; //add in for the \h tag and space themselves
+                                iEnd = sSection.IndexOf("\r\n", iStart);
+                                if (iEnd > iStart)
+                                {
+                                    oBook.sChLabels = sSection.Substring(iStart, iEnd - iStart).Trim();
+                                }
+
+                            }
+                            else
+                            {
+                                oBook.sChLabels = oBook.sBookName;
                             }
 
                             //look for any intro paragraphs
                             if (sSection.IndexOf("\\ip ") > 0)
                             {
+                                
                                 //create a Chapter 0 chapter
                                 cBQ_Chapter oChap = new cBQ_Chapter(0);
                                 //grab all the \ip lines of text
@@ -2685,7 +2705,10 @@ namespace GBC_USFM_Preprocessor
                                     Match matchResults = regexObj.Match(sSection);
                                     while (matchResults.Success)
                                     {
-                                        
+                                        if (matchResults.Value.Substring(0, 3) == @"\cl")
+                                        {
+                                            
+                                        }
                                         if (matchResults.Value.Substring(0, 3) == @"\ip")
                                         {
                                             oChap.AddVerse("<p class=\"intro\">" + ParseHeaderTagsEPUB(matchResults.Value) + "</p>");
@@ -2792,6 +2815,7 @@ namespace GBC_USFM_Preprocessor
                                         }
                                     }
                                 }
+
                                 catch (ArgumentException ex)
                                 {
                                     Console.WriteLine("ERROR: " + ex.Message);
@@ -2943,6 +2967,7 @@ namespace GBC_USFM_Preprocessor
                                             if (s == "p")
                                             {
                                                 bNewParagraph = true;
+                                                 oChap.AddVerse("</p>");
                                             }                                            
                                             else
                                             {
@@ -2973,7 +2998,7 @@ namespace GBC_USFM_Preprocessor
                                             }
                                             else
                                             {
-                                                oChap.AddVerse("<p></p>");
+                                                oChap.AddVerse("<br/>");
                                             }
                                         }
 
@@ -3128,7 +3153,7 @@ namespace GBC_USFM_Preprocessor
                 }
                 else
                 {
-                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\"></a>" + oBook.sBookName + " " + c.sChapterNumber + sChapTagEnd);
+                    sb.AppendLine(sChapTagStart + "<a id=\"chapter" + c.sChapterNumber + "\"></a>" + oBook.sChLabels + " " + c.sChapterNumber + sChapTagEnd);
                 }
                 
 
