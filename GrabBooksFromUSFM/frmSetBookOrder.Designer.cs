@@ -72,7 +72,6 @@
             this.lvOutput.TabIndex = 43;
             this.lvOutput.UseCompatibleStateImageBehavior = false;
             this.lvOutput.View = System.Windows.Forms.View.Details;
-            //this.lvOutput.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvOutput_ColumnClick);
             // 
             // columnHeader1
             // 
@@ -169,7 +168,8 @@
             this.Controls.Add(this.lvOutput);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmSetBookOrder";
-            this.Text = "frmSetBookOrder";
+            this.Text = "Set Book Order";
+            this.Load += new System.EventHandler(this.frmSetBookOrder_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

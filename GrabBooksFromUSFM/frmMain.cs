@@ -2829,8 +2829,13 @@ namespace GBC_USFM_Preprocessor
                                     oBook.AddChapter(oChap);
                                 }
                             }
+                            //check if it's an appendix
+                            else if (sSection.IndexOf("\\p ") > 0)
+                            {
+                            }
                             else //if chapter 0 is empty like in 2Sam, 2Ki, and 2Chron
                             {
+                                
                                 cBQ_Chapter oChap = new cBQ_Chapter(0);
                                 bChapterZero = true;
                                 oBook.AddChapter(oChap);

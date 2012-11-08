@@ -124,6 +124,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboBQCodePage = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtEPUBVerseTag = new System.Windows.Forms.TextBox();
+            this.chbParagraphMode = new System.Windows.Forms.CheckBox();
             this.txtTitlePageInfo = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.cboEpubLanguage = new System.Windows.Forms.ComboBox();
@@ -157,9 +160,6 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
-            this.chbParagraphMode = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtEPUBVerseTag = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1194,6 +1194,35 @@
             this.tabPage5.Text = "Export as ePub";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(585, 107);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.TabIndex = 55;
+            this.label3.Text = "Verse Tag";
+            // 
+            // txtEPUBVerseTag
+            // 
+            this.txtEPUBVerseTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEPUBVerseTag.Location = new System.Drawing.Point(588, 123);
+            this.txtEPUBVerseTag.Name = "txtEPUBVerseTag";
+            this.txtEPUBVerseTag.Size = new System.Drawing.Size(40, 20);
+            this.txtEPUBVerseTag.TabIndex = 54;
+            this.txtEPUBVerseTag.Text = "<sup>";
+            // 
+            // chbParagraphMode
+            // 
+            this.chbParagraphMode.AutoSize = true;
+            this.chbParagraphMode.Location = new System.Drawing.Point(383, 346);
+            this.chbParagraphMode.Name = "chbParagraphMode";
+            this.chbParagraphMode.Size = new System.Drawing.Size(104, 17);
+            this.chbParagraphMode.TabIndex = 53;
+            this.chbParagraphMode.Text = "Paragraph mode";
+            this.chbParagraphMode.UseVisualStyleBackColor = true;
+            // 
             // txtTitlePageInfo
             // 
             this.txtTitlePageInfo.Location = new System.Drawing.Point(379, 164);
@@ -1348,7 +1377,7 @@
             this.cmdGenerateEPUB.Name = "cmdGenerateEPUB";
             this.cmdGenerateEPUB.Size = new System.Drawing.Size(174, 23);
             this.cmdGenerateEPUB.TabIndex = 29;
-            this.cmdGenerateEPUB.Text = "Generate BQ Export";
+            this.cmdGenerateEPUB.Text = "Generate ePub Export";
             this.cmdGenerateEPUB.UseVisualStyleBackColor = true;
             this.cmdGenerateEPUB.Click += new System.EventHandler(this.cmdGenerateEPUB_Click);
             // 
@@ -1500,35 +1529,6 @@
             this.cmdAbout.Text = "About";
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
-            // 
-            // chbParagraphMode
-            // 
-            this.chbParagraphMode.AutoSize = true;
-            this.chbParagraphMode.Location = new System.Drawing.Point(383, 346);
-            this.chbParagraphMode.Name = "chbParagraphMode";
-            this.chbParagraphMode.Size = new System.Drawing.Size(104, 17);
-            this.chbParagraphMode.TabIndex = 53;
-            this.chbParagraphMode.Text = "Paragraph mode";
-            this.chbParagraphMode.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(585, 107);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
-            this.label3.TabIndex = 55;
-            this.label3.Text = "Verse Tag";
-            // 
-            // txtEPUBVerseTag
-            // 
-            this.txtEPUBVerseTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEPUBVerseTag.Location = new System.Drawing.Point(588, 123);
-            this.txtEPUBVerseTag.Name = "txtEPUBVerseTag";
-            this.txtEPUBVerseTag.Size = new System.Drawing.Size(40, 20);
-            this.txtEPUBVerseTag.TabIndex = 54;
-            this.txtEPUBVerseTag.Text = "<sup>";
             // 
             // frmMain
             // 

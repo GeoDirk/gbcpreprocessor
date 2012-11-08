@@ -65,6 +65,11 @@ namespace GBC_USFM_Preprocessor
             c.LoadBookOrder(ref lvOutput, _fMain.USFM_FilesEncoding, _fMain.USFM_FilesPath + @"\usfm_book_order." + _fMain.USFM_FilesExt + ".txt");
         }
 
+        private void frmSetBookOrder_Load(object sender, EventArgs e)
+        {
+
+        }
+
         //private void lvOutput_ColumnClick(object sender, ColumnClickEventArgs e)
         //{
         //    // Determine if clicked column is already the column that is being sorted.
