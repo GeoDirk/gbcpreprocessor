@@ -515,7 +515,7 @@ namespace GBC_USFM_Preprocessor
             sTmp = sTmp.Replace("\\fr", "<b>");
             sTmp = sTmp.Replace("\\fv*", "</sup> ");
             sTmp = sTmp.Replace("\\fv ", "<sup>");
-            sTmp = sTmp.Replace("\\ft ", "");
+            sTmp = sTmp.Replace("\\ft", "");
             sTmp = sTmp.Replace("\\bdit*", "</i></b>");
             sTmp = sTmp.Replace("\\bdit", "<b><i>(");
             //cross references

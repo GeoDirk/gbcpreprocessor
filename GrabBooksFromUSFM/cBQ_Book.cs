@@ -157,11 +157,11 @@ namespace GBC_USFM_Preprocessor
                     sTmp = sFootnt.Substring(sFootnt.IndexOf("b>") + 2);
                     sTmp = sTmp.Substring(0, sTmp.IndexOf("</b"));
 
-                    sVerse = sVerse.Replace("<ftnt>", "<a id=\"vrs" + sTmp + "\"></a><a href=\"#ftnt" + sTmp + "\"><b> <sup>" + fnum + "</sup></b></a>");
+                    sVerse = sVerse.Replace("<ftnt>", " <a id=\"vrs" + sTmp + "\"></a><a href=\"#ftnt" + sTmp + "\"><b><sup>" + fnum + "</sup></b></a>");
                     s = sVerse;
                     //add anchor and link to footnote
                     sFootnt = sFootnt.Replace("</b>", "</a></b><a id=\"ftnt" + sTmp + "\"></a>");
-                    sFootnt = sFootnt.Replace("<b>", "<a href=\"#vrs" + sTmp + "\"><sup>" + fnum + "</sup> ");
+                    sFootnt = sFootnt.Replace("<b>", "<b><a href=\"#vrs" + sTmp + "\"><sup>" + fnum + "</sup> ");
                     _footnotes.Add(sFootnt);
                     fnum++;
                 } while (s.Contains("<n>"));

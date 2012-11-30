@@ -2971,8 +2971,11 @@ namespace GBC_USFM_Preprocessor
                                             //so that we can slap in some &nbsp's in front of the next line
                                             if (s == "p")
                                             {
+                                                //if (bNewParagraph)
+                                                //{
+                                                oChap.AddVerse("</p>");
+                                                //}
                                                 bNewParagraph = true;
-                                                 oChap.AddVerse("</p>");
                                             }                                            
                                             else
                                             {
@@ -3073,6 +3076,18 @@ namespace GBC_USFM_Preprocessor
             epub.DirectorySearchOption = SearchOption.AllDirectories;
             epub.BuildToFile(sExportPath + txtFullName.Text + ".epub");
 
+            //put away html files + "-"
+            string dt = DateTime.Now.Day +"-" + DateTime.Now.Month + "-" + DateTime.Now.Year +"--" + DateTime.Now.Hour + "-" + DateTime.Now.Minute;
+            dt = "html-" + dt;
+            DirectoryInfo di = new DirectoryInfo(txtDir.Text);
+            string htmlDir = Directory.CreateDirectory(sExportPath + dt).ToString();
+            FileInfo[] files = di.GetFiles("*.html");
+
+            foreach (FileInfo file in files)
+            {
+                file.MoveTo(sExportPath + dt + "\\" +file.Name);
+            }
+
             //reset the cursor
             this.Cursor = Cursors.Default;
             MessageBox.Show("The file is done");
@@ -3128,7 +3143,7 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"" + sLang+ "\">");
             sb.AppendLine("<head>");
             sb.AppendLine("<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=utf-8\"/>");
-            sb.AppendLine("<link rel=\"stylesheet\" href=\"css\\common.css\" type=\"text/css\"/>");
+            sb.AppendLine("<link rel=\"stylesheet\" href=\"css/common.css\" type=\"text/css\"/>");
             sb.AppendLine("<title>" + oBook.sBookName + "</title>");
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
@@ -3248,7 +3263,7 @@ namespace GBC_USFM_Preprocessor
             sb.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"" + sLang + "\">");
             sb.AppendLine("<head>");
             sb.AppendLine("<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=utf-8\"/>");
-            sb.AppendLine("<link rel=\"stylesheet\" href=\"css\\common.css\" type=\"text/css\"/>");
+            sb.AppendLine("<link rel=\"stylesheet\" href=\"css/common.css\" type=\"text/css\"/>");
             sb.AppendLine(txtTitlePageInfo.Text);
             //closing tags
             sb.AppendLine("</body>");
