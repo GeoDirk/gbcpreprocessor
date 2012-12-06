@@ -96,29 +96,31 @@ namespace GBC_USFM_Preprocessor
                 //find each verse number
                 vNum = vhSecond._sVerseNum.Substring(0, vhSecond._sVerseNum.IndexOf("-"));
             }
-            iDifference = Convert.ToInt16(vNum) - Convert.ToInt16(oVH[oVH.Count-1]._sVerseNum);
-            if (iDifference > 1)
+            if (vNum != "" && oVH[oVH.Count - 1]._sVerseNum != "")
             {
-                //todo report versification: missing verses
-                
-                //append verses
-                for (int i = 0; i < iDifference-1; i++)
+                iDifference = Convert.ToInt16(vNum) - Convert.ToInt16(oVH[oVH.Count - 1]._sVerseNum);
+                if (iDifference > 1)
                 {
-                    vhTemp = new cVerseHolder();
-                    vhTemp._sVerseNum = (Convert.ToInt16(vhFirst._sVerseNum) + i + 1).ToString();
-                    vhTemp._sVerse = sReplacement;
-                    oVH.Add(vhTemp);
-                    cVersification oV = new cVersification(sFilename, sChapter, (Convert.ToInt16(vhFirst._sVerseNum) + i + 1).ToString(), "Missing verse(s)");
+                    //todo report versification: missing verses
+
+                    //append verses
+                    for (int i = 0; i < iDifference - 1; i++)
+                    {
+                        vhTemp = new cVerseHolder();
+                        vhTemp._sVerseNum = (Convert.ToInt16(vhFirst._sVerseNum) + i + 1).ToString();
+                        vhTemp._sVerse = sReplacement;
+                        oVH.Add(vhTemp);
+                        cVersification oV = new cVersification(sFilename, sChapter, (Convert.ToInt16(vhFirst._sVerseNum) + i + 1).ToString(), "Missing verse(s)");
+                        oVL.Add(oV);
+                    }
+                }
+                //this is if the verse number was mistyped and it's less than or the same as the prev verse
+                if (iDifference <= 0)
+                {
+                    cVersification oV = new cVersification(sFilename, sChapter, vhFirst.sVerseNum + "/" + vhSecond.sVerseNum, "PROBLEM: Verse number " + vhSecond.sVerseNum + " is following verse " + vhFirst.sVerseNum);
                     oVL.Add(oV);
                 }
             }
-            //this is if the verse number was mistyped and it's less than or the same as the prev verse
-            if (iDifference<=0)
-            {
-                cVersification oV = new cVersification(sFilename, sChapter, vhFirst.sVerseNum + "/" + vhSecond.sVerseNum, "PROBLEM: Verse number " + vhSecond.sVerseNum + " is following verse " + vhFirst.sVerseNum);
-                    oVL.Add(oV);
-            }
-
             //We don't add the second one in, because we'll do it the next time we run this function
             //then in will come in as the first one
 
