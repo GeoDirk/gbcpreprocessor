@@ -164,6 +164,8 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cmdAbout = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.chkStatus = new System.Windows.Forms.CheckBox();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -186,6 +188,7 @@
             this.panel8.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdClose
@@ -598,8 +601,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.lblVersificationStatus);
-            this.groupBox5.Controls.Add(this.label26);
+            this.groupBox5.Controls.Add(this.panel9);
             this.groupBox5.Controls.Add(this.chkVerseRangeMarkers);
             this.groupBox5.Controls.Add(this.txtReplacemetText);
             this.groupBox5.Controls.Add(this.lblReplacement);
@@ -618,7 +620,7 @@
             // 
             this.lblVersificationStatus.AutoSize = true;
             this.lblVersificationStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lblVersificationStatus.Location = new System.Drawing.Point(99, 180);
+            this.lblVersificationStatus.Location = new System.Drawing.Point(93, 28);
             this.lblVersificationStatus.Name = "lblVersificationStatus";
             this.lblVersificationStatus.Size = new System.Drawing.Size(31, 17);
             this.lblVersificationStatus.TabIndex = 6;
@@ -627,7 +629,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(21, 180);
+            this.label26.Location = new System.Drawing.Point(13, 28);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(52, 17);
             this.label26.TabIndex = 5;
@@ -1687,6 +1689,28 @@
             this.cmdAbout.UseVisualStyleBackColor = true;
             this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
             // 
+            // chkStatus
+            // 
+            this.chkStatus.AutoSize = true;
+            this.chkStatus.Location = new System.Drawing.Point(6, 6);
+            this.chkStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkStatus.Name = "chkStatus";
+            this.chkStatus.Size = new System.Drawing.Size(304, 21);
+            this.chkStatus.TabIndex = 7;
+            this.chkStatus.Text = "Show status? Useful for debugging crashes";
+            this.chkStatus.UseVisualStyleBackColor = true;
+            // 
+            // panel9
+            // 
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.chkStatus);
+            this.panel9.Controls.Add(this.lblVersificationStatus);
+            this.panel9.Controls.Add(this.label26);
+            this.panel9.Location = new System.Drawing.Point(7, 159);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(356, 89);
+            this.panel9.TabIndex = 7;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1745,6 +1769,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1883,6 +1909,8 @@
         private System.Windows.Forms.Label lblVersificationStatus;
         private System.Windows.Forms.Label label26;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.CheckBox chkStatus;
     }
 }
 

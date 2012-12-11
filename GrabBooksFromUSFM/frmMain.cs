@@ -2369,7 +2369,10 @@ namespace GBC_USFM_Preprocessor
 		{
 			if (e.ProgressPercentage == 0)
 			{
-				lblVersificationStatus.Text = _sThreadLabel;
+				if (chkStatus.Checked)
+				{
+					lblVersificationStatus.Text = _sThreadLabel;
+				}
 			}
 			else 
 			{
@@ -2392,6 +2395,10 @@ namespace GBC_USFM_Preprocessor
 				{
 					MessageBox.Show("Error copying results to clipboard", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
+
+                //unregister the background processes
+                backgroundWorker1.DoWork -= new DoWorkEventHandler(backgroundWorker1_DoWork);
+                backgroundWorker1.ProgressChanged -= new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
 			}
 
 
