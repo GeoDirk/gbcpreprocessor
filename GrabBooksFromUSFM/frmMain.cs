@@ -20,8 +20,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections;
 using System.Text.RegularExpressions;
-using SharpEpub;
 using System.Globalization;
+using SharpEpub;
 
 namespace GBC_USFM_Preprocessor
 {
@@ -3294,7 +3294,7 @@ namespace GBC_USFM_Preprocessor
 
 			CreateEpubTitlePage(sExportPath, cboEpubLanguage.SelectedValue.ToString());
 			//put in the epub
-			Epub epub = new Epub(sExportPath, TocOptions.ByTitleTag);
+			 Epub epub = new Epub(sExportPath, TocOptions.ByTitleTag);
 			epub.Metadata.Creator = "Creator";
 			epub.Metadata.Language = cboEpubLanguage.Text;
 			epub.Metadata.Title = txtFullName.Text;

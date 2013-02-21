@@ -53,6 +53,7 @@
       <HintPath>ThirdPartyDlls\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="SharpEpub, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>ThirdPartyDlls\SharpEpub.dll</HintPath>
     </Reference>
     <Reference Include="System" />
