@@ -8,6 +8,8 @@ You will have problems if you have other non-bible files in the directory with t
 
 Start the **GoBibleCreatorUSFMPreprocessor** (**GBC_Tool** from here on out) utility. To get started, select the button in the top left corner with the "`...`" to open a directory selector tool. Navigate to your directory on your machine that has the USFM files that you want to check.
 
+![Source USFM Files Directory](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=67712)
+
 Use the **USFM file extension** dropdown to select the correct file extension that corresponds your USFM files.
 
 Once you have done this, you are now ready to use most of the utilites on any of the tabs. However, for things like the **Export to DigiStudy format**, you really do need to have clean, extra tag free files.
@@ -15,6 +17,8 @@ Once you have done this, you are now ready to use most of the utilites on any of
 ### *Converting from one CodePage to UTF-8 Format*
 
 For **GoBibleCreator** to work properly, you must convert your regular ASCII text that uses a codepage to a Unicode compliant text file (UTF-8). If you are already working with UTF-8 formatted files, then skip this step. The following utility should be able to do that without any problems as long as you specify the proper codepage that your files are in. Notice that your original files will not be altered and new files will be created. These files will have a new extension (.utf by default). Press the **Convert Files to UFT-8** button to process the conversion.
+
+![Convert Files to UTF-8](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=67711)
 
 ### *Grabbing Bible Book Names*
 
@@ -24,6 +28,8 @@ About the only thing you need to specify is the correct tag in your USFM which h
 
 **Note:** you will still need to go into the collections file and order the books in the order you want. Book display order is specified there.
 
+![Bookname Tag](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=70331)
+
 ### *Extra Tags Processor*
 
 **GoBibleCreator** only will process the standard tags that have been specified in the USFM reference manual [url:]. However, **ParaTExt** allows the individual user to create their own tags for their specific situation. While this is a good thing, it will cause problems in **GoBibleCreator**, as it doesn't know what to do with these tags. Therefore, this function will let help you preprocess these tags out of your document so that it doesn't pose a problem when you get around to converting.
@@ -32,8 +38,8 @@ By pressing the **Scan for Tags that will not be Processed by GBC (UTF-8 Files O
 
 At this point, you have five options in how you want to deal with the tag:
 
-1. **IGNORE TAG** - does what it says, lets you ignore the tag.
-Note that this tag will show up in your final bible text on GoBible if you select this.
+1. **-IGNORE TAG-** - does what it says, lets you ignore the tag.
+Note that this USFM tag will show up in your final bible text on **GoBible** if you select this.
 2. **Remove Singular Tag - Remove Tag Only** - This selection is designed to remove tags that only have a start tag and not an end tag. With this command, the program will remove only the tag from your USFM files but leave everything that surrounds the tag.
 3. **Remove Singular Tag - Remove Tag and Remainder of line** - This selection is designed to remove tags that only have a start tag and comments that take up the whole line. With this command, the program will remove from your USFM files the tag itself and the rest of the line to the right of it.
 4. **Remove Double Marker Tags (Only) - leave text in between** - This selection is designed to remove tags that have both a starting and ending tag (e.g., `\ui ... \ui*` ). All text between the tags is left as valid bible text that you want to show up in GoBible.
@@ -42,6 +48,7 @@ Note that this tag will show up in your final bible text on GoBible if you selec
 
 In the rightmost cell of each grid, there is a dropdown that lets you control the action of how you want that tag processed.
 
+![Extra Tags Processor](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=70332)
 
 ### *Check For Consistency*
 
@@ -56,6 +63,8 @@ Another feature of this tab is to search for long words.
 > 
 > *Choose desired number of letters for long words (the default is 15) and choose one of those options. Then click the **Find All Long Words** button. Generated results will be placed in clipboard. You can use Excel™ to paste and view the results.*
 
+![Find All Long Words](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=72848)
+
 ### *Export to BQ/DigiStudy Format*
 
 This tab will allow you to export your USFM files into a DigiStudy or BibleQuote format. First make sure you filled out all the fields on this tab.
@@ -65,7 +74,11 @@ On the following line specify the entire alphabet of the language of the Bible. 
 
 On the next line specify HTML tag that will be used as a beginning of the chapter sign and beginning of new verse sign. In the bottom right corner type what tag is used in USFM files to specify Bible book name.
 
-For languages that have specific characters check a Swap Characters for HTML friendly codes check-box in the bottom left corner. Another form will pop up. There you will find instructions for typing in specific characters and corresponding HTML code. You can use an existing character definition code in .xml format by pressing Open Existing Char Definition File button or save the characters and HTML codes that you type in by pressing Save Char Definition File button.
+![Export to BQ/DigiStudy Format](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=72849)
+
+For languages that have specific characters check a **Swap Characters for HTML friendly codes** check-box in the bottom left corner. Another form will pop up. There you will find instructions for typing in specific characters and corresponding HTML code. You can use an existing character definition code in .xml format by pressing Open Existing Char Definition File button or save the characters and HTML codes that you type in by pressing Save Char Definition File button.
+
+![Character Replacer to HTML Code](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=72850)
 
 Close this form when your are ready. All character definitions will be saved in memory and used when you start to generate BQ export. To export the Bible press **Generate BQ Export** button. Wait for a couple of minutes for it to finish.
 
@@ -76,9 +89,13 @@ First, make sure your .sfm files are formatted correctly or in a way that makes 
 
 To do that click Open Folder |…| button in the upper left corner and choose a folder containing your .sfm files. Then open Extra Tags Processor tab and click the button **Scan the Tags that will not be processed…**. Make sure that USFM File Extension drop down above has the right extension selected.
 
+![Extra Tags Processor](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=527118)
+
 In this case scanning showed that there are a lot of closing `\fr*` tags (USFM Preprocessor uses one of the earlier versions of USFM Reference as a standard, which didn’t support closing tags for the `\fr ` and some other tags).
 
 In order for the program to process epub file correctly, you’ll need to get rid of these tags. To do that, choose **Remove Singular Tag** from a drop down menu next to the tag:
+
+![Dropdown menu](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=527124)
 
 Do this for each tag and then click **Process Tags and Create New Files** button in the bottom.As a result you will have a new set of files with .utf extension, if you didn’t change the default.
 
@@ -88,11 +105,15 @@ Now you need to set your books in the right order. To do that, click **Set Book 
 
 In the Set Book Order window that will open click Grab Books button. If your book name tag is not `\h`, then change it. As a result the grid will be filled out with your .utf or .sfm files in existing order. You can drag files up and down to put your books in desired order. Or you can click on **Load Existing Book Order** to load the order you saved previously. When you’re done putting your books in order, click **Save Order**, in the bottom of the window.
 
+![Set Book Order](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=527120)
+
 A message will pop up with the name of your book order text file.
 
 Now click **Load Books from book order file** button on the main screen. As a result the grid below the button will be filled with the names of the files. At this point you can select the files you would like to output in ePub format. You can also reorder the files if you are not satisfied with the order. You can select all the files by clicking on the grid header for the first column. It says **Select All**.
 
 Then fill out all the fields to the right of the grid. Check **Paragraph mode** check box in the bottom if you want the text come in paragraphs. Provide Cover Page Title, Bible Name, Description, ISBN, Publisher info and so on in the **Title Page info** text field.
+
+![Title Page Info](http://download-codeplex.sec.s-msft.com/Download?ProjectName=GBCPreprocessor&DownloadId=527121)
 
 If your Bible has introduction for each book of the bible, provide the name of this introduction in your language in the **Intro Name** field.
 
@@ -120,8 +141,9 @@ To look inside, edit, and repackage your epub file we found it the most helpful 
 
 *Last updated on CodePlex: Nov 30, 2012 at 4:32 AM by anyalee, version 22*
 
-*Text transcribed and formatted for GitHub: 11/17/2017 7:34:04 PM by David Haslam.*
+*Text transcribed and formatted for GitHub: 11/17/2017 8:55:44 PM by David Haslam.*
+
+*Images are from the original [Documentation](https://gbcpreprocessor.codeplex.com/documentation)*
 
 ##### TBD
-- Insert images from the original [Documentation](https://gbcpreprocessor.codeplex.com/documentation)
-- Fix links where required.
+- Fix links where required (e.g. in the **Embedding fonts** section).
