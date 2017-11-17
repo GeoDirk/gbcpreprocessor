@@ -117,7 +117,7 @@ Then fill out all the fields to the right of the grid. Check **Paragraph mode** 
 
 If your Bible has introduction for each book of the bible, provide the name of this introduction in your language in the **Intro Name** field.
 
-There are two more optional things that you will need for your epub file. They have to do with formatting: cover page image and css file. If you want to include them, download two additional folders in a zip file css and images.zip.
+There are two more optional things that you will need for your epub file. They have to do with formatting: cover page image and css file. If you want to include them, download two additional folders in a zip file [css and images.zip](https://www.codeplex.com/Download?ProjectName=GBCPreprocessor&DownloadId=528641).
 
 Paste them into the folder with your .utf/.sfm files. Then go inside **/images** folder and replace image with your own. Open common.css file inside **/css** folder and modify it the way you like.
 
@@ -127,7 +127,7 @@ If your language doesn't properly display in the Epub reader application, then y
 
 - including a 'fonts' folder along with yous css folder, on the same level as the css folder, and
 
-- changing your css file, to reference and apply the font of your choice. You can download a css example with embedded fonts here [fonts_and_css.zip](fonts_and_css.zip) - it's a zip archive that includes both css and fonts folder.
+- changing your css file, to reference and apply the font of your choice. You can download a css example with embedded fonts here [fonts_and_css.zip](https://www.codeplex.com/Download?ProjectName=GBCPreprocessor&DownloadId=557093) - it's a zip archive that includes both css and fonts folder.
 
 - If you're using embedded fonts unzip this file into your working directory, replacing css folder with this one, if necessary. Then replace the fonts inside the fonts folder with the font files of your choice and edit common.css inside **/css** folder. In case USFM Preprocessor application comes across the **/fonts** folder, it automatically embeds this font into your epub. But you need to make sure your .css file has all the necessary references to it, as in the sample css you've downloaded.
 
@@ -141,9 +141,9 @@ To look inside, edit, and repackage your epub file we found it the most helpful 
 
 *Last updated on CodePlex: Nov 30, 2012 at 4:32 AM by anyalee, version 22*
 
-*Text transcribed and formatted for GitHub: 11/17/2017 8:55:44 PM by David Haslam.*
-
-*Images are from the original [Documentation](https://gbcpreprocessor.codeplex.com/documentation)*
+*Text transcribed and reformatted for GitHub: 11/17/2017 9:01:25 PM by David Haslam.*
+- *Images are from the original [Documentation](https://gbcpreprocessor.codeplex.com/documentation) for now.*
+- *Links for zip files are also to the original locations for now.*
 
 ##### TBD
-- Fix links where required (e.g. in the **Embedding fonts** section).
+- Copy images and zip files and update the corresponding links 
