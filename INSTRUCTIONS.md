@@ -6,9 +6,9 @@ You will have problems if you have other non-bible files in the directory with t
 
 ### *Selecting the USFM files to Test/Convert/Check*
 
-Start the **GoBibleCreatorUSFMPreprocessor** (**GBC_Tool** from here on out) utility. To get started, select the button in the top left corner with the "..." to open a directory selector tool. Navigate to your directory on your machine that has the USFM files that you want to check.
+Start the **GoBibleCreatorUSFMPreprocessor** (**GBC_Tool** from here on out) utility. To get started, select the button in the top left corner with the "`...`" to open a directory selector tool. Navigate to your directory on your machine that has the USFM files that you want to check.
 
-Use the **USFM file extension**"dropdown to select the correct file extension that corresponds your USFM files.
+Use the **USFM file extension** dropdown to select the correct file extension that corresponds your USFM files.
 
 Once you have done this, you are now ready to use most of the utilites on any of the tabs. However, for things like the **Export to DigiStudy format**, you really do need to have clean, extra tag free files.
 
@@ -120,7 +120,7 @@ To look inside, edit, and repackage your epub file we found it the most helpful 
 
 *Last updated on CodePlex: Nov 30, 2012 at 4:32 AM by anyalee, version 22*
 
-*Text transcribed and formatted for GitHub: 11/17/2017 7:20:50 PM  by David Haslam.*
+*Text transcribed and formatted for GitHub: 11/17/2017 7:34:04 PM by David Haslam.*
 
 ##### TBD
 - Insert images from the original [Documentation](https://gbcpreprocessor.codeplex.com/documentation)
