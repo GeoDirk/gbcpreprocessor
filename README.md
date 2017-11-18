@@ -2,7 +2,7 @@
 
 
 ## Project Description
-This is a tool to parse through and identify issues, correct and publish USFM file formats into a file format that can easily be put into the Java ME based **Go Bible** feature phone program.
+This is a Windows tool to parse through and identify issues, correct and publish USFM file formats into a file format that can easily be put into the Java ME based **Go Bible** feature phone program.
 
 The source code was originally hosted by [CodePlex](https://gbcpreprocessor.codeplex.com/).
 
