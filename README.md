@@ -14,7 +14,7 @@ Latest Release: https://github.com/GeoDirk/gbcpreprocessor/blob/master/Releases/
 
 **DigiStudy** is a study tool designed by [Mission Aviation Fellowship - Learning Technologies](http://www.maflt.org).
 
-A work environment can still be downloaded from [here](http://gbcpreprocessor.codeplex.com/Release/ProjectReleases.aspx?ReleaseId=28219).
+A work environment can still be downloaded from [here](https://github.com/GeoDirk/gbcpreprocessor/blob/master/Releases/DigiStudy.zip).
 
 [Unified Standard Format Markers (USFM) Reference Manual](http://paratext.org/about/usfm)
 
